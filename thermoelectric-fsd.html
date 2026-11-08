@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thermoelectric flame supervision device</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap">
+<style>
+body{margin:0;background:#0E141B}
+a{color:#F2C230}a:hover{color:#FFD95C}
+
+/* ---------- moving parts ---------- */
+.fsd .upper,.fsd .lower{transition:transform .7s cubic-bezier(.3,.7,.3,1)}
+.fsd.s1 .upper,.fsd.s2 .upper,.fsd.s3 .upper,.fsd.s4 .upper{transform:translateY(-18px)}
+.fsd.s1 .lower,.fsd.s2 .lower{transform:translateY(-18px)}
+.fsd.s5 .upper{transition-duration:.18s;transition-timing-function:ease-in}
+.fsd .spring-g,.fsd .spring-b{transform-box:fill-box;transform-origin:50% 0;transition:transform .7s cubic-bezier(.3,.7,.3,1)}
+.fsd.s1 .spring-g,.fsd.s2 .spring-g,.fsd.s3 .spring-g,.fsd.s4 .spring-g{transform:scaleY(.775)}
+.fsd.s5 .spring-g{transition-duration:.18s}
+.fsd.s1 .spring-b,.fsd.s2 .spring-b{transform:scaleY(.44)}
+
+/* ---------- gas ---------- */
+.fsd .gas-mid,.fsd .gas-low{opacity:0;transition:opacity .9s ease}
+.fsd.s1 .gas-mid,.fsd.s2 .gas-mid,.fsd.s3 .gas-mid,.fsd.s4 .gas-mid{opacity:1}
+.fsd.s3 .gas-low,.fsd.s4 .gas-low{opacity:1}
+.fsd.s5 .gas-mid,.fsd.s5 .gas-low{transition-duration:1.6s}
+.fsd .flow{opacity:0;transition:opacity .5s;stroke-dasharray:3 11;animation:flow .7s linear infinite}
+.fsd.s1 .flow-in,.fsd.s2 .flow-in,.fsd.s3 .flow-in,.fsd.s4 .flow-in{opacity:1}
+.fsd.s1 .flow-mid,.fsd.s2 .flow-mid,.fsd.s3 .flow-mid,.fsd.s4 .flow-mid{opacity:1}
+.fsd.s3 .flow-low,.fsd.s4 .flow-low{opacity:1}
+@keyframes flow{to{stroke-dashoffset:-14}}
+
+/* ---------- flames ---------- */
+.fsd .pilot-flame,.fsd .main-flames{opacity:0;transform-box:fill-box;transform-origin:50% 100%;transform:scale(.3);transition:opacity .4s,transform .5s}
+.fsd.s1 .pilot-flame,.fsd.s2 .pilot-flame,.fsd.s3 .pilot-flame{opacity:1;transform:scale(1);transition-delay:.9s}
+.fsd.s2 .pilot-flame,.fsd.s3 .pilot-flame{transition-delay:0s}
+.fsd.s3 .main-flames{opacity:1;transform:scale(1);transition-delay:.8s}
+.fsd .flick{transform-box:fill-box;transform-origin:50% 100%;animation:flick .5s ease-in-out infinite alternate}
+@keyframes flick{0%{transform:scale(1,1)}100%{transform:scale(.92,1.09)}}
+.fsd .spark{opacity:0}
+.fsd.s1 .spark{animation:spark .9s steps(1) 1}
+@keyframes spark{0%{opacity:1}20%{opacity:0}40%{opacity:1}60%{opacity:0}80%{opacity:1}100%{opacity:0}}
+.fsd .puff{opacity:0}
+.fsd.s4 .puff{animation:puff 1.8s ease-out infinite}
+@keyframes puff{0%{opacity:.75;transform:translateY(0) scale(.6)}100%{opacity:0;transform:translateY(-34px) scale(1.5)}}
+.fsd .puff{transform-box:fill-box;transform-origin:50% 50%}
+
+/* ---------- thermocouple + magnet ---------- */
+.fsd .tc-tip{fill:#8E96A1;transition:fill 3s ease}
+.fsd.s1 .tc-tip{fill:#B9714A}
+.fsd.s2 .tc-tip,.fsd.s3 .tc-tip{fill:#FF6A2B}
+.fsd.s4 .tc-tip{transition-duration:4s}
+.fsd .tc-glow{opacity:0;transition:opacity 3s}
+.fsd.s2 .tc-glow,.fsd.s3 .tc-glow{opacity:1}
+.fsd.s4 .tc-glow{transition-duration:3.5s}
+.fsd .current{opacity:0;transition:opacity 1.2s;stroke-dasharray:2 10;animation:flow .6s linear infinite}
+.fsd.s2 .current,.fsd.s3 .current{opacity:1}
+.fsd.s4 .current{opacity:.25;transition-duration:4s}
+.fsd .mag-glow{opacity:0;transition:opacity 1.2s}
+.fsd.s2 .mag-glow,.fsd.s3 .mag-glow{opacity:1}
+.fsd.s4 .mag-glow{opacity:.3;transition-duration:4s}
+.fsd .push-ind{opacity:0;transition:opacity .4s}
+.fsd.s1 .push-ind,.fsd.s2 .push-ind{opacity:1}
+.fsd .shut-ind{opacity:0;transition:opacity .4s}
+.fsd.s5 .shut-ind{opacity:1;transition-delay:.3s}
+
+/* ---------- meter ---------- */
+.fsd .mv-fill{width:0%;transition:width 1s ease}
+.fsd.s1 .mv-fill{width:34%;transition-duration:4s}
+.fsd.s2 .mv-fill,.fsd.s3 .mv-fill{width:78%;transition-duration:4s}
+.fsd.s4 .mv-fill{width:16%;transition-duration:4.4s}
+.fsd.s5 .mv-fill{width:3%;transition-duration:.6s}
+
+/* ---------- step list ---------- */
+.fsd .step{all:unset;box-sizing:border-box;display:flex;align-items:center;gap:12px;width:100%;min-height:44px;padding:8px 12px;border-radius:10px;cursor:pointer;color:#9AA7B5;font:500 14px/1.3 Inter,sans-serif}
+.fsd .step:hover{background:#1C2632;color:#E8EDF2}
+.fsd .step:focus-visible{outline:2px solid #F2C230;outline-offset:2px}
+.fsd .step .num{flex:none;display:flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:13px;border:1.5px solid #3A4757;font:600 12px Inter,sans-serif;color:#9AA7B5}
+.fsd .step.on{background:#1C2632;color:#F4F6F8}
+.fsd .step.on .num{background:#F2C230;border-color:#F2C230;color:#14110A}
+.fsd .step.done .num{border-color:#6E5A1C;color:#F2C230}
+.fsd .ctl{all:unset;box-sizing:border-box;display:flex;align-items:center;justify-content:center;gap:8px;height:44px;min-width:44px;padding:0 12px;border-radius:10px;cursor:pointer;background:#1C2632;color:#E8EDF2;font:600 14px Inter,sans-serif}
+.fsd .ctl:hover{background:#263241}
+.fsd .ctl:focus-visible{outline:2px solid #F2C230;outline-offset:2px}
+.fsd .ctl.primary{background:#F2C230;color:#14110A;flex:1}
+.fsd .ctl.primary:hover{background:#FFD24A}
+
+@media (prefers-reduced-motion: reduce){
+.fsd .flow,.fsd .current,.fsd .flick,.fsd.s4 .puff{animation:none}
+}
+</style>
+</head>
+<body>
+<div id="app" class="fsd s0" style="width: 1280px; min-height: 900px; margin: 0 auto; box-sizing: border-box; padding: 40px 48px; display: flex; flex-direction: column; gap: 24px; background: #0E141B; color: #E8EDF2; font-family: Inter, sans-serif">
+<header style="display: flex; flex-direction: column; gap: 6px">
+<a href="./" style="font-size: 14px; font-weight: 500; text-decoration: none; margin-bottom: 6px">← All topics</a>
+<div style="font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: #F2C230; font-weight: 600">Gas safety devices &amp; controls · No.4</div>
+<h1 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 36px; font-weight: 700; letter-spacing: -0.01em">Thermoelectric flame supervision device</h1>
+<p style="margin: 0; font-size: 16px; color: #9AA7B5">Push, light, hold, release — and what happens when the pilot goes out.</p>
+</header>
+
+<div style="display: flex; gap: 32px; align-items: flex-start">
+<div style="width: 780px; display: flex; flex-direction: column; gap: 16px">
+<div style="width: 780px; height: 552px; background: #151D27; border: 1px solid #243040; border-radius: 16px; box-sizing: border-box; overflow: hidden">
+<svg width="778" height="550" viewBox="0 0 880 622" role="img" aria-label="Cross-section of a thermoelectric flame supervision device with pilot, thermocouple and main burner" style="display: block">
+<g transform="translate(110,14)" font-family="Inter, sans-serif">
+
+<!-- labels, left -->
+<g font-size="12.5" fill="#C9D2DC">
+<g stroke="#5E6B7A" stroke-width="1" fill="none">
+<path d="M 28 124 L 284 130"></path>
+<path d="M -17 164 L 282 172"></path>
+<path d="M 34 292 L 290 250"></path>
+<path d="M -4 318 L 262 284"></path>
+<path d="M 73 416 L 266 421"></path>
+<path d="M 15 502 L 296 504"></path>
+<path d="M 9 538 L 288 536"></path>
+<path d="M 540 276 L 503 246"></path>
+<path d="M 538 298 L 522 290"></path>
+</g>
+<g fill="#5E6B7A"><circle cx="284" cy="130" r="2.5"></circle><circle cx="282" cy="172" r="2.5"></circle><circle cx="290" cy="250" r="2.5"></circle><circle cx="262" cy="284" r="2.5"></circle><circle cx="266" cy="421" r="2.5"></circle><circle cx="296" cy="504" r="2.5"></circle><circle cx="288" cy="536" r="2.5"></circle><circle cx="503" cy="246" r="2.5"></circle><circle cx="522" cy="290" r="2.5"></circle></g>
+<g font-weight="600" font-size="11" text-anchor="middle">
+<circle cx="-90" cy="124" r="9" fill="#243040"></circle><text x="-90" y="128" fill="#F2C230">J</text>
+<circle cx="-90" cy="164" r="9" fill="#243040"></circle><text x="-90" y="168" fill="#F2C230">H</text>
+<circle cx="-90" cy="292" r="9" fill="#243040"></circle><text x="-90" y="296" fill="#F2C230">G</text>
+<circle cx="-90" cy="318" r="9" fill="#243040"></circle><text x="-90" y="322" fill="#F2C230">F</text>
+<circle cx="-90" cy="416" r="9" fill="#243040"></circle><text x="-90" y="420" fill="#F2C230">D</text>
+<circle cx="-90" cy="502" r="9" fill="#243040"></circle><text x="-90" y="506" fill="#F2C230">B</text>
+<circle cx="-90" cy="538" r="9" fill="#243040"></circle><text x="-90" y="542" fill="#F2C230">A</text>
+</g>
+<text x="-76" y="128">Magnet assembly</text>
+<text x="-76" y="168">Armature</text>
+<text x="-76" y="296">Operating spring</text>
+<text x="-76" y="322">Main valve</text>
+<text x="-76" y="420">Flow interrupter valve</text>
+<text x="-76" y="506">Return spring</text>
+<text x="-76" y="542">Reset button</text>
+<text x="44" y="204" fill="#9AA7B5">Gas supply</text>
+<text x="470" y="368"><tspan font-weight="600" fill="#F2C230">E</tspan>  Pilot connection</text>
+<text x="482" y="410" fill="#9AA7B5">Main gas to burner</text>
+<text x="544" y="280">Thermocouple</text>
+<text x="542" y="302">Pilot burner</text>
+<text x="560" y="258">Main burner</text>
+<text x="388" y="54" text-anchor="middle"><tspan font-weight="600" fill="#F2C230">K</tspan>  Thermocouple lead</text>
+</g>
+
+<!-- pipes (outer) -->
+<g fill="#4A5563">
+<rect x="40" y="212" width="130" height="46"></rect>
+<rect x="452" y="327" width="69" height="20"></rect>
+<rect x="509" y="240" width="12" height="107"></rect>
+<rect x="452" y="418" width="248" height="34"></rect>
+<rect x="670" y="230" width="30" height="222"></rect>
+<rect x="540" y="210" width="180" height="28" rx="6"></rect>
+</g>
+<!-- body + magnet housing -->
+<rect x="160" y="182" width="300" height="306" rx="14" fill="#4A5563"></rect>
+<rect x="266" y="104" width="88" height="92" rx="8" fill="#4A5563"></rect>
+<rect x="302" y="94" width="16" height="12" fill="#6B7685"></rect>
+
+<!-- empty interiors -->
+<g fill="#0A1017">
+<rect x="40" y="222" width="132" height="26"></rect>
+<rect x="172" y="194" width="276" height="94"></rect>
+<rect x="280" y="288" width="60" height="18"></rect>
+<rect x="172" y="306" width="276" height="74"></rect>
+<rect x="280" y="380" width="60" height="18"></rect>
+<rect x="172" y="398" width="276" height="76"></rect>
+<rect x="446" y="331" width="73" height="12"></rect>
+<rect x="511" y="242" width="8" height="101"></rect>
+<rect x="446" y="424" width="248" height="22"></rect>
+<rect x="676" y="232" width="18" height="214"></rect>
+<rect x="546" y="216" width="168" height="16"></rect>
+<rect x="274" y="112" width="72" height="76"></rect>
+</g>
+
+<!-- gas -->
+<g fill="#F2C230">
+<g class="gas-in" opacity="0.9">
+<rect x="40" y="222" width="132" height="26"></rect>
+<rect x="172" y="194" width="276" height="94"></rect>
+</g>
+<g class="gas-mid">
+<rect x="280" y="288" width="60" height="18" opacity="0.9"></rect>
+<rect x="172" y="306" width="276" height="74" opacity="0.9"></rect>
+<rect x="446" y="331" width="73" height="12" opacity="0.9"></rect>
+<rect x="511" y="242" width="8" height="101" opacity="0.9"></rect>
+</g>
+<g class="gas-low">
+<rect x="280" y="380" width="60" height="18" opacity="0.9"></rect>
+<rect x="172" y="398" width="276" height="76" opacity="0.9"></rect>
+<rect x="446" y="424" width="248" height="22" opacity="0.9"></rect>
+<rect x="676" y="232" width="18" height="214" opacity="0.9"></rect>
+<rect x="546" y="216" width="168" height="16" opacity="0.9"></rect>
+</g>
+</g>
+<g fill="none" stroke="#3B2A00" stroke-width="3" stroke-linecap="round">
+<path class="flow flow-in" d="M 44 235 H 250"></path>
+<path class="flow flow-mid" d="M 345 337 H 515 V 246"></path>
+<path class="flow flow-low" d="M 345 435 H 685 V 224 H 556"></path>
+</g>
+<!-- gas-in arrow -->
+<path d="M 4 235 H 30 M 22 228 L 30 235 L 22 242" stroke="#F2C230" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"></path>
+
+<!-- magnet J -->
+<rect class="mag-glow" x="280" y="112" width="60" height="44" rx="6" fill="#FF7A3D" opacity="0" style="filter: blur(6px)"></rect>
+<path d="M 286 150 V 122 Q 286 116 292 116 H 328 Q 334 116 334 122 V 150 H 322 V 128 H 298 V 150 Z" fill="#8E96A1"></path>
+<g stroke="#C9773D" stroke-width="2.2">
+<path d="M 284 133 H 300 M 284 138 H 300 M 284 143 H 300 M 320 133 H 336 M 320 138 H 336 M 320 143 H 336"></path>
+</g>
+
+<!-- operating spring G (fixed top, compresses) -->
+<g class="spring-g">
+<path d="M 310 196 L 292 202 L 328 210 L 292 218 L 328 226 L 292 234 L 328 242 L 292 250 L 328 258 L 292 266 L 310 276" fill="none" stroke="#D5DBE2" stroke-width="2.4" stroke-linejoin="round" vector-effect="non-scaling-stroke"></path>
+</g>
+
+<!-- upper assembly: armature H, stem, main valve F -->
+<g class="upper">
+<rect x="306" y="176" width="8" height="208" fill="#B7C0CA"></rect>
+<rect x="282" y="168" width="56" height="9" rx="2" fill="#D5DBE2"></rect>
+<rect x="262" y="276" width="96" height="12" rx="3" fill="#D5DBE2"></rect>
+<rect x="266" y="285" width="88" height="3" fill="#1D232B"></rect>
+</g>
+
+<!-- return spring B (fixed top, compresses) -->
+<g class="spring-b">
+<path d="M 310 488 L 298 492 L 322 497 L 298 502 L 322 507 L 298 512 L 322 517 L 310 520" fill="none" stroke="#D5DBE2" stroke-width="2.4" stroke-linejoin="round" vector-effect="non-scaling-stroke"></path>
+</g>
+
+<!-- lower assembly: flow interrupter D, stem, reset button A -->
+<g class="lower">
+<rect x="306" y="384" width="8" height="140" fill="#B7C0CA"></rect>
+<rect x="266" y="416" width="88" height="10" rx="3" fill="#D5DBE2"></rect>
+<rect x="270" y="416" width="80" height="3" fill="#1D232B"></rect>
+<rect x="288" y="520" width="44" height="32" rx="7" fill="#E8EDF2"></rect>
+<rect x="294" y="546" width="32" height="3" rx="1.5" fill="#B7C0CA"></rect>
+</g>
+
+<!-- push indicator -->
+<g class="push-ind">
+<path d="M 310 608 V 566 M 300 576 L 310 564 L 320 576" stroke="#F2C230" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"></path>
+<text x="330" y="594" font-size="13" font-weight="600" fill="#F2C230" letter-spacing="1">PUSH &amp; HOLD</text>
+</g>
+<g class="shut-ind">
+<text x="372" y="292" font-size="13" font-weight="700" fill="#FF8A5C" letter-spacing="1">SNAP SHUT</text>
+<path d="M 372 300 H 452" stroke="#FF8A5C" stroke-width="2"></path>
+</g>
+
+<!-- thermocouple lead K -->
+<path d="M 310 94 V 76 Q 310 66 320 66 H 460 Q 470 66 470 76 V 252 Q 470 262 480 262 H 494" fill="none" stroke="#B4692F" stroke-width="5" stroke-linecap="round"></path>
+<path class="current" d="M 494 262 H 480 Q 470 262 470 252 V 76 Q 470 66 460 66 H 320 Q 310 66 310 76 V 94" fill="none" stroke="#FFE08A" stroke-width="2.5" stroke-linecap="round"></path>
+
+<!-- thermocouple -->
+<circle class="tc-glow" cx="498" cy="206" r="14" fill="#FF6A2B" style="filter: blur(5px)"></circle>
+<rect x="494" y="200" width="8" height="62" rx="3" fill="#8E96A1"></rect>
+<rect class="tc-tip" x="494" y="200" width="8" height="14" rx="3"></rect>
+<rect x="490" y="256" width="16" height="10" rx="2" fill="#6B7685"></rect>
+<rect x="502" y="244" width="8" height="4" fill="#6B7685"></rect>
+
+<!-- pilot nozzle -->
+<rect x="505" y="228" width="20" height="14" rx="3" fill="#6B7685"></rect>
+
+<!-- pilot flame -->
+<g class="pilot-flame">
+<g class="flick">
+<path d="M 514 230 C 494 228 488 210 497 193 C 501 185 503 180 506 170 C 513 186 529 196 527 214 C 526 224 521 230 514 230 Z" fill="#3D8BFF" opacity="0.85"></path>
+<path d="M 514 230 C 504 228 502 218 507 206 C 511 214 519 218 519 224 C 519 228 517 230 514 230 Z" fill="#CFE6FF"></path>
+</g>
+</g>
+<!-- spark -->
+<path class="spark" d="M 540 236 L 532 230 L 538 226 L 530 220" stroke="#FFFFFF" stroke-width="2" fill="none" stroke-linecap="round"></path>
+
+<!-- main burner flames -->
+<g class="main-flames">
+<g class="flick"><path d="M 566 210 C 555 205 557 190 566 172 C 575 190 577 205 566 210 Z" fill="#3D8BFF" opacity="0.85"></path><path d="M 566 210 C 561 207 562 199 566 190 C 570 199 571 207 566 210 Z" fill="#CFE6FF"></path></g>
+<g class="flick" style="animation-delay: -.2s"><path d="M 594 210 C 583 205 585 190 594 172 C 603 190 605 205 594 210 Z" fill="#3D8BFF" opacity="0.85"></path><path d="M 594 210 C 589 207 590 199 594 190 C 598 199 599 207 594 210 Z" fill="#CFE6FF"></path></g>
+<g class="flick" style="animation-delay: -.35s"><path d="M 622 210 C 611 205 613 190 622 172 C 631 190 633 205 622 210 Z" fill="#3D8BFF" opacity="0.85"></path><path d="M 622 210 C 617 207 618 199 622 190 C 626 199 627 207 622 210 Z" fill="#CFE6FF"></path></g>
+<g class="flick" style="animation-delay: -.1s"><path d="M 650 210 C 639 205 641 190 650 172 C 659 190 661 205 650 210 Z" fill="#3D8BFF" opacity="0.85"></path><path d="M 650 210 C 645 207 646 199 650 190 C 654 199 655 207 650 210 Z" fill="#CFE6FF"></path></g>
+<g class="flick" style="animation-delay: -.42s"><path d="M 678 210 C 667 205 669 190 678 172 C 687 190 689 205 678 210 Z" fill="#3D8BFF" opacity="0.85"></path><path d="M 678 210 C 673 207 674 199 678 190 C 682 199 683 207 678 210 Z" fill="#CFE6FF"></path></g>
+<g class="flick" style="animation-delay: -.27s"><path d="M 706 210 C 695 205 697 190 706 172 C 715 190 717 205 706 210 Z" fill="#3D8BFF" opacity="0.85"></path><path d="M 706 210 C 701 207 702 199 706 190 C 710 199 711 207 706 210 Z" fill="#CFE6FF"></path></g>
+</g>
+
+<!-- unburnt gas puffs -->
+<g fill="#F2C230">
+<circle class="puff" cx="566" cy="200" r="7"></circle>
+<circle class="puff" cx="622" cy="198" r="7" style="animation-delay: .5s"></circle>
+<circle class="puff" cx="678" cy="200" r="7" style="animation-delay: 1s"></circle>
+<circle class="puff" cx="515" cy="218" r="6" style="animation-delay: .25s"></circle>
+</g>
+</g>
+</svg>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px">
+<div style="background: #151D27; border: 1px solid #243040; border-radius: 12px; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px">
+<div style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #F2C230">Pilot flame</div>
+<div style="font-size: 13.5px; line-height: 1.45; color: #C9D2DC">On the tip, or the top 12 mm, of the thermocouple.</div>
+</div>
+<div style="background: #151D27; border: 1px solid #243040; border-radius: 12px; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px">
+<div style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #F2C230">Lead</div>
+<div style="font-size: 13.5px; line-height: 1.45; color: #C9D2DC">Never kinked or bent sharply — conductors can short.</div>
+</div>
+<div style="background: #151D27; border: 1px solid #243040; border-radius: 12px; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px">
+<div style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #F2C230">Thermocouple</div>
+<div style="font-size: 13.5px; line-height: 1.45; color: #C9D2DC">Tip must be clean and undamaged.</div>
+</div>
+<div style="background: #151D27; border: 1px solid #243040; border-radius: 12px; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px">
+<div style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #F2C230">Magnet unit</div>
+<div style="font-size: 13.5px; line-height: 1.45; color: #C9D2DC">Sealed — exchange the unit if it fails.</div>
+</div>
+</div>
+</div>
+
+<div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 20px">
+<div style="display: flex; flex-direction: column; gap: 10px">
+<div style="font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #9AA7B5">Step <span id="num">1</span> of 6</div>
+<div style="height: 4px; background: #243040; border-radius: 2px; overflow: hidden"><div style="height: 4px; background: #F2C230; width: 0%" id="bar"></div></div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 10px; min-height: 236px">
+<h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 28px; font-weight: 600; line-height: 1.15" id="title"></h2>
+<p style="margin: 0; font-size: 15.5px; line-height: 1.55; color: #C9D2DC" id="body"></p>
+</div>
+
+<div style="background: #151D27; border: 1px solid #243040; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; justify-content: space-between; align-items: baseline">
+<span style="font-size: 13px; color: #9AA7B5">Thermocouple output</span>
+<span style="font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 600; color: #F4F6F8" id="mv"></span>
+</div>
+<div style="position: relative; height: 12px; background: #243040; border-radius: 6px">
+<div class="mv-fill" style="height: 12px; border-radius: 6px; background: #FF8A3D"></div>
+<div style="position: absolute; left: 22%; top: -4px; width: 2px; height: 20px; background: #E8EDF2"></div>
+</div>
+<div style="display: flex; justify-content: space-between; font-size: 12px; color: #9AA7B5">
+<span>Cold</span><span style="margin-left: 10%">↑ magnet drop-out</span><span style="margin-left: auto">Hot</span>
+</div>
+</div>
+
+<div style="display: flex; gap: 8px">
+<button class="ctl" id="back" aria-label="Previous step"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></button>
+<button class="ctl primary" id="toggle">
+<span id="pauseLbl" style="display:contents"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M8 5v14M16 5v14"></path></svg><span>Pause</span></span>
+<span id="playLbl" style="display:none"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"></path></svg><span>Play</span></span>
+</button>
+<button class="ctl" id="next" aria-label="Next step"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button>
+<button class="ctl" id="restart" aria-label="Restart from the beginning"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"></path><path d="M3 4v5h5"></path></svg></button>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 2px">
+<div id="steps" style="display:contents"></div>
+</div>
+<div style="font-size: 12px; line-height: 1.5; color: #8592A0">Output figures are indicative; always follow the manufacturer's data.</div>
+</div>
+</div>
+</div>
+<script>
+const S=[
+      { title: "Off — valve closed", mv: "0 mV", d: 3500,
+        body: "Gas is waiting at the inlet. The operating spring (G) holds the main valve (F) firmly on its seat, so nothing reaches the pilot or the main burner." },
+      { title: "Push in and light the pilot", mv: "Rising…", d: 4500,
+        body: "Pressing the reset button (A) pushes the armature (H) up against the magnet (J) and lifts the main valve (F) off its seat. At the same time the flow interrupter valve (D) closes, so gas can only go to the pilot connection (E). Light the pilot." },
+      { title: "Keep holding while it heats", mv: "≈ 12 mV", d: 6000,
+        body: "Keep the button held in. The pilot flame heats the thermocouple’s hot junction — two different metals joined together — which generates a tiny current. It travels down the lead (K) and turns the magnet into an electromagnet." },
+      { title: "Release — main burner on", mv: "≈ 12 mV", d: 6000,
+        body: "Let go. The energised magnet now holds the armature, so the main valve stays open. The return spring (B) drops the flow interrupter valve (D) off its seat and gas flows to the main burner, lit from the pilot." },
+      { title: "Pilot goes out", mv: "Falling…", d: 4800,
+        body: "A draught, a blocked jet or a loss of gas puts the pilot out. Unburnt gas is still passing while the thermocouple cools and its output falls away." },
+      { title: "Safe shut-off", mv: "Below drop-out", d: 6000,
+        body: "The magnet can no longer hold the armature. The operating spring snaps the main valve shut, stopping gas to both pilot and main burner. Max shut-down: 60 s for most appliances (DFE fire 120 s, other gas fires 180 s, cookers 90 s)." }
+    ];
+let stage=0,t=0,playing=true;const $=id=>document.getElementById(id);
+const steps=S.map((x,i)=>{const b=document.createElement('button');b.className='step';b.innerHTML='<span class="num">'+(i+1)+'</span><span></span>';b.lastChild.textContent=x.title;b.onclick=()=>go(i);$('steps').appendChild(b);return b;});
+function render(){const c=S[stage];$('app').className='fsd s'+stage;$('num').textContent=stage+1;$('title').textContent=c.title;$('body').textContent=c.body;$('mv').textContent=c.mv;
+steps.forEach((b,i)=>b.className='step '+(i===stage?'on':i<stage?'done':''));$('pauseLbl').style.display=playing?'contents':'none';$('playLbl').style.display=playing?'none':'contents';}
+function go(n){stage=(n+6)%6;t=0;render();}
+$('back').onclick=()=>go(stage-1);$('next').onclick=()=>go(stage+1);$('restart').onclick=()=>{playing=true;go(0);};$('toggle').onclick=()=>{playing=!playing;render();};
+setInterval(()=>{if(!playing)return;t+=100;const d=S[stage].d;if(t>=d)go(stage+1);$('bar').style.width=Math.min(100,t/d*100)+'%';},100);
+function fit(){const s=Math.min(1,window.innerWidth/1280);$('app').style.zoom=s;}window.addEventListener('resize',fit);fit();render();
+</script>
+</body>
+</html>
