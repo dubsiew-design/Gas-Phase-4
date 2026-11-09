@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Oxygen depletion system (ODS)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#0E141B;color:#E8EDF2;font-family:Inter,sans-serif}
+a{color:#F2C230}a:hover{color:#FFD95C}
+#app{width:1280px;margin:0 auto;padding:40px 48px 48px;display:flex;flex-direction:column;gap:24px}
+.eyebrow{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#F2C230;font-weight:600}
+h1{margin:0;font-family:'Space Grotesk',sans-serif;font-size:36px;font-weight:700;letter-spacing:-.01em}
+h2{margin:0;font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:600;line-height:1.15}
+.muted{color:#9AA7B5}
+.card{background:#151D27;border:1px solid #243040;border-radius:12px}
+.k{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#F2C230}
+.v{font-size:13.5px;line-height:1.45;color:#C9D2DC}
+
+/* ---------- room air ---------- */
+.ods .haze{opacity:0;transition:opacity 2.5s}
+.ods.s1 .haze{opacity:.12}
+.ods.s2 .haze,.ods.s3 .haze{opacity:.22}
+.ods .poc{opacity:0;transition:opacity 2.5s}
+.ods.s1 .poc{opacity:.55}
+.ods.s2 .poc,.ods.s3 .poc{opacity:.9}
+.ods .poc circle{animation:drift 6s ease-in-out infinite alternate;transform-box:fill-box}
+@keyframes drift{0%{transform:translate(0,0)}100%{transform:translate(14px,-18px)}}
+.ods .air path{stroke:#7CC4FF;transition:stroke 2s}
+.ods.s1 .air path,.ods.s2 .air path,.ods.s3 .air path{stroke:#9C8C6A}
+.ods .air{animation:breathe 1.2s ease-in-out infinite alternate}
+@keyframes breathe{0%{transform:translateX(-3px)}100%{transform:translateX(2px)}}
+.ods.s3 .air{animation:none;opacity:.35}
+
+/* ---------- gas ---------- */
+.ods .gas-out{opacity:1;transition:opacity 1.4s}
+.ods.s3 .gas-out{opacity:0}
+.ods .flow{stroke-dasharray:3 11;animation:flow .7s linear infinite;transition:opacity .6s}
+.ods.s3 .flow-out{opacity:0}
+.ods.s3 .flow-in{animation:none}
+@keyframes flow{to{stroke-dashoffset:-14}}
+.ods .tv-disc{transition:transform .25s ease-in;transform:translateY(-24px)}
+.ods.s3 .tv-disc{transform:translateY(0)}
+.ods .st-open{opacity:1;transition:opacity .3s}.ods.s3 .st-open{opacity:0}
+.ods .st-closed{opacity:0;transition:opacity .3s}.ods.s3 .st-closed{opacity:1}
+
+/* ---------- flames ---------- */
+.ods .xflame,.ods .pflame{transition:opacity .5s}
+.ods.s3 .xflame,.ods.s3 .pflame{opacity:0}
+.ods .flick{transform-box:fill-box;transform-origin:50% 100%;animation:flick .5s ease-in-out infinite alternate}
+@keyframes flick{0%{transform:scale(1,1)}100%{transform:scale(.93,1.08)}}
+.ods .xflame{transform-box:fill-box;transform-origin:50% 100%;transition:transform 2s,opacity .5s}
+.ods.s1 .xflame{transform:scale(1.05,1.12)}
+.ods.s2 .xflame{transform:scale(1.1,1.22)}
+.ods .ytip{opacity:0;transition:opacity 2s}
+.ods.s1 .ytip{opacity:.55}
+.ods.s2 .ytip{opacity:.8}
+/* precision pilot flame: lifts off the thermocouple */
+.ods .plift{transform-box:view-box;transform-origin:456px 288px;transition:transform 2.4s cubic-bezier(.4,.1,.3,1)}
+.ods.s1 .plift{transform:rotate(-24deg) scale(1.08,.9)}
+.ods.s2 .plift,.ods.s3 .plift{transform:translate(18px,-58px) rotate(-34deg) scale(.82)}
+.ods .pflick{transform-box:view-box;transform-origin:456px 288px;animation:pf .45s ease-in-out infinite alternate}
+.ods.s1 .pflick,.ods.s2 .pflick{animation:wild .28s ease-in-out infinite alternate}
+@keyframes pf{0%{transform:scale(1,1)}100%{transform:scale(1.04,.94)}}
+@keyframes wild{0%{transform:rotate(-5deg) scale(.95,1.06)}100%{transform:rotate(6deg) scale(1.07,.9)}}
+
+/* ---------- thermocouple + meters ---------- */
+.ods .tc-tip{fill:#FF6A2B;transition:fill 3s}
+.ods.s1 .tc-tip{fill:#C2643A}
+.ods.s2 .tc-tip,.ods.s3 .tc-tip{fill:#8E96A1}
+.ods .tc-glow{opacity:1;transition:opacity 3s}
+.ods.s1 .tc-glow{opacity:.35}
+.ods.s2 .tc-glow,.ods.s3 .tc-glow{opacity:0}
+.ods .current{stroke-dasharray:2 10;animation:flow .6s linear infinite;opacity:1;transition:opacity 3s}
+.ods.s1 .current{opacity:.5}
+.ods.s2 .current{opacity:.15}
+.ods.s3 .current{opacity:0}
+.ods .o2-fill{width:96%;transition:width 3s ease}
+.ods.s1 .o2-fill{width:62%}
+.ods.s2 .o2-fill{width:36%}
+.ods.s3 .o2-fill{width:30%}
+.ods .mv-fill{width:78%;transition:width 3s ease}
+.ods.s1 .mv-fill{width:44%}
+.ods.s2 .mv-fill{width:18%}
+.ods.s3 .mv-fill{width:3%;transition-duration:.6s}
+
+/* ---------- controls ---------- */
+.step{all:unset;box-sizing:border-box;display:flex;align-items:center;gap:12px;width:100%;min-height:44px;padding:8px 12px;border-radius:10px;cursor:pointer;color:#9AA7B5;font:500 14px/1.3 Inter,sans-serif}
+.step:hover{background:#1C2632;color:#E8EDF2}
+.step:focus-visible,.ctl:focus-visible,.ans:focus-visible{outline:2px solid #F2C230;outline-offset:2px}
+.step .num{flex:none;display:flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:13px;border:1.5px solid #3A4757;font:600 12px Inter,sans-serif;color:#9AA7B5}
+.step.on{background:#1C2632;color:#F4F6F8}
+.step.on .num{background:#F2C230;border-color:#F2C230;color:#14110A}
+.step.done .num{border-color:#6E5A1C;color:#F2C230}
+.ctl{all:unset;box-sizing:border-box;display:flex;align-items:center;justify-content:center;gap:8px;height:44px;min-width:44px;padding:0 12px;border-radius:10px;cursor:pointer;background:#1C2632;color:#E8EDF2;font:600 14px Inter,sans-serif}
+.ctl:hover{background:#263241}
+.ctl.primary{background:#F2C230;color:#14110A;flex:1}
+.ctl.primary:hover{background:#FFD24A}
+.ans{all:unset;box-sizing:border-box;flex:1;text-align:center;height:44px;line-height:44px;border-radius:10px;cursor:pointer;background:#1C2632;font:600 14px Inter,sans-serif;color:#E8EDF2}
+.ans:hover{background:#263241}
+.ans.right{background:#1F4D36;color:#C8F5DC}
+.ans.wrong{background:#5A2626;color:#FFD6D6}
+@media (prefers-reduced-motion: reduce){.ods .flow,.ods .current,.ods .flick,.ods .pflick,.ods .air,.ods .poc circle{animation:none!important}}
+</style>
+</head>
+<body>
+<div id="app" class="ods s0">
+<header style="display:flex;flex-direction:column;gap:6px">
+<a href="./" style="font-size:14px;font-weight:500;text-decoration:none;margin-bottom:6px">← All topics</a>
+<div class="eyebrow">Gas safety devices &amp; controls · No.6</div>
+<h1>Oxygen depletion system (ODS)</h1>
+<p class="muted" style="margin:0;font-size:16px">How the precision pilot shuts the gas off before the room air becomes dangerous.</p>
+</header>
+
+<div style="display:flex;gap:32px;align-items:flex-start">
+<div style="width:780px;display:flex;flex-direction:column;gap:16px">
+<div class="card" style="width:780px;height:552px;border-radius:16px;overflow:hidden;position:relative">
+<svg width="778" height="550" viewBox="0 0 880 622" role="img" aria-label="Side view of an ODS pilot assembly: cross-lighting pilot, precision pilot, thermocouple, spark igniter and thermoelectric valve" style="display:block" font-family="Inter, sans-serif">
+
+<!-- room air -->
+<rect class="haze" x="0" y="0" width="880" height="622" fill="#B08A45"></rect>
+<g class="poc" fill="#8E96A1">
+<circle cx="90" cy="90" r="4"></circle><circle cx="180" cy="160" r="3"></circle><circle cx="250" cy="70" r="5" style="animation-delay:-2s"></circle>
+<circle cx="470" cy="80" r="4" style="animation-delay:-1s"></circle><circle cx="560" cy="150" r="3" style="animation-delay:-3s"></circle><circle cx="640" cy="60" r="5"></circle>
+<circle cx="740" cy="130" r="4" style="animation-delay:-4s"></circle><circle cx="820" cy="220" r="3" style="animation-delay:-2.5s"></circle><circle cx="700" cy="300" r="4" style="animation-delay:-1.5s"></circle>
+<circle cx="120" cy="250" r="3" style="animation-delay:-3.5s"></circle><circle cx="60" cy="380" r="4" style="animation-delay:-.5s"></circle><circle cx="800" cy="400" r="3" style="animation-delay:-2s"></circle>
+<circle cx="620" cy="240" r="3" style="animation-delay:-4.5s"></circle><circle cx="160" cy="520" r="4" style="animation-delay:-1s"></circle><circle cx="430" cy="180" r="3" style="animation-delay:-3s"></circle>
+</g>
+
+<!-- labels -->
+<g font-size="12.5" fill="#C9D2DC">
+<g stroke="#5E6B7A" stroke-width="1" fill="none">
+<path d="M 388 112 L 360 140"></path>
+<path d="M 474 330 L 440 306"></path>
+<path d="M 530 334 L 509 320"></path>
+<path d="M 214 330 L 228 330"></path>
+</g>
+<text x="392" y="112">Cross-lighting pilot</text>
+<text x="388" y="346">Precision pilot</text>
+<text x="534" y="338">Thermocouple</text>
+<text x="210" y="334" text-anchor="end">Spark igniter</text>
+<text x="384" y="466">Pilot air port</text>
+<text x="398" y="606">Pilot gas supply</text>
+<text x="530" y="454" fill="#9AA7B5">Thermocouple lead</text>
+<text x="680" y="492">Thermoelectric valve</text>
+<text x="772" y="552" fill="#9AA7B5">Gas in</text>
+</g>
+
+<!-- igniter lead -->
+<path d="M 243 426 V 498 Q 243 508 233 508 H 150" fill="none" stroke="#2E3946" stroke-width="5" stroke-linecap="round"></path>
+
+<!-- gas pipes (outer) -->
+<g fill="#4A5563">
+<rect x="340" y="532" width="20" height="54"></rect>
+<rect x="340" y="566" width="262" height="20"></rect>
+<rect x="738" y="562" width="142" height="20"></rect>
+</g>
+<g fill="#0A1017">
+<rect x="345" y="532" width="10" height="48"></rect>
+<rect x="345" y="571" width="257" height="10"></rect>
+<rect x="738" y="567" width="142" height="10"></rect>
+</g>
+<g fill="#F2C230">
+<rect x="738" y="567" width="142" height="10"></rect>
+<g class="gas-out"><rect x="345" y="532" width="10" height="48"></rect><rect x="345" y="571" width="257" height="10"></rect></g>
+</g>
+<g fill="none" stroke="#3B2A00" stroke-width="2.5" stroke-linecap="round">
+<path class="flow flow-in" d="M 876 572 H 742"></path>
+<path class="flow flow-out" d="M 598 576 H 350 V 536"></path>
+</g>
+
+<!-- thermoelectric valve -->
+<rect x="600" y="500" width="140" height="100" rx="10" fill="#4A5563"></rect>
+<rect x="612" y="548" width="116" height="40" rx="4" fill="#0A1017"></rect>
+<rect x="670" y="548" width="58" height="40" rx="4" fill="#F2C230" opacity=".9"></rect>
+<rect class="gas-out" x="612" y="548" width="58" height="40" rx="4" fill="#F2C230" opacity=".9"></rect>
+<g class="tv-disc"><rect x="664" y="548" width="12" height="40" rx="2" fill="#D5DBE2"></rect></g>
+<rect x="612" y="508" width="116" height="32" rx="4" fill="#0A1017"></rect>
+<g font-size="12" font-weight="700" letter-spacing="1" text-anchor="middle">
+<text class="st-open" x="670" y="529" fill="#7EE0A8">GAS ON</text>
+<text class="st-closed" x="670" y="529" fill="#FF8A5C">SHUT OFF</text>
+</g>
+
+<!-- thermocouple lead -->
+<path d="M 503 426 V 452 Q 503 462 513 462 H 650 Q 660 462 660 472 V 500" fill="none" stroke="#B4692F" stroke-width="5" stroke-linecap="round"></path>
+<path class="current" d="M 503 426 V 452 Q 503 462 513 462 H 650 Q 660 462 660 472 V 500" fill="none" stroke="#FFE08A" stroke-width="2.5" stroke-linecap="round"></path>
+
+<!-- pilot body below bracket -->
+<rect x="330" y="406" width="40" height="118" fill="#8E96A1"></rect>
+<circle cx="350" cy="462" r="10" fill="#6B7685"></circle>
+<circle cx="350" cy="462" r="7" fill="#0A1017"></circle>
+<rect x="322" y="518" width="56" height="18" rx="3" fill="#6B7685"></rect>
+<!-- air into air port -->
+<g class="air" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+<path d="M 298 452 H 330 M 324 447 L 330 452 L 324 457"></path>
+<path d="M 298 472 H 330 M 324 467 L 330 472 L 324 477"></path>
+</g>
+
+<!-- igniter -->
+<rect x="228" y="296" width="30" height="130" rx="6" fill="#E3E6EA"></rect>
+<rect x="216" y="372" width="54" height="10" rx="2" fill="#6B7685"></rect>
+<path d="M 243 296 V 262 L 302 214" fill="none" stroke="#B7C0CA" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path>
+
+<!-- bracket -->
+<rect x="200" y="380" width="360" height="26" rx="3" fill="#4A5563"></rect>
+<circle cx="290" cy="393" r="6" fill="#151D27"></circle>
+<circle cx="430" cy="393" r="6" fill="#151D27"></circle>
+
+<!-- thermocouple -->
+<circle class="tc-glow" cx="503" cy="270" r="14" fill="#FF6A2B" style="filter:blur(5px)"></circle>
+<rect x="498" y="262" width="10" height="100" rx="3" fill="#8E96A1"></rect>
+<rect class="tc-tip" x="498" y="262" width="10" height="16" rx="3"></rect>
+<rect x="488" y="356" width="30" height="24" rx="3" fill="#6B7685"></rect>
+<rect x="498" y="406" width="10" height="20" fill="#8E96A1"></rect>
+
+<!-- pilot head -->
+<rect x="322" y="350" width="56" height="30" rx="3" fill="#6B7685"></rect>
+<rect x="324" y="246" width="52" height="104" rx="4" fill="#B7C0CA"></rect>
+<rect x="376" y="270" width="78" height="36" rx="3" fill="#B7C0CA"></rect>
+<circle cx="404" cy="288" r="5" fill="#6B7685"></circle>
+<circle cx="430" cy="288" r="5" fill="#6B7685"></circle>
+<rect x="450" y="282" width="6" height="12" fill="#0A1017"></rect>
+
+<!-- cross-lighting flame -->
+<g class="xflame">
+<g class="flick">
+<path d="M 350 248 C 326 244 322 210 334 180 C 340 164 346 150 350 128 C 354 150 360 164 366 180 C 378 210 374 244 350 248 Z" fill="#3D8BFF" opacity=".85"></path>
+<path class="ytip" d="M 350 128 C 354 150 360 164 364 176 C 356 172 344 172 336 176 C 340 164 346 150 350 128 Z" fill="#FFC74A"></path>
+<path d="M 350 248 C 338 246 336 228 342 212 C 345 204 348 198 350 190 C 352 198 355 204 358 212 C 364 228 362 246 350 248 Z" fill="#CFE6FF"></path>
+</g>
+</g>
+
+<!-- precision pilot flame -->
+<g class="pflame"><g class="plift"><g class="pflick">
+<path d="M 456 288 C 462 278 480 270 498 266 C 508 264 518 262 528 256 C 522 272 510 284 494 292 C 478 298 464 298 456 288 Z" fill="#3D8BFF" opacity=".85"></path>
+<path d="M 456 288 C 464 282 476 279 490 279 C 482 289 468 293 456 288 Z" fill="#CFE6FF"></path>
+</g></g></g>
+</svg>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px">
+<div class="card" style="padding:16px;display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;flex-direction:column;gap:4px"><div class="k">Also known as</div><div class="v">ODD · Atmospheric sensing device (ASD) · Vitiation sensing device (VSD) · Oxypilot</div></div>
+<div style="display:flex;flex-direction:column;gap:4px"><div class="k">Vitiation</div><div class="v">The quality of the combustion air is impaired — not enough oxygen, too many products of combustion.</div></div>
+<div style="display:flex;flex-direction:column;gap:4px"><div class="k">Where fitted</div><div class="v">Mainly flueless space heaters and water heaters, where products of combustion could contaminate the room.</div></div>
+</div>
+<div class="card" style="padding:16px;display:flex;flex-direction:column;gap:8px">
+<div class="k">Service checks</div>
+<ol class="v" style="margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px">
+<li>ODS is complete and not damaged.</li>
+<li>Unit is securely mounted in its recommended position.</li>
+<li>Aeration (air) port is clean and free from obstruction.</li>
+<li>Flame picture not distorted; sensor and cross-lighting flames correctly positioned.</li>
+</ol>
+<div class="v" style="color:#9AA7B5">Faulty pilot or thermocouple: exchange as a complete unit. Always follow the manufacturer's instructions.</div>
+</div>
+</div>
+</div>
+
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:20px">
+<div style="display:flex;flex-direction:column;gap:10px">
+<div style="font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#9AA7B5">Step <span id="num">1</span> of 4</div>
+<div style="height:4px;background:#243040;border-radius:2px;overflow:hidden"><div id="bar" style="height:4px;background:#F2C230;width:0%"></div></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px;min-height:214px">
+<h2 id="title"></h2>
+<p id="body" style="margin:0;font-size:15.5px;line-height:1.55;color:#C9D2DC"></p>
+</div>
+
+<div class="card" style="padding:16px;display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;flex-direction:column;gap:8px">
+<div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font-size:13px;color:#9AA7B5">Oxygen in the room</span><span id="o2" style="font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:600"></span></div>
+<div style="height:12px;background:#243040;border-radius:6px"><div class="o2-fill" style="height:12px;border-radius:6px;background:#5AB0FF"></div></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font-size:13px;color:#9AA7B5">Thermocouple output</span><span id="mv" style="font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:600"></span></div>
+<div style="position:relative;height:12px;background:#243040;border-radius:6px"><div class="mv-fill" style="height:12px;border-radius:6px;background:#FF8A3D"></div><div style="position:absolute;left:22%;top:-4px;width:2px;height:20px;background:#E8EDF2"></div></div>
+<div style="font-size:12px;color:#9AA7B5;padding-left:20%">↑ magnet drop-out</div>
+</div>
+</div>
+
+<div style="display:flex;gap:8px">
+<button class="ctl" id="back" aria-label="Previous step"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></button>
+<button class="ctl primary" id="toggle"><span id="pauseLbl" style="display:contents"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M8 5v14M16 5v14"></path></svg><span>Pause</span></span><span id="playLbl" style="display:none"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"></path></svg><span>Play</span></span></button>
+<button class="ctl" id="next" aria-label="Next step"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button>
+<button class="ctl" id="restart" aria-label="Restart from the beginning"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"></path><path d="M3 4v5h5"></path></svg></button>
+</div>
+
+<div id="steps" style="display:flex;flex-direction:column;gap:2px"></div>
+
+<div class="card" style="padding:16px;display:flex;flex-direction:column;gap:12px">
+<div class="k">Quick check</div>
+<div style="font-size:15px;line-height:1.45">“Vitiation means there is too much combustion air.”</div>
+<div style="display:flex;gap:8px"><button class="ans" id="yes">Yes</button><button class="ans" id="no">No</button></div>
+<div id="fb" class="v" style="min-height:20px" aria-live="polite"></div>
+</div>
+<div style="font-size:12px;line-height:1.5;color:#8592A0">Oxygen and output figures are indicative; always follow the manufacturer's data.</div>
+</div>
+</div>
+</div>
+
+<script>
+const S=[
+{title:"Normal air — pilot on the tip",o2:"≈ 20.9%",mv:"≈ 12 mV",d:6000,body:"The air supply is satisfactory. Gas passes the thermoelectric valve to the pilot. The cross-lighting flame lights the main burner, and the precision pilot flame plays steadily on the thermocouple tip, which holds the thermoelectric valve open."},
+{title:"Air becoming contaminated",o2:"Falling",mv:"Falling",d:6500,body:"Products of combustion build up in the room and the oxygen level falls. Starved of air, the precision pilot lifts away from the thermocouple tip, so the tip starts to cool. If this persists, the thermoelectric valve will shut off the gas."},
+{title:"Pilot hunts for air",o2:"Low",mv:"Near drop-out",d:6500,body:"As the air becomes further contaminated, the precision pilot hunts for air and lifts completely away from the thermocouple tip. Its output falls towards the point where the magnet can no longer hold the valve."},
+{title:"Safe shut-off",o2:"Stops falling",mv:"0 mV",d:6500,body:"The thermoelectric valve closes and gas to the pilot and main burner stops — long before the room becomes dangerous to the people in it. An ODS shut-down is a warning: find out why (ventilation, flue or the appliance) before relighting."}
+];
+const N=S.length;let stage=0,t=0,playing=true;const $=id=>document.getElementById(id);
+const steps=S.map((x,i)=>{const b=document.createElement('button');b.className='step';b.innerHTML='<span class="num">'+(i+1)+'</span><span></span>';b.lastChild.textContent=x.title;b.onclick=()=>go(i);$('steps').appendChild(b);return b;});
+function render(){const c=S[stage];$('app').className='ods s'+stage;$('num').textContent=stage+1;$('title').textContent=c.title;$('body').textContent=c.body;$('o2').textContent=c.o2;$('mv').textContent=c.mv;
+steps.forEach((b,i)=>b.className='step '+(i===stage?'on':i<stage?'done':''));$('pauseLbl').style.display=playing?'contents':'none';$('playLbl').style.display=playing?'none':'contents';}
+function go(n){stage=(n+N)%N;t=0;$('bar').style.width='0%';render();}
+$('back').onclick=()=>go(stage-1);$('next').onclick=()=>go(stage+1);$('restart').onclick=()=>{playing=true;go(0);};$('toggle').onclick=()=>{playing=!playing;render();};
+$('yes').onclick=()=>{$('yes').className='ans wrong';$('no').className='ans';$('fb').textContent="Not quite — vitiation means the combustion air is impaired: too little oxygen, not too much air.";};
+$('no').onclick=()=>{$('no').className='ans right';$('yes').className='ans';$('fb').textContent="Correct — vitiation means the quality of the combustion air is impaired (not enough oxygen).";};
+setInterval(()=>{if(!playing)return;t+=100;const d=S[stage].d;if(t>=d)go(stage+1);else $('bar').style.width=Math.min(100,t/d*100)+'%';},100);
+function fit(){$('app').style.zoom=Math.min(1,window.innerWidth/1280);}window.addEventListener('resize',fit);fit();render();
+</script>
+</body>
+</html>
