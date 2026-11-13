@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gas regulator (governor)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#0E141B;color:#E8EDF2;font-family:Inter,sans-serif}
+a{color:#F2C230}a:hover{color:#FFD95C}
+#app{width:1280px;margin:0 auto;padding:40px 48px 48px;display:flex;flex-direction:column;gap:24px}
+.eyebrow{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#F2C230;font-weight:600}
+h1{margin:0;font-family:'Space Grotesk',sans-serif;font-size:36px;font-weight:700;letter-spacing:-.01em}
+h2{margin:0;font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:600;line-height:1.15}
+.muted{color:#9AA7B5}
+.card{background:#151D27;border:1px solid #243040;border-radius:12px}
+.k{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#F2C230}
+.v{font-size:13.5px;line-height:1.45;color:#C9D2DC}
+.flick{transform-box:fill-box;transform-origin:50% 100%;animation:flick .5s ease-in-out infinite alternate}
+@keyframes flick{0%{transform:scale(1,1)}100%{transform:scale(.92,1.09)}}
+.flow{stroke-dasharray:3 11;animation:flow .7s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-14}}
+.app-flames{opacity:0;transform-box:fill-box;transform-origin:50% 100%;transform:scale(1,.3);transition:opacity .4s,transform .4s}
+.on .app-flames{opacity:1;transform:scale(1,1)}
+.app-led{fill:#2A3441;transition:fill .3s}
+.on .app-led{fill:#34D399}
+.vent-air{animation:breathe 1.4s ease-in-out infinite alternate}
+@keyframes breathe{0%{transform:translateX(0)}100%{transform:translateX(5px)}}
+.step{all:unset;box-sizing:border-box;display:flex;align-items:center;gap:12px;width:100%;min-height:44px;padding:8px 12px;border-radius:10px;cursor:pointer;color:#9AA7B5;font:500 14px/1.3 Inter,sans-serif}
+.step:hover{background:#1C2632;color:#E8EDF2}
+.step:focus-visible,.ctl:focus-visible{outline:2px solid #F2C230;outline-offset:2px}
+.step .num{flex:none;display:flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:13px;border:1.5px solid #3A4757;font:600 12px Inter,sans-serif;color:#9AA7B5}
+.step.on{background:#1C2632;color:#F4F6F8}
+.step.on .num{background:#F2C230;border-color:#F2C230;color:#14110A}
+.step.done .num{border-color:#6E5A1C;color:#F2C230}
+.ctl{all:unset;box-sizing:border-box;display:flex;align-items:center;justify-content:center;gap:8px;height:44px;min-width:44px;padding:0 12px;border-radius:10px;cursor:pointer;background:#1C2632;color:#E8EDF2;font:600 14px Inter,sans-serif}
+.ctl:hover{background:#263241}
+.ctl.primary{background:#F2C230;color:#14110A;flex:1}
+.ctl.primary:hover{background:#FFD24A}
+.chip{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;font-size:13px;font-weight:600}
+@media (prefers-reduced-motion: reduce){.flow,.flick,.vent-air{animation:none!important}}
+</style>
+</head>
+<body>
+<div id="app">
+<header style="display:flex;flex-direction:column;gap:6px">
+<a href="./" style="font-size:14px;font-weight:500;text-decoration:none;margin-bottom:6px">← All topics</a>
+<div class="eyebrow">Gas safety devices &amp; controls · No.12</div>
+<h1>Gas regulator (governor)</h1>
+<p class="muted" style="margin:0;font-size:16px">A compensated constant pressure regulator: a steady 21 mbar at the appliances, whatever the demand or inlet pressure.</p>
+</header>
+
+<div style="display:flex;gap:32px;align-items:flex-start">
+<div style="width:780px;display:flex;flex-direction:column;gap:16px">
+<div class="card" style="width:780px;height:552px;border-radius:16px;overflow:hidden">
+<svg width="778" height="550" viewBox="0 0 880 622" role="img" aria-label="Upright cutaway of a compensated constant pressure meter regulator feeding a boiler and a cooker" style="display:block" font-family="Inter, sans-serif">
+
+<!-- inlet pipe extension (screen coords) -->
+<rect x="0" y="340" width="60" height="55" fill="#5B6573"></rect>
+<rect x="0" y="348.5" width="60" height="38" fill="#D89A00"></rect>
+<path class="flow" id="flowIn0" d="M 2 367 H 58" stroke="#3B2A00" stroke-width="2.5" fill="none" stroke-linecap="round"></path>
+
+<!-- outlet pipework to appliances (screen coords) -->
+<g fill="#4A5563">
+<rect x="314" y="520" width="32" height="80"></rect>
+<rect x="314" y="568" width="394" height="32"></rect>
+<rect x="676" y="82" width="32" height="518"></rect>
+<rect x="676" y="82" width="40" height="32"></rect>
+<rect x="676" y="362" width="40" height="32"></rect>
+<rect x="372" y="538" width="14" height="10"></rect>
+</g>
+<g fill="#F2C230">
+<rect x="320" y="516" width="20" height="78"></rect>
+<rect x="320" y="574" width="382" height="20"></rect>
+<rect x="682" y="88" width="20" height="506"></rect>
+<rect x="682" y="88" width="34" height="20"></rect>
+<rect x="682" y="368" width="34" height="20"></rect>
+</g>
+<path class="flow" id="flowBoiler" d="M 330 522 V 584 H 692 V 98 H 712" stroke="#3B2A00" stroke-width="2.5" fill="none" stroke-linecap="round"></path>
+<path class="flow" id="flowCooker" d="M 692 378 H 712" stroke="#3B2A00" stroke-width="2.5" fill="none" stroke-linecap="round"></path>
+
+<!-- boiler -->
+<g id="boiler">
+<rect x="712" y="40" width="150" height="120" rx="10" fill="#E3E6EA"></rect>
+<rect x="736" y="100" width="102" height="44" rx="6" fill="#1A222D"></rect>
+<g class="app-flames">
+<g class="flick"><path d="M 756 142 C 748 138 749 126 756 112 C 763 126 764 138 756 142 Z" fill="#3D8BFF"></path></g>
+<g class="flick" style="animation-delay:-.2s"><path d="M 776 142 C 768 138 769 126 776 112 C 783 126 784 138 776 142 Z" fill="#3D8BFF"></path></g>
+<g class="flick" style="animation-delay:-.35s"><path d="M 796 142 C 788 138 789 126 796 112 C 803 126 804 138 796 142 Z" fill="#3D8BFF"></path></g>
+<g class="flick" style="animation-delay:-.1s"><path d="M 816 142 C 808 138 809 126 816 112 C 823 126 824 138 816 142 Z" fill="#3D8BFF"></path></g>
+</g>
+<circle class="app-led" cx="842" cy="60" r="6"></circle>
+<text x="726" y="72" font-size="14" font-weight="700" fill="#1F2937">Boiler</text>
+</g>
+
+<!-- cooker -->
+<g id="cooker">
+<rect x="712" y="330" width="150" height="120" rx="8" fill="#E3E6EA"></rect>
+<rect x="726" y="368" width="122" height="70" rx="6" fill="#C5CBD3"></rect>
+<rect x="738" y="324" width="36" height="8" rx="3" fill="#4A5563"></rect>
+<rect x="800" y="324" width="36" height="8" rx="3" fill="#4A5563"></rect>
+<g class="app-flames">
+<g class="flick"><path d="M 750 324 C 744 320 745 310 750 300 C 755 310 756 320 750 324 Z" fill="#3D8BFF"></path><path d="M 762 324 C 756 320 757 310 762 300 C 767 310 768 320 762 324 Z" fill="#3D8BFF"></path></g>
+<g class="flick" style="animation-delay:-.25s"><path d="M 812 324 C 806 320 807 310 812 300 C 817 310 818 320 812 324 Z" fill="#3D8BFF"></path><path d="M 824 324 C 818 320 819 310 824 300 C 829 310 830 320 824 324 Z" fill="#3D8BFF"></path></g>
+</g>
+<circle class="app-led" cx="842" cy="352" r="6"></circle>
+<text x="726" y="358" font-size="14" font-weight="700" fill="#1F2937">Cooker</text>
+</g>
+
+<!-- regulator, drawn on its side then stood upright -->
+<g transform="translate(588 20) rotate(90) scale(0.86)">
+<path d="M 60 262 L 252 128 L 282 128 L 282 472 L 252 472 L 60 338 Z" fill="#4A5563"></path>
+<path d="M 74 272 L 254 142 L 268 142 L 268 458 L 254 458 L 74 328 Z" fill="#0A1017"></path>
+<circle cx="168" cy="196" r="6" fill="#0A1017"></circle>
+<path d="M 282 128 L 552 148 L 594 238 L 594 362 L 552 452 L 282 472 Z" fill="#4A5563"></path>
+<path d="M 284 142 L 542 160 L 580 244 L 580 356 L 542 440 L 284 458 Z" fill="#F2C230"></path>
+<rect x="576" y="244" width="66" height="112" fill="#4A5563"></rect><rect x="576" y="256" width="66" height="88" fill="#F2C230"></rect>
+<rect x="264" y="96" width="26" height="34" rx="3" fill="#6B7685"></rect>
+<rect x="264" y="470" width="26" height="34" rx="3" fill="#6B7685"></rect>
+<rect x="372" y="370" width="64" height="290" fill="#5B6573"></rect>
+<rect x="382" y="356" width="44" height="304" fill="#D89A00"></rect>
+<rect x="330" y="226" width="164" height="150" rx="10" fill="#5B6573"></rect>
+<rect x="342" y="238" width="140" height="126" rx="6" fill="#D89A00"></rect>
+<rect x="382" y="356" width="44" height="12" fill="#D89A00"></rect>
+<rect x="480" y="286" width="16" height="28" fill="#F2C230"></rect>
+<rect x="328" y="262" width="16" height="76" fill="#D89A00"></rect>
+<path class="flow" id="flowIn" d="M 404 656 V 312 Q 404 300 416 300 H 470" stroke="#3B2A00" stroke-width="2.5" fill="none" stroke-linecap="round"></path>
+<path class="flow" id="flowThru" d="M 470 300 H 598" stroke="#3B2A00" stroke-width="2.5" fill="none" stroke-linecap="round"></path>
+<g id="inletArrows" fill="#5A2A00" stroke="#5A2A00" stroke-width="3" stroke-linecap="round">
+<path id="iaR" d=""></path><path id="iaRh" d="" stroke="none"></path>
+<path id="iaL" d=""></path><path id="iaLh" d="" stroke="none"></path>
+</g>
+<rect x="22" y="290" width="74" height="20" rx="3" fill="#B7C0CA"></rect>
+<g stroke="#8E96A1" stroke-width="2"><path d="M 32 290 V 310 M 42 290 V 310 M 52 290 V 310 M 62 290 V 310 M 72 290 V 310"></path></g>
+<rect x="12" y="282" width="12" height="36" rx="3" fill="#D5DBE2"></rect>
+<rect x="92" y="268" width="8" height="64" rx="2" fill="#D5DBE2"></rect>
+<path id="spring" d="" fill="none" stroke="#E2A36B" stroke-width="2.8" stroke-linejoin="round"></path>
+<path id="diaphragm" d="" fill="none" stroke="#B3362F" stroke-width="6" stroke-linecap="round"></path>
+<path id="compDia" d="" fill="#B3362F" stroke="#7E211C" stroke-width="2"></path>
+<g id="moving">
+<rect x="266" y="222" width="12" height="156" rx="3" fill="#D5DBE2"></rect>
+<rect x="276" y="296" width="210" height="8" fill="#B7C0CA"></rect>
+<path d="M 476 300 L 506 276 L 524 300 L 506 324 Z" fill="#D5DBE2"></path>
+<rect x="522" y="295" width="34" height="10" rx="2" fill="#B7C0CA"></rect><path d="M 556 295 L 566 300 L 556 305 Z" fill="#B7C0CA"></path>
+</g>
+<g stroke="#7CC4FF" fill="#7CC4FF" stroke-width="4" stroke-linecap="round"><path id="saLine" d=""></path><path id="saHead" d="" stroke="none"></path></g>
+<g stroke="#9A3412" fill="#9A3412" stroke-width="4" stroke-linecap="round"><path id="gaLine" d=""></path><path id="gaHead" d="" stroke="none"></path></g>
+</g>
+
+<!-- vent air -->
+<g class="vent-air" stroke="#7CC4FF" stroke-width="2" fill="none" stroke-linecap="round"><path d="M 432 158 l 8 -4 M 432 172 l 8 4"></path></g>
+
+<!-- in-body text -->
+<g font-size="10.5" font-weight="700" letter-spacing=".5">
+<text x="392" y="216" fill="#7CC4FF">SPRING</text>
+<text x="420" y="300" fill="#9A3412">GAS</text><text x="420" y="312" fill="#9A3412">PRESSURE</text>
+<text x="214" y="492" fill="#3B2A00">OUTLET PRESSURE</text>
+<text x="280" y="430" fill="#3B2A00">INLET</text>
+</g>
+
+<!-- labels -->
+<g font-size="12.5" fill="#C9D2DC">
+<g stroke="#5E6B7A" stroke-width="1" fill="none">
+<path d="M 362 46 H 344"></path>
+<path d="M 168 172 L 304 180"></path>
+<path d="M 516 246 L 456 254"></path>
+<path d="M 154 280 L 318 302"></path>
+<path d="M 516 336 L 336 336"></path>
+<path d="M 516 378 L 380 378"></path>
+<path d="M 516 452 L 344 452"></path>
+
+</g>
+<text x="366" y="50">Adjusting screw</text>
+<text x="162" y="176" text-anchor="end">Spring</text>
+<text x="446" y="148" fill="#9AA7B5">Vent</text>
+<text x="520" y="250">Main diaphragm</text>
+<text x="10" y="284">Compensating diaphragm</text>
+<text x="520" y="340">Spindle</text>
+<text x="520" y="382">Inlet forces cancel</text>
+<text x="520" y="456">Valve and seat</text>
+<text x="392" y="548" fill="#9AA7B5">Test point</text>
+<text x="480" y="562" fill="#9AA7B5">Outlet to appliances</text>
+<text x="10" y="420" fill="#9AA7B5">Inlet (from the main)</text>
+<text id="inletTxt" x="10" y="440" font-weight="700" fill="#F2C230">Inlet ≈ 40 mbar (example)</text>
+</g>
+</svg>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px">
+<div class="card" style="padding:16px;display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;flex-direction:column;gap:4px"><div class="k">The parts</div><div class="v"><b>Spring</b> pushes on the main diaphragm, opening the valve. <b>Main diaphragm</b> has outlet pressure on its other side pushing back. <b>Spindle</b> links the diaphragm to the valve. <b>Adjusting screw</b> sets how hard the spring pushes, and so the outlet pressure. <b>Compensating diaphragm</b>: inlet pressure pushes on it opposite to the valve, so the two forces cancel and inlet changes don't move the valve.</div></div>
+<div style="display:flex;flex-direction:column;gap:4px"><div class="k">The vent</div><div class="v">The spring side of the diaphragm vents to outside air so it can move freely. If paint, dirt or insects block it, the regulator won't control the pressure correctly.</div></div>
+</div>
+<div class="card" style="padding:16px;display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;flex-direction:column;gap:4px"><div class="k">Pressures</div><div class="v">Low pressure: up to 75 mbar. Medium: 75 mbar to 2 bar. Domestic working pressure: <b>21 mbar ± 2 (19–23 mbar)</b>. Standing pressure (no gas flowing): <b>30 mbar maximum</b>.</div></div>
+<div style="display:flex;flex-direction:column;gap:4px"><div class="k">Faults</div><div class="v"><b>Fails to lock out:</b> call the emergency service provider and follow the Unsafe Situations Procedure.<br><b>Low or high working pressure:</b> call the emergency service provider and follow the Unsafe Situations Procedure.<br><b>Membrane split and leaking gas:</b> call the emergency service provider and disc ECV.</div></div>
+</div>
+</div>
+</div>
+
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:20px">
+<div style="display:flex;flex-direction:column;gap:10px">
+<div style="font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#9AA7B5">Step <span id="num">1</span> of 6</div>
+<div style="height:4px;background:#243040;border-radius:2px;overflow:hidden"><div id="bar" style="height:4px;background:#F2C230;width:0%"></div></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px;min-height:236px">
+<h2 id="title"></h2>
+<p id="body" style="margin:0;font-size:15.5px;line-height:1.55;color:#C9D2DC"></p>
+</div>
+
+<div class="card" style="padding:16px;display:flex;gap:18px;align-items:stretch">
+<svg width="92" height="250" viewBox="0 0 92 250" role="img" aria-label="Outlet pressure gauge, 0 to 35 mbar" style="flex:none">
+<rect x="34" y="10" width="24" height="230" rx="12" fill="#243040"></rect>
+<!-- scale: 0 mbar at y=230, 35 mbar at y=20 → 6 px per mbar -->
+<rect x="34" y="92" width="24" height="24" fill="#1F6B45"></rect>
+<rect id="gFill" x="38" y="230" width="16" height="0" rx="4" fill="#F2C230"></rect>
+<line x1="28" y1="50" x2="64" y2="50" stroke="#FF5C5C" stroke-width="3"></line>
+<g font-size="10" fill="#9AA7B5" text-anchor="end">
+<text x="26" y="234">0</text><text x="26" y="174">10</text><text x="26" y="96">23</text><text x="26" y="120">19</text><text x="26" y="54" fill="#FF8A80">30</text>
+</g>
+<g font-size="9" fill="#9AA7B5"><text x="64" y="108">21±2</text><text x="64" y="44" fill="#FF8A80">max</text></g>
+<path id="gPtr" d="" fill="#F4F6F8"></path>
+</svg>
+<div style="display:flex;flex-direction:column;gap:10px;justify-content:center;min-width:0">
+<span style="font-size:13px;color:#9AA7B5">Outlet pressure (at the test point)</span>
+<span style="font-family:'Space Grotesk',sans-serif;font-size:40px;font-weight:700;line-height:1"><span id="pVal">25.0</span> <span style="font-size:18px;color:#9AA7B5">mbar</span></span>
+<span id="chip" class="chip"></span>
+<div class="v" style="font-size:12.5px;color:#9AA7B5">Green band: working pressure 19–23 mbar.<br>Red line: maximum standing pressure 30 mbar.</div>
+</div>
+</div>
+
+<div style="display:flex;gap:8px">
+<button class="ctl" id="back" aria-label="Previous step"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></button>
+<button class="ctl primary" id="toggle"><span id="pauseLbl" style="display:contents"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M8 5v14M16 5v14"></path></svg><span>Pause</span></span><span id="playLbl" style="display:none"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"></path></svg><span>Play</span></span></button>
+<button class="ctl" id="next" aria-label="Next step"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button>
+<button class="ctl" id="restart" aria-label="Restart from the beginning"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"></path><path d="M3 4v5h5"></path></svg></button>
+</div>
+
+<div id="steps" style="display:flex;flex-direction:column;gap:2px"></div>
+<div style="font-size:12px;line-height:1.5;color:#8592A0">Pressures shown are for a domestic natural gas meter regulator. Always check against the manufacturer's data and current industry guidance.</div>
+</div>
+</div>
+</div>
+
+<script>
+// keyframes: [time ms, outlet pressure mbar, valve opening 0..1, inlet pressure mbar]
+const S=[
+{title:"No gas being used — standing pressure",d:5500,boiler:0,cooker:0,k:[[0,25,0,40]],
+ body:"Nothing is using gas, so there is no flow. Outlet pressure builds up on the main diaphragm until it beats the spring, pushing the diaphragm up and pulling the valve onto its seat (lock-up). The pressure now sitting in the pipework is the standing pressure: it must be no more than 30 mbar."},
+{title:"Boiler fires — pressure dips, valve opens",d:6500,boiler:1,cooker:0,k:[[0,25,0,40],[500,25,0,40],[1300,17.5,0.15,40],[2400,18.5,0.55,40],[4200,21,0.5,40]],
+ body:"The boiler starts using gas, so the outlet pressure drops. The spring is now stronger than the gas pressure on the diaphragm, so it pushes the diaphragm down and the spindle moves the valve off its seat. More gas flows until the pressure is back where it should be."},
+{title:"Balanced — working pressure",d:5000,boiler:1,cooker:0,k:[[0,21,0.5,40]],
+ body:"The spring and the outlet gas pressure are in balance. The valve holds just open enough to supply the boiler, keeping a steady working pressure of 21 mbar, inside the 19–23 mbar range."},
+{title:"Inlet pressure changes — outlet stays steady",d:7000,boiler:1,cooker:0,k:[[0,21,0.5,40],[600,21,0.5,40],[2200,21.2,0.48,58],[3800,21.2,0.48,58],[5600,21,0.5,40]],
+ body:"The pressure coming from the main can rise and fall. In a compensated regulator the inlet pressure pushes on the valve one way and on the compensating diaphragm the other way with an equal force, so the two cancel out. The valve stays put and the outlet holds at 21 mbar."},
+{title:"Cooker on too — valve opens wider",d:7000,boiler:1,cooker:1,k:[[0,21,0.5,40],[500,21,0.5,40],[1300,17.8,0.6,40],[2500,19,0.92,40],[4400,20.6,0.88,40]],
+ body:"Turning on the cooker increases demand. The pressure dips again, the spring pushes the diaphragm further down and the valve opens wider. With more gas flowing, the pressure recovers and settles back inside 19–23 mbar."},
+{title:"Appliances off — valve closes (lock-up)",d:7000,boiler:0,cooker:0,k:[[0,20.6,0.88,40],[500,20.6,0.88,40],[1200,24,0.35,40],[2400,25.2,0.05,40],[3600,25,0,40]],
+ body:"With the appliances off, gas stops being used and the outlet pressure rises. The gas pressure on the diaphragm is now stronger than the spring, pushing it up and closing the valve. It locks up at the standing pressure, which must not exceed 30 mbar."}
+];
+const N=S.length;let stage=0,t=0,playing=true,last=performance.now();const $=id=>document.getElementById(id);
+const steps=S.map((x,i)=>{const b=document.createElement('button');b.className='step';b.innerHTML='<span class="num">'+(i+1)+'</span><span></span>';b.lastChild.textContent=x.title;b.onclick=()=>go(i);$('steps').appendChild(b);return b;});
+function render(){const c=S[stage];$('num').textContent=stage+1;$('title').textContent=c.title;$('body').textContent=c.body;
+ $('boiler').setAttribute('class',c.boiler?'on':'');$('cooker').setAttribute('class',c.cooker?'on':'');
+ steps.forEach((b,i)=>b.className='step '+(i===stage?'on':i<stage?'done':''));$('pauseLbl').style.display=playing?'contents':'none';$('playLbl').style.display=playing?'none':'contents';}
+function go(n){stage=(n+N)%N;t=0;render();}
+$('back').onclick=()=>go(stage-1);$('next').onclick=()=>go(stage+1);$('restart').onclick=()=>{playing=true;go(0);};
+$('toggle').onclick=()=>{playing=!playing;render();};
+const ease=x=>x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2;
+function sample(k,tt){const n=k[0].length;if(tt<=k[0][0])return k[0].slice(1);for(let i=1;i<k.length;i++){if(tt<=k[i][0]){const a=k[i-1],b=k[i],f=ease((tt-a[0])/(b[0]-a[0]));const r=[];for(let j=1;j<n;j++)r.push(a[j]+(b[j]-a[j])*f);return r;}}return k[k.length-1].slice(1);}
+const arrowH=(x1,x2,y)=>{const dir=x2>x1?1:-1;return['M '+x1.toFixed(1)+' '+y+' H '+(x2-dir*10).toFixed(1),'M '+(x2-dir*12).toFixed(1)+' '+(y-9)+' L '+(x2-dir*12).toFixed(1)+' '+(y+9)+' L '+x2.toFixed(1)+' '+y+' Z'];};
+function draw(p,v,inlet){
+ const d=v*24, x=272+d;
+ $('moving').setAttribute('transform','translate('+d.toFixed(2)+' 0)');
+ $('diaphragm').setAttribute('d','M 275 142 C 275 205 '+x.toFixed(1)+' 222 '+x.toFixed(1)+' 300 C '+x.toFixed(1)+' 378 275 395 275 458');
+ const bx=(318+d*0.5).toFixed(1);$('compDia').setAttribute('d','M 344 262 C '+bx+' 262 '+bx+' 280 '+bx+' 300 C '+bx+' 320 '+bx+' 338 344 338 Z');
+ const a=100,b=266+d,n=12;let s='M '+a+' 300';for(let i=1;i<n;i++){const xx=a+(b-a)*i/n;s+=' L '+xx.toFixed(1)+' '+(i%2?274:326);}s+=' L '+b.toFixed(1)+' 300';$('spring').setAttribute('d',s);
+ let r=arrowH(x-6-64,x-6,240);$('saLine').setAttribute('d',r[0]);$('saHead').setAttribute('d',r[1]);
+ r=arrowH(x+10+p*3,x+10,202);$('gaLine').setAttribute('d',r[0]);$('gaHead').setAttribute('d',r[1]);
+ const il=inlet*1.05;r=arrowH(420,420+il,254);$('iaR').setAttribute('d',r[0]);$('iaRh').setAttribute('d',r[1]);
+ r=arrowH(404,404-il,254);$('iaL').setAttribute('d',r[0]);$('iaLh').setAttribute('d',r[1]);
+ $('inletTxt').textContent='Inlet ≈ '+Math.round(inlet)+' mbar (example)';
+ const on=v>0.04;['flowIn0','flowIn','flowThru'].forEach(id=>$(id).style.opacity=on?1:0);
+ $('flowBoiler').style.opacity=S[stage].boiler&&on?1:0;$('flowCooker').style.opacity=S[stage].cooker&&on?1:0;
+ const gy=230-p*6;$('gFill').setAttribute('y',gy.toFixed(1));$('gFill').setAttribute('height',(230-gy).toFixed(1));
+ $('gPtr').setAttribute('d','M 62 '+gy.toFixed(1)+' l 12 -7 v 14 z');
+ $('pVal').textContent=p.toFixed(1);
+ const chip=$('chip');let txt,bg,fg;
+ if(p>30){txt='Above 30 mbar — fault';bg='#5A2626';fg='#FFD6D6';}
+ else if(!on&&p>23){txt='Standing pressure — OK (max 30)';bg='#1E3A5F';fg='#CFE6FF';}
+ else if(p>=19&&p<=23){txt='Working pressure — in range';bg='#1F4D36';fg='#C8F5DC';}
+ else if(p<19){txt='Brief dip — regulator responding';bg='#4A3A12';fg='#FFE7A3';}
+ else{txt='Pressure rising — valve closing';bg='#4A3A12';fg='#FFE7A3';}
+ chip.textContent=txt;chip.style.background=bg;chip.style.color=fg;
+}
+function frame(now){const dt=Math.min(100,now-last);last=now;const c=S[stage];
+ t+=dt;if(playing&&t>=c.d){go(stage+1);}
+ const tt=Math.min(t,S[stage].d);let [p,v,inlet]=sample(S[stage].k,tt);
+ if(v>0.04)p+=Math.sin(now/260)*0.12;
+ draw(p,v,inlet);$('bar').style.width=Math.min(100,tt/S[stage].d*100)+'%';requestAnimationFrame(frame);}
+function fit(){$('app').style.zoom=Math.min(1,window.innerWidth/1280);}window.addEventListener('resize',fit);fit();render();requestAnimationFrame(frame);
+</script>
+</body>
+</html>
