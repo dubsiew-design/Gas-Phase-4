@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Overheat thermostats</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#0E141B;color:#E8EDF2;font-family:Inter,sans-serif}
+a{color:#F2C230}a:hover{color:#FFD95C}
+#app{width:1280px;margin:0 auto;padding:40px 48px 48px;display:flex;flex-direction:column;gap:24px}
+.eyebrow{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#F2C230;font-weight:600}
+h1{margin:0;font-family:'Space Grotesk',sans-serif;font-size:36px;font-weight:700;letter-spacing:-.01em}
+h2{margin:0;font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:600;line-height:1.15}
+.muted{color:#9AA7B5}
+.card{background:#151D27;border:1px solid #243040;border-radius:12px}
+.k{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#F2C230}
+.v{font-size:13.5px;line-height:1.45;color:#C9D2DC}
+.v ul{margin:6px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+.flick{transform-box:fill-box;transform-origin:50% 100%;animation:flick .5s ease-in-out infinite alternate}
+@keyframes flick{0%{transform:scale(1,1)}100%{transform:scale(.92,1.09)}}
+.flow{stroke-dasharray:3 11;animation:flow .7s linear infinite}
+.current{stroke-dasharray:2 10;animation:flow .6s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-14}}
+#app.t-disc .only-cap{display:none}
+#app.t-cap .only-disc{display:none}
+.step{all:unset;box-sizing:border-box;display:flex;align-items:center;gap:12px;width:100%;min-height:44px;padding:8px 12px;border-radius:10px;cursor:pointer;color:#9AA7B5;font:500 14px/1.3 Inter,sans-serif}
+.step:hover{background:#1C2632;color:#E8EDF2}
+.step:focus-visible,.ctl:focus-visible,.tab:focus-visible{outline:2px solid #F2C230;outline-offset:2px}
+.step .num{flex:none;display:flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:13px;border:1.5px solid #3A4757;font:600 12px Inter,sans-serif;color:#9AA7B5}
+.step.on{background:#1C2632;color:#F4F6F8}
+.step.on .num{background:#F2C230;border-color:#F2C230;color:#14110A}
+.step.done .num{border-color:#6E5A1C;color:#F2C230}
+.ctl{all:unset;box-sizing:border-box;display:flex;align-items:center;justify-content:center;gap:8px;height:44px;min-width:44px;padding:0 12px;border-radius:10px;cursor:pointer;background:#1C2632;color:#E8EDF2;font:600 14px Inter,sans-serif}
+.ctl:hover{background:#263241}
+.ctl.primary{background:#F2C230;color:#14110A;flex:1}
+.ctl.primary:hover{background:#FFD24A}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:#151D27;border:1px solid #243040;border-radius:12px;padding:6px}
+.tab{all:unset;box-sizing:border-box;text-align:center;min-height:44px;padding:8px 10px;border-radius:8px;cursor:pointer;font:600 13.5px/1.25 Inter,sans-serif;color:#9AA7B5}
+.tab:hover{color:#E8EDF2;background:#1C2632}
+.tab.on{background:#F2C230;color:#14110A}
+.tab small{display:block;font-weight:500;font-size:11.5px;opacity:.8}
+.chip{display:inline-flex;align-items:center;padding:6px 12px;border-radius:999px;font-size:13px;font-weight:600;line-height:1.3}
+@media (prefers-reduced-motion: reduce){.flow,.current,.flick{animation:none!important}}
+</style>
+</head>
+<body>
+<div id="app" class="t-disc">
+<header style="display:flex;flex-direction:column;gap:6px">
+<a href="./" style="font-size:14px;font-weight:500;text-decoration:none;margin-bottom:6px">← All topics</a>
+<div class="eyebrow">Gas safety devices &amp; controls · Extra</div>
+<h1>Overheat thermostats</h1>
+<p class="muted" style="margin:0;font-size:16px">The high-limit stat that cuts the burner if the boiler water gets too hot — two common types.</p>
+</header>
+
+<div style="display:flex;gap:32px;align-items:flex-start">
+<div style="width:780px;display:flex;flex-direction:column;gap:16px">
+<div class="card" style="width:780px;height:552px;border-radius:16px;overflow:hidden">
+<svg width="778" height="550" viewBox="0 0 880 622" role="img" aria-label="Boiler heat exchanger, burner and gas valve, with a close-up of the overheat thermostat" style="display:block" font-family="Inter, sans-serif">
+
+<!-- wires: live in, and out to the gas valve -->
+<g fill="none" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+<path d="M 581 84 V 8 H 420" stroke="#C0392B"></path>
+<path d="M 719 84 V 8 H 870 V 610 H 110 V 568" stroke="#C0392B"></path>
+</g>
+<g id="currentG" fill="none" stroke="#FFE08A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+<path class="current" d="M 420 8 H 581 V 84"></path>
+<path class="current" d="M 719 84 V 8 H 870 V 610 H 110 V 568"></path>
+</g>
+<g font-size="12" fill="#9AA7B5">
+<text x="330" y="22">Live supply</text>
+<text x="640" y="602">To gas valve</text>
+</g>
+
+<!-- gas -->
+<g fill="#4A5563">
+<rect x="0" y="516" width="62" height="28"></rect>
+<rect x="158" y="516" width="64" height="28"></rect>
+<rect x="194" y="450" width="28" height="94"></rect>
+</g>
+<g fill="#0A1017"><rect x="158" y="522" width="58" height="16"></rect><rect x="200" y="452" width="16" height="86"></rect></g>
+<g fill="#F2C230">
+<rect x="0" y="522" width="62" height="16"></rect>
+<g id="gasOut"><rect x="158" y="522" width="58" height="16"></rect><rect x="200" y="452" width="16" height="86"></rect></g>
+</g>
+<path class="flow" d="M 2 530 H 58" stroke="#3B2A00" stroke-width="2.2" fill="none" stroke-linecap="round"></path>
+<path class="flow" id="flowGas" d="M 162 530 H 208 V 456" stroke="#3B2A00" stroke-width="2.2" fill="none" stroke-linecap="round"></path>
+<rect x="60" y="494" width="100" height="72" rx="8" fill="#4A5563"></rect>
+<rect id="coil" x="88" y="474" width="44" height="22" rx="4" fill="#6B7685"></rect>
+<g stroke="#3B4552" stroke-width="2"><path d="M 94 478 V 492 M 102 478 V 492 M 110 478 V 492 M 118 478 V 492 M 126 478 V 492"></path></g>
+<rect x="72" y="534" width="76" height="22" rx="4" fill="#0A1017"></rect>
+<text id="valveTxt" x="110" y="549" text-anchor="middle" font-size="11" font-weight="700" letter-spacing="1" fill="#7EE0A8">OPEN</text>
+
+<!-- burner -->
+<rect x="80" y="430" width="260" height="24" rx="6" fill="#6B7685"></rect>
+<g id="flames">
+<g class="flick"><path d="M 104 430 C 95 425 96 410 104 392 C 112 410 113 425 104 430 Z" fill="#3D8BFF"></path></g>
+<g class="flick" style="animation-delay:-.2s"><path d="M 136 430 C 127 425 128 410 136 392 C 144 410 145 425 136 430 Z" fill="#3D8BFF"></path></g>
+<g class="flick" style="animation-delay:-.35s"><path d="M 168 430 C 159 425 160 410 168 392 C 176 410 177 425 168 430 Z" fill="#3D8BFF"></path></g>
+<g class="flick" style="animation-delay:-.1s"><path d="M 200 430 C 191 425 192 410 200 392 C 208 410 209 425 200 430 Z" fill="#3D8BFF"></path></g>
+<g class="flick" style="animation-delay:-.42s"><path d="M 232 430 C 223 425 224 410 232 392 C 240 410 241 425 232 430 Z" fill="#3D8BFF"></path></g>
+<g class="flick" style="animation-delay:-.27s"><path d="M 264 430 C 255 425 256 410 264 392 C 272 410 273 425 264 430 Z" fill="#3D8BFF"></path></g>
+<g class="flick" style="animation-delay:-.05s"><path d="M 296 430 C 287 425 288 410 296 392 C 304 410 305 425 296 430 Z" fill="#3D8BFF"></path></g>
+<g class="flick" style="animation-delay:-.3s"><path d="M 320 430 C 313 426 314 414 320 400 C 326 414 327 426 320 430 Z" fill="#3D8BFF"></path></g>
+</g>
+
+<!-- heat exchanger, return and flow pipes -->
+<rect x="14" y="318" width="50" height="30" fill="#4A5563"></rect>
+<rect class="water" x="14" y="324" width="50" height="18"></rect>
+<rect x="60" y="290" width="300" height="90" rx="10" fill="#4A5563"></rect>
+<rect class="water" x="74" y="304" width="272" height="62" rx="4"></rect>
+<g stroke="#3B4552" stroke-width="3"><path d="M 90 380 V 388 M 120 380 V 388 M 150 380 V 388 M 180 380 V 388 M 210 380 V 388 M 240 380 V 388 M 270 380 V 388 M 300 380 V 388 M 330 380 V 388"></path></g>
+<rect x="324" y="60" width="36" height="240" fill="#B4692F"></rect>
+<rect class="water" x="332" y="60" width="20" height="246"></rect>
+<g font-size="12" fill="#9AA7B5">
+<text x="14" y="310">Return</text>
+<text x="270" y="54">Flow</text>
+<text x="96" y="284">Heat exchanger</text>
+<text x="350" y="448">Burner</text>
+<text x="58" y="592">Gas valve</text>
+<text x="2" y="508">Gas in</text>
+</g>
+
+<!-- bi-metal disc stat clipped on the flow pipe -->
+<g class="only-disc">
+<rect x="360" y="132" width="34" height="38" rx="5" fill="#E3E6EA"></rect>
+<rect x="360" y="132" width="6" height="38" fill="#8E96A1"></rect>
+<circle cx="377" cy="128" r="5" fill="#C0392B"></circle>
+<path d="M 394 132 L 440 60 M 394 170 L 440 320" stroke="#5E6B7A" stroke-dasharray="4 4" fill="none"></path>
+<text x="150" y="136" font-size="12" fill="#C9D2DC">Overheat stat clipped</text>
+<text x="150" y="152" font-size="12" fill="#C9D2DC">to the flow pipe</text>
+<path d="M 274 146 H 320" stroke="#5E6B7A" fill="none"></path>
+</g>
+
+<!-- capillary bulb in pocket + tube to bellows -->
+<g class="only-cap">
+<rect x="228" y="282" width="22" height="58" rx="4" fill="#6B7685"></rect>
+<rect id="bulb" x="233" y="296" width="12" height="38" rx="6" fill="#C0392B"></rect>
+<path d="M 239 296 V 262 H 520 V 318 H 600 V 304" fill="none" stroke="#B4692F" stroke-width="3"></path>
+<text x="150" y="226" font-size="12" fill="#C9D2DC">Sensing bulb in a pocket</text>
+<text x="150" y="242" font-size="12" fill="#C9D2DC">in the heat exchanger</text>
+<text x="364" y="278" font-size="10.5" fill="#9AA7B5">Capillary tube</text>
+</g>
+
+<!-- close-up panel -->
+<rect x="440" y="24" width="426" height="312" rx="12" fill="#0F1720" stroke="#2A3646"></rect>
+<text class="only-disc" x="458" y="48" font-size="12" font-weight="700" fill="#F2C230" letter-spacing="1">CLOSE-UP: BI-METALLIC DISC STAT</text>
+<text class="only-cap" x="458" y="48" font-size="12" font-weight="700" fill="#F2C230" letter-spacing="1">CLOSE-UP: BELLOWS &amp; MICROSWITCH</text>
+
+<!-- terminals (both) -->
+<rect x="574" y="70" width="14" height="56" rx="2" fill="#C9A13C"></rect>
+<rect x="712" y="70" width="14" height="56" rx="2" fill="#C9A13C"></rect>
+
+<g class="only-disc">
+<rect x="470" y="300" width="366" height="22" fill="#B4692F"></rect>
+<text x="478" y="315" font-size="11" font-weight="600" fill="#FFF3E0">Hot flow pipe</text>
+<rect x="560" y="236" width="180" height="64" rx="4" fill="#8E96A1"></rect>
+<rect x="572" y="244" width="156" height="50" rx="3" fill="#0A1017"></rect>
+<path id="discA" d="" fill="none" stroke="#D4A84B" stroke-width="5" stroke-linecap="round"></path>
+<path id="discB" d="" fill="none" stroke="#9AA3AD" stroke-width="5" stroke-linecap="round"></path>
+<rect x="560" y="118" width="180" height="120" rx="6" fill="#E3E6EA"></rect>
+<rect x="572" y="128" width="156" height="104" rx="4" fill="#0A1017"></rect>
+<rect id="pin" x="645" y="156" width="10" height="120" rx="2" fill="#D5DBE2"></rect>
+<path d="M 719 120 V 168 H 700" fill="none" stroke="#C9A13C" stroke-width="4"></path>
+<circle cx="700" cy="164" r="5" fill="#E8EDF2"></circle>
+<g id="blade"><path d="M 581 152 H 700" stroke="#D5DBE2" stroke-width="4" stroke-linecap="round"></path><circle cx="700" cy="156" r="5" fill="#E8EDF2"></circle></g>
+<path d="M 581 120 V 152" stroke="#C9A13C" stroke-width="4"></path>
+<rect id="latch" x="612" y="140" width="12" height="26" rx="2" fill="#E05A4F" opacity="0"></rect>
+<rect id="resetBtn" x="640" y="100" width="20" height="22" rx="3" fill="#C0392B"></rect>
+<g font-size="11.5" fill="#C9D2DC">
+<g stroke="#5E6B7A" fill="none"><path d="M 760 108 H 662"></path><path d="M 760 162 H 708"></path><path d="M 760 206 H 657"></path><path d="M 760 262 H 724"></path></g>
+<path class="latchLbl" d="M 536 168 H 612" stroke="#E05A4F" fill="none" opacity="0"></path>
+<text x="764" y="112">Reset button</text>
+<text x="764" y="166">Contacts</text>
+<text x="764" y="210">Push pin</text>
+<text x="764" y="258">Bi-metal disc</text>
+<text x="764" y="272" font-size="10" fill="#9AA7B5">(brass + steel)</text>
+<text class="latchLbl" x="474" y="172" font-size="10.5" fill="#E05A4F" opacity="0">Reset latch</text>
+</g>
+</g>
+
+<g class="only-cap">
+<path d="M 440 262 H 520 V 318 H 600 V 306" fill="none" stroke="#B4692F" stroke-width="3"></path>
+<rect x="560" y="96" width="180" height="56" rx="6" fill="#2E3946"></rect>
+<text x="650" y="118" text-anchor="middle" font-size="10.5" font-weight="700" fill="#C9D2DC" letter-spacing="1">MICROSWITCH</text>
+<text id="swTxt" x="650" y="138" text-anchor="middle" font-size="11" font-weight="700" fill="#7EE0A8">CLOSED</text>
+<rect id="actuator" x="586" y="152" width="12" height="10" fill="#B7C0CA"></rect>
+<path d="M 700 172 l -8 6 l 16 6 l -16 6 l 16 6 l -16 6 l 16 6 l -16 6 l 16 6 l -16 6 l 16 6 l -16 6 l 16 6 l -8 6" fill="none" stroke="#9AA3AD" stroke-width="2"></path>
+<g id="lever"><path d="M 570 166 H 742" stroke="#D5DBE2" stroke-width="5" stroke-linecap="round"></path><circle cx="742" cy="166" r="5" fill="#8E96A1"></circle></g>
+<rect x="736" y="166" width="12" height="134" fill="#4A5563"></rect>
+<rect id="plunger" x="596" y="170" width="8" height="66" fill="#D5DBE2"></rect>
+<path id="bellows" d="" fill="#C0392B" stroke="#B7C0CA" stroke-width="3" stroke-linejoin="round"></path>
+<rect x="548" y="296" width="104" height="10" rx="2" fill="#8E96A1"></rect>
+<g font-size="11.5" fill="#C9D2DC">
+<g stroke="#5E6B7A" fill="none"><path d="M 760 124 H 742"></path><path d="M 474 180 H 566"></path><path d="M 714 214 H 704"></path><path d="M 474 268 H 556"></path><path d="M 474 216 H 594"></path></g>
+<text x="764" y="128">Microswitch</text>
+<text x="474" y="176">Lever</text>
+<text x="718" y="230" font-size="10.5">Spring</text>
+<text x="474" y="264">Bellows</text>
+<text x="474" y="212">Plunger</text>
+</g>
+</g>
+</svg>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px">
+<div class="card" style="padding:16px;display:flex;flex-direction:column;gap:8px">
+<div class="k">1. Bi-metallic disc (most common)</div>
+<div class="v">A small, button-sized switch clipped directly onto a hot copper pipe or the heat exchanger.
+<ul>
+<li><b>Two bonded metals:</b> a curved disc of two different metals (like brass and steel) bonded together.</li>
+<li><b>Differential expansion:</b> the metals expand at different rates, so the disc builds up tension as the boiler warms up.</li>
+<li><b>Snap action:</b> at the factory-set limit (typically about 95–105°C) the disc snaps from concave to convex, pushing open the contacts and cutting power to the gas valve.</li>
+<li><b>Resetting:</b> manual-reset stats hold the contacts open until you press the reset button; auto-reset stats snap back once cool.</li>
+</ul></div>
+</div>
+<div class="card" style="padding:16px;display:flex;flex-direction:column;gap:8px">
+<div class="k">2. Capillary bulb &amp; bellows (older boilers)</div>
+<div class="v">Uses fluid expansion rather than flexing metal.
+<ul>
+<li><b>Sensing bulb:</b> a small copper bulb filled with a heat-sensitive liquid, in a pocket in the heat exchanger.</li>
+<li><b>Capillary tube:</b> a thin copper tube connects the bulb to a flexible metal bellows in the control box.</li>
+<li><b>Pressure trip:</b> as the water overheats the liquid expands, forcing pressure into the bellows. The bellows expands like an accordion and trips a spring-loaded microswitch, breaking the circuit to the burner.</li>
+</ul></div>
+</div>
+</div>
+</div>
+
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:20px">
+<div class="tabs" role="group" aria-label="Type of overheat stat">
+<button class="tab on" id="tabDisc" aria-pressed="true">Bi-metallic disc<small>Most common</small></button>
+<button class="tab" id="tabCap" aria-pressed="false">Capillary &amp; bellows<small>Older boilers</small></button>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px">
+<div style="font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#9AA7B5">Step <span id="num">1</span> of 4</div>
+<div style="height:4px;background:#243040;border-radius:2px;overflow:hidden"><div id="bar" style="height:4px;background:#F2C230;width:0%"></div></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px;min-height:236px">
+<h2 id="title"></h2>
+<p id="body" style="margin:0;font-size:15.5px;line-height:1.55;color:#C9D2DC"></p>
+</div>
+
+<div class="card" style="padding:16px;display:flex;gap:18px;align-items:stretch">
+<svg width="92" height="250" viewBox="0 0 92 250" role="img" aria-label="Boiler water temperature, 40 to 120 °C" style="flex:none">
+<rect x="34" y="10" width="24" height="230" rx="12" fill="#243040"></rect>
+<!-- y = 230 - (T-40)*2.6 : 95→87, 105→61, 100→74, 75→139 -->
+<rect x="34" y="61" width="24" height="26" fill="#5A2626"></rect>
+<rect id="tFill" x="38" y="230" width="16" height="0" rx="4" fill="#FF8A3D"></rect>
+<line x1="28" y1="74" x2="64" y2="74" stroke="#FF5C5C" stroke-width="3"></line>
+<g font-size="10" fill="#9AA7B5" text-anchor="end">
+<text x="26" y="234">40</text><text x="26" y="182">60</text><text x="26" y="130">80</text><text x="26" y="78" fill="#FF8A80">100</text><text x="26" y="26">120</text>
+</g>
+<text x="64" y="58" font-size="9" fill="#FF8A80">limit</text>
+<path id="tPtr" d="" fill="#F4F6F8"></path>
+</svg>
+<div style="display:flex;flex-direction:column;gap:10px;justify-content:center;min-width:0">
+<span style="font-size:13px;color:#9AA7B5">Boiler water temperature</span>
+<span style="font-family:'Space Grotesk',sans-serif;font-size:40px;font-weight:700;line-height:1"><span id="tVal">75</span> <span style="font-size:18px;color:#9AA7B5">°C</span></span>
+<span id="chip" class="chip"></span>
+<div class="v" style="font-size:12.5px;color:#9AA7B5">Red band: typical overheat limit, about 95–105°C (factory set).</div>
+</div>
+</div>
+
+<div style="display:flex;gap:8px">
+<button class="ctl" id="back" aria-label="Previous step"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></button>
+<button class="ctl primary" id="toggle"><span id="pauseLbl" style="display:contents"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M8 5v14M16 5v14"></path></svg><span>Pause</span></span><span id="playLbl" style="display:none"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"></path></svg><span>Play</span></span></button>
+<button class="ctl" id="next" aria-label="Next step"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button>
+<button class="ctl" id="restart" aria-label="Restart from the beginning"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"></path><path d="M3 4v5h5"></path></svg></button>
+</div>
+
+<div id="steps" style="display:flex;flex-direction:column;gap:2px"></div>
+<div style="font-size:12px;line-height:1.5;color:#8592A0">Trip temperatures vary between boilers; always follow the manufacturer's data. An overheat stat must never be bypassed.</div>
+</div>
+</div>
+</div>
+
+<script>
+// keyframes [ms, °C]; trip at 100 °C; reset (manual) pressed in step 4
+const S=[
+{title:"Normal running",d:5000,k:[[0,75]],
+ disc:"The boiler is firing and the water is at normal working temperature. The bi-metallic disc is curved one way (concave), the contacts are closed, and power flows through the stat to the gas valve.",
+ cap:"The boiler is firing and the water is at normal working temperature. The liquid in the sensing bulb is at normal volume, the bellows is relaxed and the microswitch is closed, so power flows to the gas valve."},
+{title:"Water overheating",d:7000,k:[[0,75],[6600,99.4]],
+ disc:"If heat isn't being carried away (for example the pump has failed) the water temperature climbs. The two metals in the disc expand at different rates, so tension builds up in the disc — but it hasn't moved yet.",
+ cap:"If heat isn't being carried away (for example the pump has failed) the water temperature climbs. The liquid in the bulb expands, forcing pressure down the capillary tube, and the bellows starts to expand like an accordion."},
+{title:"Limit reached — trip",d:5500,k:[[0,99.4],[700,101.5],[5500,97]],
+ disc:"At the factory-set limit the disc suddenly snaps from concave to convex. The push pin forces the contacts open, instantly cutting power to the gas valve. The valve shuts and the burner goes out.",
+ cap:"At the limit the bellows has expanded enough to push the plunger and trip the spring-loaded microswitch. The circuit to the gas valve is broken, the valve shuts and the burner goes out."},
+{title:"Cooling down and reset",d:10000,k:[[0,97],[6000,74],[10000,74]],reset:6800,
+ disc:"As the water cools the disc snaps back, but on a manual-reset stat a latch holds the contacts open until the reset button is pressed. (An auto-reset stat would close again on its own once cool.) Find out why it overheated before resetting.",
+ cap:"As the water cools the liquid contracts and the bellows shrinks back. Where the stat is manual reset, the switch stays open until the reset button is pressed. Find out why it overheated before resetting."}
+];
+const N=S.length;let stage=0,t=0,playing=true,last=performance.now(),type='disc';const $=id=>document.getElementById(id);
+const steps=S.map((x,i)=>{const b=document.createElement('button');b.className='step';b.innerHTML='<span class="num">'+(i+1)+'</span><span></span>';b.lastChild.textContent=x.title;b.onclick=()=>go(i);$('steps').appendChild(b);return b;});
+function render(){const c=S[stage];$('app').className='t-'+type;$('num').textContent=stage+1;$('title').textContent=c.title;$('body').textContent=c[type];
+ steps.forEach((b,i)=>b.className='step '+(i===stage?'on':i<stage?'done':''));$('pauseLbl').style.display=playing?'contents':'none';$('playLbl').style.display=playing?'none':'contents';
+ $('tabDisc').className='tab'+(type==='disc'?' on':'');$('tabCap').className='tab'+(type==='cap'?' on':'');$('tabDisc').setAttribute('aria-pressed',type==='disc');$('tabCap').setAttribute('aria-pressed',type==='cap');}
+function go(n){stage=(n+N)%N;t=0;render();}
+$('back').onclick=()=>go(stage-1);$('next').onclick=()=>go(stage+1);$('restart').onclick=()=>{playing=true;go(0);};
+$('toggle').onclick=()=>{playing=!playing;render();};
+$('tabDisc').onclick=()=>{type='disc';go(0);};$('tabCap').onclick=()=>{type='cap';go(0);};
+const ease=x=>x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2;
+function sample(k,tt){if(tt<=k[0][0])return k[0][1];for(let i=1;i<k.length;i++){if(tt<=k[i][0]){const a=k[i-1],b=k[i];return a[1]+(b[1]-a[1])*ease((tt-a[0])/(b[0]-a[0]));}}return k[k.length-1][1];}
+const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
+function waterColour(T){const f=clamp((T-60)/45,0,1);const r=Math.round(90+f*165),g=Math.round(150-f*90),b=Math.round(220-f*170);return 'rgb('+r+','+g+','+b+')';}
+function draw(T,tt){
+ const c=S[stage];
+ const tripped=stage===2||(stage===3&&tt<c.reset);
+ const pressing=stage===3&&tt>=c.reset-500&&tt<c.reset+300;
+ const closed=!tripped;
+ // circuit, valve, flames
+ $('currentG').style.opacity=closed?1:0;$('gasOut').style.opacity=closed?1:0;$('flowGas').style.opacity=closed?1:0;
+ $('flames').style.opacity=closed?1:0;$('coil').setAttribute('fill',closed?'#FF8A3D':'#6B7685');
+ $('valveTxt').textContent=closed?'OPEN':'SHUT';$('valveTxt').setAttribute('fill',closed?'#7EE0A8':'#FF8A5C');
+ document.querySelectorAll('.water').forEach(e=>e.setAttribute('fill',waterColour(T)));
+ // disc stat
+ const tension=clamp((T-75)/25,0,1);
+ const snapped=(stage===2)||(stage===3&&T>88);
+ const cy=snapped?248:284-tension*8;
+ const dd='M 580 268 Q 650 '+cy.toFixed(1)+' 720 268';$('discA').setAttribute('d',dd);$('discB').setAttribute('d','M 580 274 Q 650 '+(cy+6).toFixed(1)+' 720 274');
+ const mid=(268+cy)/2-2;$('pin').setAttribute('y',(mid-120).toFixed(1));
+ const lift=tripped?20:0;$('blade').setAttribute('transform','rotate('+(-Math.atan(lift/119)*180/Math.PI).toFixed(2)+' 581 152)');
+ const latched=stage===3&&tripped;$('latch').setAttribute('opacity',latched?1:0);document.querySelectorAll('.latchLbl').forEach(x=>x.setAttribute('opacity',latched?1:0));
+ $('resetBtn').setAttribute('y',pressing?106:100);
+ // capillary
+ const e=clamp((T-75)/25,0,1.06);
+ const h=60+24*e, top=296-h;
+ let bp='M 562 296';const folds=6;for(let i=0;i<=folds;i++){const y=296-h*i/folds;bp+=' L '+(i%2?556:562)+' '+y.toFixed(1);}bp+=' L 638 '+top.toFixed(1);for(let i=folds;i>=0;i--){const y=296-h*i/folds;bp+=' L '+(i%2?644:638)+' '+y.toFixed(1);}bp+=' Z';
+ $('bellows').setAttribute('d',bp);
+ $('plunger').setAttribute('y',(top-66).toFixed(1));
+ const push=Math.max(0,170-(top-66));const lev=tripped?Math.max(push,18):Math.min(push,8);
+ $('lever').setAttribute('transform','rotate('+(Math.atan(lev/142)*180/Math.PI).toFixed(2)+' 742 166)');
+ $('swTxt').textContent=closed?'CLOSED':'OPEN';$('swTxt').setAttribute('fill',closed?'#7EE0A8':'#FF8A5C');
+ const lc=clamp((T-60)/45,0,1);const liq='rgb('+Math.round(150+lc*90)+','+Math.round(60-lc*20)+','+Math.round(60-lc*30)+')';$('bellows').setAttribute('fill',liq);$('bulb').setAttribute('fill',liq);
+ // gauge + chip
+ const gy=230-(T-40)*2.6;$('tFill').setAttribute('y',gy.toFixed(1));$('tFill').setAttribute('height',(230-gy).toFixed(1));$('tPtr').setAttribute('d','M 62 '+gy.toFixed(1)+' l 12 -7 v 14 z');
+ $('tVal').textContent=T.toFixed(0);
+ let txt,bg,fg;
+ if(stage===0){txt='Normal working temperature';bg='#1F4D36';fg='#C8F5DC';}
+ else if(stage===1){txt=type==='disc'?'Rising — disc building tension':'Rising — bellows expanding';bg='#4A3A12';fg='#FFE7A3';}
+ else if(stage===2){txt='Limit reached — burner OFF';bg='#5A2626';fg='#FFD6D6';}
+ else if(tripped){txt='Cooling — locked out until reset';bg='#1E3A5F';fg='#CFE6FF';}
+ else{txt='Reset pressed — burner back on';bg='#1F4D36';fg='#C8F5DC';}
+ const chip=$('chip');chip.textContent=txt;chip.style.background=bg;chip.style.color=fg;
+}
+function frame(now){const dt=Math.min(100,now-last);last=now;const c=S[stage];
+ t+=dt;if(playing&&t>=c.d){go(stage+1);}
+ const tt=Math.min(t,S[stage].d);const T=sample(S[stage].k,tt);
+ draw(T,tt);$('bar').style.width=Math.min(100,tt/S[stage].d*100)+'%';requestAnimationFrame(frame);}
+function fit(){$('app').style.zoom=Math.min(1,window.innerWidth/1280);}window.addEventListener('resize',fit);fit();render();requestAnimationFrame(frame);
+</script>
+</body>
+</html>
