@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Multifunctional valve – full sequence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#0E141B;color:#E8EDF2;font-family:Inter,sans-serif}
+a{color:#F2C230}a:hover{color:#FFD95C}
+#app{width:1280px;margin:0 auto;padding:40px 48px 48px;display:flex;flex-direction:column;gap:24px}
+.eyebrow{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#F2C230;font-weight:600}
+h1{margin:0;font-family:'Space Grotesk',sans-serif;font-size:36px;font-weight:700;letter-spacing:-.01em}
+h2{margin:0;font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:600;line-height:1.15}
+.muted{color:#9AA7B5}
+.card{background:#151D27;border:1px solid #243040;border-radius:12px}
+.k{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#F2C230}
+.v{font-size:13.5px;line-height:1.45;color:#C9D2DC}
+.v ul{margin:6px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+svg text{font-family:Inter,sans-serif;font-size:12.5px;fill:#9AA7B5;transition:fill .3s}
+svg text.lbl.on{fill:#F2C230;font-weight:700}
+.flick{transform-box:fill-box;transform-origin:50% 100%;animation:flick .5s ease-in-out infinite alternate}
+@keyframes flick{0%{transform:scale(1,1)}100%{transform:scale(.92,1.09)}}
+.flow{stroke-dasharray:3 11;animation:flow .7s linear infinite;transition:opacity .4s}
+@keyframes flow{to{stroke-dashoffset:-14}}
+.srow{display:flex;justify-content:space-between;align-items:center;font-size:13.5px;padding:5px 0;border-bottom:1px solid #1F2A36}
+.srow:last-child{border-bottom:0}
+.pill{font-size:11.5px;font-weight:700;letter-spacing:.04em;padding:3px 10px;border-radius:999px}
+.p-on{background:#1F4D36;color:#C8F5DC}.p-off{background:#2A3441;color:#9AA7B5}.p-warn{background:#5A2626;color:#FFD6D6}.p-hot{background:#5A3216;color:#FFD9B8}.p-blue{background:#1E3A5F;color:#CFE6FF}
+.step{all:unset;box-sizing:border-box;display:flex;align-items:center;gap:12px;width:100%;min-height:40px;padding:6px 12px;border-radius:10px;cursor:pointer;color:#9AA7B5;font:500 14px/1.3 Inter,sans-serif}
+.step:hover{background:#1C2632;color:#E8EDF2}
+.step:focus-visible,.ctl:focus-visible{outline:2px solid #F2C230;outline-offset:2px}
+.step .num{flex:none;display:flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:13px;border:1.5px solid #3A4757;font:600 12px Inter,sans-serif;color:#9AA7B5}
+.step.on{background:#1C2632;color:#F4F6F8}
+.step.on .num{background:#F2C230;border-color:#F2C230;color:#14110A}
+.step.done .num{border-color:#6E5A1C;color:#F2C230}
+.ctl{all:unset;box-sizing:border-box;display:flex;align-items:center;justify-content:center;gap:8px;height:44px;min-width:44px;padding:0 12px;border-radius:10px;cursor:pointer;background:#1C2632;color:#E8EDF2;font:600 14px Inter,sans-serif}
+.ctl:hover{background:#263241}
+.ctl.primary{background:#F2C230;color:#14110A;flex:1}
+.ctl.primary:hover{background:#FFD24A}
+.tip{margin:0;font-size:14px;line-height:1.5;color:#C9D2DC;background:#1A222D;border-radius:10px;padding:12px 14px}
+.tip b{color:#F2C230}
+@media (prefers-reduced-motion: reduce){.flow,.flick{animation:none!important}}
+</style>
+</head>
+<body>
+<div id="app">
+<header style="display:flex;flex-direction:column;gap:6px">
+<a href="./" style="font-size:14px;font-weight:500;text-decoration:none;margin-bottom:6px">← All topics</a>
+<div class="eyebrow">Gas safety devices &amp; controls · No.13</div>
+<h1>Multifunctional valve — full sequence</h1>
+<p class="muted" style="margin:0;font-size:16px">Thermoelectric FSD, regulator and solenoid valve in one body, from lighting the pilot to full shut-down. The parts doing the work in each step light up in yellow.</p>
+</header>
+
+<div style="display:flex;gap:32px;align-items:flex-start">
+<div style="width:780px;display:flex;flex-direction:column;gap:16px">
+<div class="card" style="width:780px;border-radius:16px;overflow:hidden;padding:6px 0 4px">
+<svg width="778" height="436" viewBox="0 0 1000 560" role="img" aria-label="Cutaway of a multifunctional gas valve with push-button thermoelectric FSD, regulator, solenoid valve, main burner and pilot" style="display:block">
+
+<!-- ===== pipework: pilot supply and thermocouple lead ===== -->
+<g fill="#4A5563">
+<rect x="0" y="288" width="96" height="56"></rect>
+<rect x="196" y="218" width="50" height="24"></rect>
+<rect x="228" y="218" width="18" height="288"></rect>
+<rect x="228" y="486" width="720" height="20"></rect>
+<rect x="928" y="292" width="20" height="214"></rect>
+</g>
+<g fill="#0A1017">
+<rect x="198" y="223" width="44" height="14"></rect>
+<rect x="232" y="223" width="10" height="279"></rect>
+<rect x="232" y="491" width="712" height="10"></rect>
+<rect x="933" y="296" width="10" height="205"></rect>
+</g>
+<rect x="0" y="296" width="96" height="40" fill="#F2C230"></rect>
+<g id="gP_pipe" fill="#F2C230" opacity="0">
+<rect x="198" y="223" width="44" height="14"></rect>
+<rect x="232" y="223" width="10" height="279"></rect>
+<rect x="232" y="491" width="712" height="10"></rect>
+<rect x="933" y="296" width="10" height="205"></rect>
+</g>
+<path class="flow" id="fIn" d="M 4 316 H 92" stroke="#3B2A00" stroke-width="2.5" fill="none" stroke-linecap="round"></path>
+<path class="flow" id="fPilot" d="M 200 230 H 237 V 496 H 938 V 300" stroke="#3B2A00" stroke-width="2" fill="none" stroke-linecap="round" opacity="0"></path>
+<path d="M 966 312 V 524 H 150 V 470" fill="none" stroke="#B4692F" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path>
+<path id="tcCurrent" d="M 966 312 V 524 H 150 V 470" fill="none" stroke="#FFE08A" stroke-width="2" stroke-dasharray="2 10" stroke-linecap="round" class="flow" opacity="0"></path>
+
+<!-- ===== FSD block ===== -->
+<rect x="80" y="110" width="136" height="272" rx="8" fill="#4A5563"></rect>
+<rect x="124" y="58" width="52" height="56" rx="4" fill="#4A5563"></rect>
+<rect x="132" y="64" width="36" height="50" fill="#0A1017"></rect>
+<!-- interiors -->
+<rect x="108" y="120" width="88" height="70" fill="#0A1017"></rect>
+<rect x="132" y="190" width="36" height="10" fill="#0A1017"></rect>
+<rect x="108" y="200" width="88" height="62" fill="#0A1017"></rect>
+<rect x="132" y="262" width="36" height="10" fill="#0A1017"></rect>
+<rect x="92" y="272" width="112" height="98" fill="#F2C230"></rect>
+<rect x="80" y="296" width="20" height="40" fill="#F2C230"></rect>
+<g id="gP" fill="#F2C230" opacity="0"><rect x="108" y="200" width="88" height="62"></rect><rect x="132" y="262" width="36" height="10"></rect></g>
+<g id="gT" fill="#F2C230" opacity="0"><rect x="108" y="120" width="88" height="70"></rect><rect x="132" y="190" width="36" height="10"></rect></g>
+<!-- magnet unit -->
+<rect x="112" y="380" width="76" height="92" rx="6" fill="#4A5563"></rect>
+<rect x="120" y="384" width="60" height="80" fill="#0A1017"></rect>
+<rect id="magGlow" x="122" y="424" width="56" height="40" rx="6" fill="#FF7A3D" opacity="0" style="filter:blur(5px)"></rect>
+<path d="M 126 458 V 432 H 174 V 458 H 162 V 444 H 138 V 458 Z" fill="#8E96A1"></path>
+<g stroke="#C9773D" stroke-width="2"><path d="M 124 448 H 140 M 124 453 H 140 M 160 448 H 176 M 160 453 H 176"></path></g>
+
+<!-- lower FSD assembly (disc, spindle, spring, armature) -->
+<path id="fsdSpring" d="" fill="none" stroke="#D5DBE2" stroke-width="2.2" stroke-linejoin="round"></path>
+<g id="lowerAsm">
+<rect x="147" y="262" width="6" height="140" fill="#B7C0CA"></rect>
+<rect x="120" y="272" width="60" height="10" rx="2" fill="#D5DBE2"></rect>
+<rect x="124" y="272" width="52" height="3" fill="#1F2937"></rect>
+<rect x="128" y="394" width="44" height="6" rx="1" fill="#D5DBE2"></rect>
+</g>
+<!-- upper assembly (button, interrupter, spindle) -->
+<path id="btnSpring" d="" fill="none" stroke="#E2A36B" stroke-width="2.2" stroke-linejoin="round"></path>
+<g id="upperAsm">
+<rect x="128" y="34" width="44" height="16" rx="4" fill="#E3E6EA"></rect>
+<rect x="147" y="50" width="6" height="212" fill="#B7C0CA"></rect>
+<rect x="124" y="150" width="52" height="10" rx="2" fill="#D5DBE2"></rect>
+<rect x="126" y="157" width="48" height="3" fill="#1F2937"></rect>
+</g>
+
+<!-- passage FSD → main body -->
+<rect x="196" y="136" width="72" height="36" fill="#4A5563"></rect>
+<rect x="196" y="142" width="74" height="24" fill="#0A1017"></rect>
+<rect id="gT2" x="196" y="142" width="74" height="24" fill="#F2C230" opacity="0"></rect>
+
+<!-- ===== main body ===== -->
+<rect x="262" y="110" width="400" height="290" rx="10" fill="#4A5563"></rect>
+<rect x="548" y="40" width="84" height="84" rx="6" fill="#4A5563"></rect>
+<rect x="352" y="380" width="96" height="26" fill="#4A5563"></rect>
+<!-- interiors -->
+<rect x="270" y="120" width="200" height="76" fill="#0A1017"></rect>
+<rect x="384" y="196" width="32" height="10" fill="#0A1017"></rect>
+<rect x="300" y="206" width="200" height="90" fill="#0A1017"></rect>
+<rect x="498" y="214" width="44" height="24" fill="#0A1017"></rect>
+<rect x="540" y="150" width="100" height="90" fill="#0A1017"></rect>
+<rect x="574" y="240" width="32" height="10" fill="#0A1017"></rect>
+<rect x="540" y="250" width="100" height="80" fill="#0A1017"></rect>
+<rect x="638" y="306" width="24" height="20" fill="#0A1017"></rect>
+<rect x="340" y="304" width="120" height="84" fill="#0A1017"></rect>
+<g id="gT3" fill="#F2C230" opacity="0"><rect x="270" y="120" width="200" height="76"></rect></g>
+<g id="gR" fill="#F2C230" opacity="0"><rect x="384" y="196" width="32" height="10"></rect><rect x="300" y="206" width="200" height="90"></rect><rect x="498" y="214" width="44" height="24"></rect><rect x="540" y="150" width="100" height="90"></rect></g>
+<g id="gO" fill="#F2C230" opacity="0"><rect x="574" y="240" width="32" height="10"></rect><rect x="540" y="250" width="100" height="80"></rect><rect x="638" y="306" width="24" height="20"></rect></g>
+<circle cx="466" cy="350" r="5" fill="#0A1017"></circle>
+
+<!-- regulator: valve, spindle, diaphragm, spring, adjusting screw -->
+<path id="regSpring" d="" fill="none" stroke="#E2A36B" stroke-width="2.4" stroke-linejoin="round"></path>
+<path id="diaphragm" d="" fill="none" stroke="#B3362F" stroke-width="5" stroke-linecap="round"></path>
+<g id="regAsm">
+<rect x="372" y="186" width="56" height="10" rx="2" fill="#D5DBE2"></rect>
+<rect x="376" y="193" width="48" height="3" fill="#1F2937"></rect>
+<rect x="397" y="196" width="6" height="110" fill="#B7C0CA"></rect>
+<rect x="364" y="302" width="72" height="7" rx="2" fill="#D5DBE2"></rect>
+</g>
+<rect x="390" y="384" width="20" height="24" rx="2" fill="#B7C0CA"></rect>
+<rect x="382" y="380" width="36" height="6" rx="1" fill="#D5DBE2"></rect>
+
+<!-- solenoid -->
+<rect x="556" y="48" width="70" height="68" fill="#0A1017"></rect>
+<rect id="coilL" x="558" y="52" width="16" height="62" rx="2" fill="#6B7685"></rect>
+<rect id="coilR" x="608" y="52" width="16" height="62" rx="2" fill="#6B7685"></rect>
+<path d="M 578 134 l 24 5 l -24 5 l 24 5 l -24 5 l 24 5 l -24 5 l 24 5 l -24 5 l 24 5 l -24 5 l 24 5" fill="none" stroke="#9AA3AD" stroke-width="1.8"></path>
+<g id="solAsm">
+<rect x="584" y="58" width="12" height="174" rx="2" fill="#D5DBE2"></rect>
+<rect x="570" y="230" width="40" height="10" rx="2" fill="#D5DBE2"></rect>
+<rect x="572" y="237" width="36" height="3" fill="#1F2937"></rect>
+</g>
+
+<!-- injector + burner -->
+<path d="M 660 300 H 700 L 724 312 V 320 L 700 332 H 660 Z" fill="#6B7685"></path>
+<rect id="gInj" x="660" y="309" width="56" height="14" fill="#F2C230" opacity="0"></rect>
+<rect x="730" y="300" width="172" height="32" rx="5" fill="#4A5563"></rect>
+<rect x="734" y="306" width="164" height="20" fill="#0A1017"></rect>
+<rect id="gBurner" x="734" y="306" width="164" height="20" fill="#F2C230" opacity="0"></rect>
+<g fill="#2E3946"><rect x="742" y="300" width="150" height="4"></rect></g>
+<path class="flow" id="fMain" d="M 200 154 H 300 V 158 H 400 V 210 H 520 V 226 H 590 V 290 H 650 V 316 H 890" stroke="#3B2A00" stroke-width="2.2" fill="none" stroke-linecap="round" opacity="0"></path>
+<g id="mainFlames" opacity="0" style="transition:opacity .5s">
+<g class="flick"><path d="M 752 300 C 744 296 745 284 752 268 C 759 284 760 296 752 300 Z" fill="#3D8BFF"></path></g>
+<g class="flick" style="animation-delay:-.2s"><path d="M 776 300 C 768 296 769 284 776 268 C 783 284 784 296 776 300 Z" fill="#3D8BFF"></path></g>
+<g class="flick" style="animation-delay:-.35s"><path d="M 800 300 C 792 296 793 284 800 268 C 807 284 808 296 800 300 Z" fill="#3D8BFF"></path></g>
+<g class="flick" style="animation-delay:-.1s"><path d="M 824 300 C 816 296 817 284 824 268 C 831 284 832 296 824 300 Z" fill="#3D8BFF"></path></g>
+<g class="flick" style="animation-delay:-.42s"><path d="M 848 300 C 840 296 841 284 848 268 C 855 284 856 296 848 300 Z" fill="#3D8BFF"></path></g>
+<g class="flick" style="animation-delay:-.27s"><path d="M 872 300 C 864 296 865 284 872 268 C 879 284 880 296 872 300 Z" fill="#3D8BFF"></path></g>
+</g>
+<!-- pilot + thermocouple -->
+<rect x="926" y="282" width="24" height="14" rx="3" fill="#6B7685"></rect>
+<circle id="tcGlow" cx="966" cy="262" r="12" fill="#FF6A2B" opacity="0" style="filter:blur(4px)"></circle>
+<rect x="962" y="254" width="8" height="58" rx="3" fill="#8E96A1"></rect>
+<rect id="tcTip" x="962" y="254" width="8" height="12" rx="3" fill="#8E96A1"></rect>
+<g id="pilotFlame" opacity="0" style="transition:opacity .4s"><g class="flick">
+<path d="M 938 284 C 924 280 924 262 936 248 C 944 240 954 238 970 232 C 966 250 960 266 952 276 C 948 282 944 284 938 284 Z" fill="#3D8BFF" opacity=".9"></path>
+<path d="M 938 284 C 932 280 933 270 940 262 C 944 268 946 276 944 282 Z" fill="#CFE6FF"></path></g></g>
+
+<!-- ===== labels ===== -->
+<g font-size="12.5">
+<g stroke="#5E6B7A" stroke-width="1" fill="none">
+<path d="M 72 156 H 122"></path><path d="M 72 278 H 120"></path><path d="M 104 432 H 122"></path>
+<path d="M 330 98 L 392 186"></path><path d="M 640 236 H 612"></path><path d="M 640 82 H 628"></path>
+<path d="M 300 420 L 356 360"></path><path d="M 430 432 L 404 408"></path><path d="M 520 444 L 488 300"></path>
+<path d="M 878 368 L 962 300"></path><path d="M 872 222 L 928 250"></path>
+</g>
+<text class="lbl" data-k="btn" x="180" y="46">Push button</text>
+<text class="lbl" data-k="intr" x="68" y="160" text-anchor="end">Interrupter</text>
+<text class="lbl" data-k="fsd" x="68" y="282" text-anchor="end">FSD valve</text>
+<text class="lbl" data-k="mag" x="100" y="436" text-anchor="end">Magnet</text>
+<text class="lbl" data-k="in" x="8" y="364">Inlet</text>
+<text class="lbl" data-k="pilotsup" x="262" y="480">Pilot supply</text>
+<text class="lbl" data-k="tclead" x="262" y="546">Thermocouple lead</text>
+<text class="lbl" data-k="reg" x="270" y="94">Regulator valve</text>
+<text class="lbl" data-k="coil" x="644" y="86">Solenoid coil</text>
+<text class="lbl" data-k="sol" x="644" y="240">Solenoid valve</text>
+<text class="lbl" data-k="regspring" x="250" y="434">Regulator spring</text>
+<text class="lbl" data-k="adj" x="410" y="446">Adjusting screw</text>
+<text class="lbl" data-k="dia" x="500" y="458">Diaphragm</text>
+<text class="lbl" data-k="inj" x="668" y="354">Injector</text>
+<text class="lbl" data-k="burner" x="760" y="352">Main burner</text>
+<text class="lbl" data-k="tc" x="874" y="372" text-anchor="end">Thermocouple</text>
+<text class="lbl" data-k="pilot" x="868" y="220" text-anchor="end">Pilot</text>
+</g>
+</svg>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px">
+<div class="card" style="padding:16px;display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;flex-direction:column;gap:4px"><div class="k">One valve, several controls</div><div class="v">This valve combines controls covered separately: a <b>thermoelectric FSD</b> (push button, interrupter, magnet and thermocouple), a <b>regulator</b> (diaphragm, spring and valve) and an <b>electrically operated solenoid valve</b> switched by the thermostat or boiler control.</div></div>
+<div style="display:flex;flex-direction:column;gap:4px"><div class="k">Lock-up</div><div class="v">With no gas flowing, outlet pressure builds on the diaphragm and pushes the regulator valve shut (lock-up). When the solenoid opens and gas flows, the pressure drops and the spring opens the valve to regulate.</div></div>
+</div>
+<div class="card" style="padding:16px;display:flex;flex-direction:column;gap:8px">
+<div class="k">Testing the FSD</div>
+<div class="v"><ul>
+<li>Connect a pressure gauge to the outlet test point.</li>
+<li>Light the burner at full rate, then turn off the gas at the inlet.</li>
+<li>Time for 60 seconds, or until you hear the valve operate (audible click), then turn the gas back on.</li>
+<li>There should be no momentary movement (“blip”) on the gauge when the gas is turned back on.</li>
+</ul></div>
+</div>
+</div>
+</div>
+
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;flex-direction:column;gap:10px">
+<div style="font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#9AA7B5">Step <span id="num">1</span> of 9</div>
+<div style="height:4px;background:#243040;border-radius:2px;overflow:hidden"><div id="bar" style="height:4px;background:#F2C230;width:0%"></div></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px;min-height:176px">
+<h2 id="title"></h2>
+<p id="body" style="margin:0;font-size:15.5px;line-height:1.55;color:#C9D2DC"></p>
+</div>
+<p class="tip" id="tipBox"><b>Tip: </b><span id="tip"></span></p>
+
+<div class="card" style="padding:8px 16px">
+<div class="srow"><span>Push button</span><span id="sBtn" class="pill"></span></div>
+<div class="srow"><span>FSD valve</span><span id="sFsd" class="pill"></span></div>
+<div class="srow"><span>Interrupter</span><span id="sIntr" class="pill"></span></div>
+<div class="srow"><span>Magnet</span><span id="sMag" class="pill"></span></div>
+<div class="srow"><span>Regulator</span><span id="sReg" class="pill"></span></div>
+<div class="srow"><span>Solenoid</span><span id="sSol" class="pill"></span></div>
+<div class="srow"><span>Pilot / main burner</span><span id="sBurn" class="pill"></span></div>
+</div>
+
+<div style="display:flex;gap:8px">
+<button class="ctl" id="back" aria-label="Previous step"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></button>
+<button class="ctl primary" id="toggle"><span id="pauseLbl" style="display:contents"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M8 5v14M16 5v14"></path></svg><span>Pause</span></span><span id="playLbl" style="display:none"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"></path></svg><span>Play</span></span></button>
+<button class="ctl" id="next" aria-label="Next step"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button>
+<button class="ctl" id="restart" aria-label="Restart from the beginning"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"></path><path d="M3 4v5h5"></path></svg></button>
+</div>
+
+<div id="steps" style="display:flex;flex-direction:column;gap:2px"></div>
+<div style="font-size:12px;line-height:1.5;color:#8592A0">Simplified schematic, not to scale. Always follow the manufacturer's instructions for the actual appliance.</div>
+</div>
+</div>
+</div>
+
+<script>
+// btn: button pressed, fsd: FSD valve open, mag: magnet energised, pilot: pilot lit, reg: regulator valve opening (1 open, 0 locked up),
+// coil: solenoid energised, sol: solenoid valve open, main: main burner lit, P/T/R/O: gas present in pilot / main body inlet / regulated / outlet sections
+const S=[
+{t:"Gas at the inlet",d:"Gas enters the inlet and fills the chamber below the FSD valve. The FSD spring holds the valve shut against its seat, so no gas can go any further.",tip:"With nothing lit, the magnet is not energised and the valve is held shut by its spring.",btn:0,fsd:0,mag:0,pilot:0,reg:1,coil:0,sol:0,main:0,P:0,T:0,R:0,O:0,hl:["in","fsd"]},
+{t:"Push button pressed — pilot lights",d:"Pressing the button pushes the FSD valve open and the armature onto the magnet. At the same time the interrupter closes, so gas can only reach the pilot supply. The pilot is lit and heats the thermocouple, which energises the magnet.",tip:"The interrupter stops gas reaching the main body while the button is held in.",btn:1,fsd:1,mag:1,pilot:1,reg:1,coil:0,sol:0,main:0,P:1,T:0,R:0,O:0,hl:["btn","fsd","intr","pilotsup","pilot","tc","mag"]},
+{t:"Button released — gas into the main body",d:"With the button released, the push button assembly lifts and the interrupter opens. The magnet holds the FSD valve open on its own, and gas flows into the main body of the valve.",tip:"If the pilot goes out when the button is released, suspect the thermocouple, its connection or the magnet unit.",btn:0,fsd:1,mag:1,pilot:1,reg:1,coil:0,sol:0,main:0,P:1,T:1,R:1,O:0,hl:["btn","intr","mag","tclead"]},
+{t:"Regulator locks up — solenoid energised",d:"No gas is flowing to the main burner yet, so pressure builds on the diaphragm and pushes the regulator valve onto its seat (lock-up). A call for heat energises the solenoid coil.",tip:"Lock-up means the regulator closes completely when there is no flow, so the pressure can't creep up.",btn:0,fsd:1,mag:1,pilot:1,reg:0,coil:1,sol:0,main:0,P:1,T:1,R:1,O:0,hl:["reg","dia","coil"]},
+{t:"Solenoid opens — main burner lights",d:"The energised coil lifts the solenoid valve off its seat. Gas flows to the injector, the pressure on the diaphragm drops, and the regulator spring opens the regulator valve. Gas enters the main burner and is lit by the pilot.",tip:"The regulator now holds the burner pressure steady; it is set with the adjusting screw to the figure on the data plate.",btn:0,fsd:1,mag:1,pilot:1,reg:.6,coil:1,sol:1,main:1,P:1,T:1,R:1,O:1,hl:["sol","coil","reg","regspring","adj","inj","burner"]},
+{t:"Thermostat satisfied — solenoid closes",d:"The thermostat or boiler control cuts the power. The solenoid coil de-energises, its spring closes the valve and the main burner goes out. The pilot stays lit.",tip:"The pilot supply is taken off before the main valve, which is why it keeps burning.",btn:0,fsd:1,mag:1,pilot:1,reg:.6,coil:0,sol:0,main:0,P:1,T:1,R:1,O:0,hl:["sol","coil","burner"]},
+{t:"Regulator returns to lock-up",d:"With no flow, the pressure on the diaphragm builds again and the regulator drops back to its lock-up position, ready for the next call for heat.",tip:"A regulator that fails to lock up needs investigating.",btn:0,fsd:1,mag:1,pilot:1,reg:0,coil:0,sol:0,main:0,P:1,T:1,R:1,O:0,hl:["reg","dia"]},
+{t:"Pilot goes out — magnet de-energises",d:"If the pilot goes out, the thermocouple cools and stops producing a voltage. The magnet de-energises and can no longer hold the armature.",tip:"The thermocouple takes a short time to cool, which is why there is a maximum shut-down time for an FSD.",btn:0,fsd:1,mag:0,pilot:0,reg:0,coil:0,sol:0,main:0,P:1,T:1,R:1,O:0,hl:["pilot","tc","mag","tclead"]},
+{t:"FSD valve closes — all gas off",d:"The spring snaps the FSD valve shut, cutting off all gas to the valve, the pilot included. With no pressure left on the diaphragm, the regulator spring returns it to its open position.",tip:"Test the FSD as for a thermoelectric valve: see Testing the FSD below.",btn:0,fsd:0,mag:0,pilot:0,reg:1,coil:0,sol:0,main:0,P:0,T:0,R:0,O:0,hl:["fsd","mag"]}
+];
+const D=[5000,7000,6000,6000,7000,6000,5000,6000,6000];
+let k=0,t=0,playing=true,last=performance.now();const $=id=>document.getElementById(id);
+const cur={btn:0,fsd:0,reg:1,sol:0};
+const steps=S.map((x,i)=>{const b=document.createElement('button');b.className='step';b.innerHTML='<span class="num">'+(i+1)+'</span><span></span>';b.lastChild.textContent=x.t;b.onclick=()=>go(i);$('steps').appendChild(b);return b;});
+function pill(id,txt,cls){const e=$(id);e.textContent=txt;e.className='pill '+cls;}
+function op(id,v){$(id).setAttribute('opacity',v?1:0);$(id).style.transition='opacity .6s';}
+function render(){const c=S[k];$('num').textContent=k+1;$('title').textContent=c.t;$('body').textContent=c.d;$('tip').textContent=c.tip;
+ steps.forEach((b,i)=>b.className='step '+(i===k?'on':i<k?'done':''));$('pauseLbl').style.display=playing?'contents':'none';$('playLbl').style.display=playing?'none':'contents';
+ op('gP',c.P);op('gP_pipe',c.P);op('gT',c.T);op('gT2',c.T);op('gT3',c.T);op('gR',c.R);op('gO',c.O);op('gInj',c.O);op('gBurner',c.O);
+ $('fPilot').setAttribute('opacity',c.P&&c.pilot?1:0);$('fMain').setAttribute('opacity',c.O?1:0);$('fIn').setAttribute('opacity',(c.P&&c.pilot)||c.O?1:0);
+ $('mainFlames').setAttribute('opacity',c.main?1:0);$('pilotFlame').setAttribute('opacity',c.pilot?1:0);
+ $('magGlow').setAttribute('opacity',c.mag?1:0);$('tcGlow').setAttribute('opacity',c.pilot?1:0);$('tcTip').setAttribute('fill',c.pilot?'#FF6A2B':'#8E96A1');$('tcCurrent').setAttribute('opacity',c.mag?1:0);
+ ['coilL','coilR'].forEach(id=>$(id).setAttribute('fill',c.coil?'#FF8A3D':'#6B7685'));
+ document.querySelectorAll('.lbl').forEach(l=>l.classList.toggle('on',c.hl.includes(l.dataset.k)));
+ pill('sBtn',c.btn?'PRESSED':'RELEASED',c.btn?'p-warn':'p-off');
+ pill('sFsd',c.fsd?'OPEN':'SHUT',c.fsd?'p-on':'p-off');
+ pill('sIntr',c.btn?'CLOSED':'OPEN',c.btn?'p-warn':'p-off');
+ pill('sMag',c.mag?'ENERGISED':'OFF',c.mag?'p-hot':'p-off');
+ pill('sReg',!c.R?'OPEN (no gas)':(c.reg===0?'LOCKED UP':(c.sol?'REGULATING':'OPEN')),!c.R?'p-off':(c.reg===0?'p-blue':'p-on'));
+ pill('sSol',c.sol?'OPEN':(c.coil?'ENERGISED':'OFF'),c.sol||c.coil?'p-on':'p-off');
+ pill('sBurn',c.main?'PILOT + MAIN':(c.pilot?'PILOT ONLY':'ALL OUT'),c.main?'p-on':(c.pilot?'p-blue':'p-off'));}
+function go(n){k=(n+S.length)%S.length;t=0;render();}
+$('back').onclick=()=>go(k-1);$('next').onclick=()=>go(k+1);$('restart').onclick=()=>{playing=true;go(0);};
+$('toggle').onclick=()=>{playing=!playing;render();};
+function zig(x1,x2,y1,y2,n){let s='M '+((x1+x2)/2)+' '+y1;for(let i=1;i<n;i++){const y=y1+(y2-y1)*i/n;s+=' L '+(i%2?x1:x2)+' '+y.toFixed(1);}return s+' L '+((x1+x2)/2)+' '+y2.toFixed(1);}
+function frame(now){const dt=Math.min(100,now-last);last=now;const c=S[k];
+ if(playing){t+=dt;if(t>=D[k])go(k+1);}
+ const a=1-Math.pow(.0025,dt/1000);
+ cur.btn+=(c.btn-cur.btn)*Math.min(1,a*1.6);cur.fsd+=(c.fsd-cur.fsd)*Math.min(1,a*(c.fsd?1.6:3));cur.reg+=(c.reg-cur.reg)*a;cur.sol+=(c.sol-cur.sol)*Math.min(1,a*2);
+ const bd=cur.btn*30, fd=Math.max(cur.fsd*30,bd);
+ $('upperAsm').setAttribute('transform','translate(0 '+bd.toFixed(2)+')');
+ $('lowerAsm').setAttribute('transform','translate(0 '+fd.toFixed(2)+')');
+ $('btnSpring').setAttribute('d',zig(136,164,50+bd,110,8));
+ $('fsdSpring').setAttribute('d',zig(130,170,282+fd,368,8));
+ const o=cur.reg*16;
+ $('regAsm').setAttribute('transform','translate(0 '+(-o).toFixed(2)+')');
+ const cy=306-o;$('diaphragm').setAttribute('d','M 302 300 C 330 300 340 '+cy.toFixed(1)+' 364 '+cy.toFixed(1)+' H 436 C 460 '+cy.toFixed(1)+' 470 300 498 300');
+ $('regSpring').setAttribute('d',zig(372,428,cy+7,380,9));
+ $('solAsm').setAttribute('transform','translate(0 '+(-cur.sol*22).toFixed(2)+')');
+ $('bar').style.width=Math.min(100,t/D[k]*100)+'%';requestAnimationFrame(frame);}
+function fit(){$('app').style.zoom=Math.min(1,window.innerWidth/1280);}window.addEventListener('resize',fit);fit();render();requestAnimationFrame(frame);
+</script>
+</body>
+</html>
