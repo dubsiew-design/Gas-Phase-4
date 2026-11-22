@@ -3,38 +3,42 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Zero governor (air/gas ratio valve)</title>
+<title>How a zero governor works</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap">
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#0E141B;color:#E8EDF2;font-family:Inter,sans-serif}
 a{color:#F2C230}a:hover{color:#FFD95C}
-#app{width:1280px;margin:0 auto;padding:40px 48px 48px;display:flex;flex-direction:column;gap:24px}
+#app{width:1280px;margin:0 auto;padding:40px 48px 48px;display:flex;flex-direction:column;gap:22px}
 .eyebrow{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#F2C230;font-weight:600}
 h1{margin:0;font-family:'Space Grotesk',sans-serif;font-size:36px;font-weight:700;letter-spacing:-.01em}
-h2{margin:0;font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:600;line-height:1.15}
+h2{margin:0;font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:600;line-height:1.15}
 .muted{color:#9AA7B5}
 .card{background:#151D27;border:1px solid #243040;border-radius:12px}
 .k{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#F2C230}
 .v{font-size:13.5px;line-height:1.45;color:#C9D2DC}
-.v ul{margin:6px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+.warnbar{display:flex;gap:12px;align-items:flex-start;background:#2A1A12;border:1px solid #6B3A1F;border-radius:12px;padding:12px 16px;font-size:13.5px;line-height:1.5;color:#FFD9B8}
+.warnbar svg{flex:none;margin-top:2px}
 svg text{font-family:Inter,sans-serif}
-.flick{transform-box:fill-box;transform-origin:50% 0%;animation:flick .5s ease-in-out infinite alternate}
-@keyframes flick{0%{transform:scale(1,1)}100%{transform:scale(.92,1.1)}}
-.flow{stroke-dasharray:3 11;animation:flow .7s linear infinite}
-@keyframes flow{to{stroke-dashoffset:-14}}
+.flick{transform-box:fill-box;transform-origin:0% 50%;animation:flick .45s ease-in-out infinite alternate}
+@keyframes flick{0%{transform:scale(1,1)}100%{transform:scale(1.1,.9)}}
 .vent-air{animation:breathe 1.4s ease-in-out infinite alternate}
 @keyframes breathe{0%{transform:translateX(0)}100%{transform:translateX(5px)}}
-.meter{display:flex;flex-direction:column;gap:6px}
+.meter{display:flex;flex-direction:column;gap:5px}
 .meter .row{display:flex;justify-content:space-between;font-size:13px;color:#9AA7B5}
-.meter .row b{color:#F4F6F8;font-family:'Space Grotesk',sans-serif;font-size:15px}
-.track{height:10px;background:#243040;border-radius:5px;overflow:hidden}
-.fill{height:10px;border-radius:5px;width:0%}
+.meter .row b{color:#F4F6F8;font-family:'Space Grotesk',sans-serif;font-size:14px}
+.track{height:9px;background:#243040;border-radius:5px;overflow:hidden}
+.fill{height:9px;border-radius:5px;width:0%}
 .chip{display:inline-flex;align-items:center;padding:6px 12px;border-radius:999px;font-size:13px;font-weight:600;line-height:1.3;align-self:flex-start}
-.step{all:unset;box-sizing:border-box;display:flex;align-items:center;gap:12px;width:100%;min-height:42px;padding:7px 12px;border-radius:10px;cursor:pointer;color:#9AA7B5;font:500 14px/1.3 Inter,sans-serif}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:#151D27;border:1px solid #243040;border-radius:12px;padding:6px}
+.tab{all:unset;box-sizing:border-box;text-align:center;min-height:44px;padding:7px 10px;border-radius:8px;cursor:pointer;font:600 13.5px/1.25 Inter,sans-serif;color:#9AA7B5}
+.tab:hover{color:#E8EDF2;background:#1C2632}
+.tab.on{background:#F2C230;color:#14110A}
+.tab small{display:block;font-weight:500;font-size:11.5px;opacity:.8}
+.step{all:unset;box-sizing:border-box;display:flex;align-items:center;gap:12px;width:100%;min-height:40px;padding:6px 12px;border-radius:10px;cursor:pointer;color:#9AA7B5;font:500 14px/1.3 Inter,sans-serif}
 .step:hover{background:#1C2632;color:#E8EDF2}
-.step:focus-visible,.ctl:focus-visible{outline:2px solid #F2C230;outline-offset:2px}
+.step:focus-visible,.ctl:focus-visible,.tab:focus-visible{outline:2px solid #F2C230;outline-offset:2px}
 .step .num{flex:none;display:flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:13px;border:1.5px solid #3A4757;font:600 12px Inter,sans-serif;color:#9AA7B5}
 .step.on{background:#1C2632;color:#F4F6F8}
 .step.on .num{background:#F2C230;border-color:#F2C230;color:#14110A}
@@ -43,7 +47,14 @@ svg text{font-family:Inter,sans-serif}
 .ctl:hover{background:#263241}
 .ctl.primary{background:#F2C230;color:#14110A;flex:1}
 .ctl.primary:hover{background:#FFD24A}
-@media (prefers-reduced-motion: reduce){.flow,.flick,.vent-air{animation:none!important}}
+.extra{display:none}
+.extra.show{display:flex}
+.mixrow{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:7px 10px;border-radius:8px;font-size:13.5px;background:#1A222D}
+.mixrow.ok{background:#1F4D36;color:#C8F5DC;font-weight:600}
+.chain{display:flex;flex-direction:column;gap:4px;font-size:13.5px}
+.chain div{padding:6px 10px;border-radius:8px;background:#1A222D;color:#9AA7B5;transition:background .3s,color .3s}
+.chain div.lit{background:#F2C230;color:#14110A;font-weight:600}
+@media (prefers-reduced-motion: reduce){.flick,.vent-air{animation:none!important}}
 </style>
 </head>
 <body>
@@ -51,160 +62,194 @@ svg text{font-family:Inter,sans-serif}
 <header style="display:flex;flex-direction:column;gap:6px">
 <a href="./" style="font-size:14px;font-weight:500;text-decoration:none;margin-bottom:6px">← All topics</a>
 <div class="eyebrow">Gas safety devices &amp; controls · No.14</div>
-<h1>Zero governor (air/gas ratio valve)</h1>
-<p class="muted" style="margin:0;font-size:16px">No air flow = no gas flow. The fan's suction draws gas through the governor in proportion to the air.</p>
+<h1>How a zero governor maintains the air-to-gas ratio</h1>
+<p class="muted" style="margin:0;font-size:16px">The relationship between fan speed, Venturi pressure, gas regulation and efficient combustion. Also called an air-to-gas ratio valve, air/gas valve or 1:1 gas valve.</p>
 </header>
+
+<div class="warnbar" role="note"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFB27A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 2 21h20L12 3z"></path><path d="M12 10v5M12 18h.01"></path></svg><span>This animation is for educational purposes only. Gas appliances must be tested, adjusted and serviced only by qualified personnel, following the appliance manufacturer's instructions. Never adjust a gas valve unless the manufacturer specifically permits it. Combustion adjustments must be verified with an approved combustion analyser.</span></div>
 
 <div style="display:flex;gap:32px;align-items:flex-start">
 <div style="width:780px;display:flex;flex-direction:column;gap:16px">
 <div class="card" style="width:780px;border-radius:16px;overflow:hidden;padding:6px 0">
-<svg width="778" height="436" viewBox="0 0 1000 560" role="img" aria-label="Zero governor feeding gas into a venturi on the side of a fan, which supplies a premix burner" style="display:block">
+<svg width="778" height="467" viewBox="0 0 1000 600" role="img" aria-label="Zero governor feeding gas into the throat of a Venturi in the air tube, with a fan and premix burner" style="display:block">
 
-<!-- ===== gas inlet + solenoid ===== -->
+<!-- ===== gas inlet + gas valve ===== -->
 <rect x="0" y="258" width="132" height="34" fill="#4A5563"></rect>
 <rect x="0" y="264" width="132" height="22" fill="#0A1017"></rect>
 <rect x="0" y="264" width="95" height="22" fill="#F2C230"></rect>
-<rect id="gA" x="95" y="264" width="37" height="22" fill="#F2C230" opacity="0"></rect>
-<path class="flow" id="fIn" d="M 4 275 H 128" stroke="#3B2A00" stroke-width="2.2" fill="none" stroke-linecap="round" opacity="0"></path>
 <rect x="60" y="240" width="70" height="70" rx="6" fill="#4A5563"></rect>
 <rect x="68" y="264" width="54" height="22" fill="#0A1017"></rect>
 <rect x="68" y="264" width="27" height="22" fill="#F2C230"></rect>
-<rect id="gA2" x="95" y="264" width="27" height="22" fill="#F2C230" opacity="0"></rect>
+<g id="gA"><rect x="95" y="264" width="37" height="22" fill="#F2C230"></rect></g>
 <rect id="coil" x="70" y="196" width="50" height="40" rx="4" fill="#6B7685"></rect>
 <g stroke="#3B4552" stroke-width="2"><path d="M 78 200 V 232 M 86 200 V 232 M 94 200 V 232 M 102 200 V 232 M 110 200 V 232"></path></g>
 <g id="gate"><rect x="91" y="208" width="8" height="84" rx="2" fill="#D5DBE2"></rect></g>
 
 <!-- ===== zero governor ===== -->
-<!-- inlet passage -->
 <rect x="120" y="240" width="260" height="70" fill="#4A5563"></rect>
 <rect x="130" y="264" width="200" height="22" fill="#0A1017"></rect>
-<rect id="gB" x="130" y="264" width="200" height="22" fill="#F2C230" opacity="0"></rect>
-<!-- outlet chamber -->
+<rect id="gB" x="130" y="264" width="200" height="22" fill="#F2C230"></rect>
 <rect x="160" y="300" width="240" height="100" rx="6" fill="#4A5563"></rect>
 <rect x="172" y="302" width="216" height="86" fill="#0A1017"></rect>
 <rect x="232" y="286" width="36" height="16" fill="#0A1017"></rect>
-<g id="gC" opacity="0"><rect x="172" y="302" width="216" height="86" fill="#F2C230"></rect><rect x="232" y="286" width="36" height="16" fill="#F2C230"></rect></g>
-<!-- diaphragm housing + spring tower -->
+<g id="gC"><rect x="172" y="302" width="216" height="86" fill="#F2C230"></rect><rect x="232" y="286" width="36" height="16" fill="#F2C230"></rect></g>
 <rect x="120" y="140" width="260" height="100" rx="8" fill="#4A5563"></rect>
 <rect x="200" y="40" width="100" height="110" rx="6" fill="#4A5563"></rect>
 <rect x="212" y="52" width="76" height="104" fill="#0A1017"></rect>
 <rect x="132" y="152" width="236" height="38" fill="#0A1017"></rect>
-<rect id="lowCh" x="132" y="192" width="236" height="36" fill="#0A1017"></rect>
+<rect x="132" y="192" width="236" height="36" fill="#0A1017"></rect>
 <rect id="lowSuck" x="132" y="192" width="236" height="36" fill="#3D6FA8" opacity="0"></rect>
 <rect x="288" y="98" width="12" height="10" fill="#0A1017"></rect>
 <g class="vent-air" stroke="#7CC4FF" stroke-width="2" fill="none" stroke-linecap="round"><path d="M 304 96 h 7 M 304 110 h 7"></path></g>
-<!-- adjusting screw + hook -->
 <rect x="238" y="22" width="24" height="22" rx="3" fill="#D5DBE2"></rect>
+<path d="M 244 33 H 256" stroke="#1F2937" stroke-width="2"></path>
 <rect x="246" y="44" width="8" height="18" fill="#B7C0CA"></rect>
-<!-- impulse pipe: outlet → under the working diaphragm -->
-<path d="M 368 210 H 436 V 346" fill="none" stroke="#4A5563" stroke-width="12" stroke-linejoin="round"></path>
-<path id="impulse" d="M 366 210 H 436 V 346" fill="none" stroke="#0A1017" stroke-width="5" stroke-linejoin="round"></path>
-<!-- outlet pipe to venturi throat -->
-<path d="M 388 345 H 610 V 250" fill="none" stroke="#4A5563" stroke-width="30" stroke-linejoin="round"></path>
-<path d="M 386 345 H 610 V 248" fill="none" stroke="#0A1017" stroke-width="18" stroke-linejoin="round"></path>
-<path id="gD" d="M 386 345 H 610 V 248" fill="none" stroke="#F2C230" stroke-width="18" stroke-linejoin="round" opacity="0"></path>
-<path class="flow" id="fGas" d="M 140 275 H 250 V 345 H 610 V 254" stroke="#3B2A00" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0"></path>
+<!-- sensing (impulse) pipe -->
+<path d="M 368 210 H 424 V 346" fill="none" stroke="#4A5563" stroke-width="12" stroke-linejoin="round"></path>
+<path id="impulse" d="M 366 210 H 424 V 346" fill="none" stroke="#0A1017" stroke-width="5" stroke-linejoin="round"></path>
+<!-- gas outlet pipe to Venturi throat -->
+<path d="M 388 345 H 470 V 452" fill="none" stroke="#4A5563" stroke-width="28" stroke-linejoin="round"></path>
+<path d="M 386 345 H 470 V 456" fill="none" stroke="#0A1017" stroke-width="16" stroke-linejoin="round"></path>
+<path id="gD" d="M 386 345 H 470 V 456" fill="none" stroke="#F2C230" stroke-width="16" stroke-linejoin="round"></path>
+<!-- throttle screw -->
+<circle cx="470" cy="398" r="11" fill="#D5DBE2"></circle><path d="M 463 405 L 477 391" stroke="#1F2937" stroke-width="2.4"></path>
 <!-- moving parts -->
 <path id="tSpring" d="" fill="none" stroke="#E2A36B" stroke-width="2.6" stroke-linejoin="round"></path>
 <path id="wDia" d="" fill="none" stroke="#B3362F" stroke-width="5" stroke-linecap="round"></path>
-<path id="cDia" d="M 232 266 Q 250 258 268 266" fill="none" stroke="#B3362F" stroke-width="4"></path>
 <g id="mov">
 <rect x="204" y="185" width="92" height="9" rx="2" fill="#D5DBE2"></rect>
 <rect x="247" y="194" width="6" height="108" fill="#B7C0CA"></rect>
 <path d="M 222 302 H 278 L 264 318 H 236 Z" fill="#D5DBE2"></path>
 </g>
-<!-- suction arrows on diaphragm -->
 <g id="suckArrows" opacity="0" fill="#7CC4FF" stroke="#7CC4FF" stroke-width="3" stroke-linecap="round">
 <path d="M 160 196 V 220"></path><path d="M 153 214 L 160 224 L 167 214 Z" stroke="none"></path>
 <path d="M 340 196 V 220"></path><path d="M 333 214 L 340 224 L 347 214 Z" stroke="none"></path>
 </g>
+<text id="suckTxt" x="250" y="224" text-anchor="middle" font-size="11" font-weight="700" fill="#CFE6FF" opacity="0">PRESSURE SIGNAL</text>
 
-<!-- ===== venturi, fan, burner ===== -->
-<path d="M 516 172 L 610 206 L 734 172 L 734 288 L 610 254 L 516 288 Z" fill="#4A5563"></path>
-<path d="M 520 184 L 610 214 L 730 184 L 730 276 L 610 246 L 520 276 Z" fill="#0A1017"></path>
-<path id="mixFill" d="M 612 214 L 730 184 L 730 276 L 612 246 Z" fill="#5FD3B8" opacity="0"></path>
-<g id="airFlow" opacity="0" fill="none" stroke="#7CC4FF" stroke-width="2.4" stroke-linecap="round">
-<path class="flow" d="M 470 214 H 600"></path><path class="flow" d="M 470 230 H 600"></path><path class="flow" d="M 470 246 H 600"></path>
-</g>
-<path id="fMix" class="flow" d="M 616 230 H 790" stroke="#0F3D33" stroke-width="2.4" fill="none" stroke-linecap="round" opacity="0"></path>
-<!-- fan -->
-<circle cx="800" cy="230" r="68" fill="#4A5563"></circle>
-<circle cx="800" cy="230" r="56" fill="#0A1017"></circle>
-<circle id="fanMix" cx="800" cy="230" r="56" fill="#5FD3B8" opacity="0"></circle>
+<!-- ===== air tube with Venturi ===== -->
+<path d="M 0 428 H 880 V 440 H 560 L 470 458 L 380 440 H 0 Z" fill="#4A5563"></path>
+<path d="M 0 500 H 380 L 470 482 L 560 500 H 880 V 512 H 0 Z" fill="#4A5563"></path>
+<path d="M 0 440 H 380 L 470 458 L 560 440 H 880 V 500 H 560 L 470 482 L 380 500 H 0 Z" fill="#0A1017"></path>
+<rect x="462" y="436" width="16" height="24" fill="#0A1017"></rect>
+<rect id="gThroat" x="462" y="436" width="16" height="24" fill="#F2C230"></rect>
+<g id="particles"></g>
+<!-- fan (moved by JS between arrangements) -->
+<g id="fan">
+<circle cx="0" cy="470" r="56" fill="#4A5563"></circle>
+<circle cx="0" cy="470" r="46" fill="#0A1017"></circle>
 <g id="impeller">
-<path d="M 800 230 L 800 180 Q 826 190 818 214 Z M 800 230 L 850 230 Q 840 256 816 248 Z M 800 230 L 800 280 Q 774 270 782 246 Z M 800 230 L 750 230 Q 760 204 784 212 Z" fill="#B7C0CA"></path>
-<circle cx="800" cy="230" r="10" fill="#E3E6EA"></circle>
+<path d="M 0 470 L 0 430 Q 22 438 15 458 Z M 0 470 L 40 470 Q 32 492 12 486 Z M 0 470 L 0 510 Q -22 502 -15 482 Z M 0 470 L -40 470 Q -32 448 -12 454 Z" fill="#B7C0CA"></path>
+<circle cx="0" cy="470" r="8" fill="#E3E6EA"></circle>
 </g>
-<!-- duct to burner -->
-<rect x="784" y="294" width="32" height="130" fill="#4A5563"></rect>
-<rect x="790" y="290" width="20" height="134" fill="#0A1017"></rect>
-<rect id="ductMix" x="790" y="290" width="20" height="134" fill="#5FD3B8" opacity="0"></rect>
-<path id="fDuct" class="flow" d="M 800 296 V 426" stroke="#0F3D33" stroke-width="2.4" fill="none" opacity="0"></path>
-<rect x="690" y="420" width="220" height="32" rx="14" fill="#6B7685"></rect>
-<g fill="#3B4552"><rect x="704" y="448" width="192" height="4"></rect></g>
-<g id="flames" opacity="0" style="transition:opacity .4s">
-<g class="flick"><path d="M 712 452 C 704 456 705 468 712 486 C 719 468 720 456 712 452 Z" fill="#3D8BFF"></path></g>
-<g class="flick" style="animation-delay:-.2s"><path d="M 738 452 C 730 456 731 468 738 486 C 745 468 746 456 738 452 Z" fill="#3D8BFF"></path></g>
-<g class="flick" style="animation-delay:-.35s"><path d="M 764 452 C 756 456 757 468 764 486 C 771 468 772 456 764 452 Z" fill="#3D8BFF"></path></g>
-<g class="flick" style="animation-delay:-.1s"><path d="M 790 452 C 782 456 783 468 790 486 C 797 468 798 456 790 452 Z" fill="#3D8BFF"></path></g>
-<g class="flick" style="animation-delay:-.42s"><path d="M 816 452 C 808 456 809 468 816 486 C 823 468 824 456 816 452 Z" fill="#3D8BFF"></path></g>
-<g class="flick" style="animation-delay:-.27s"><path d="M 842 452 C 834 456 835 468 842 486 C 849 468 850 456 842 452 Z" fill="#3D8BFF"></path></g>
-<g class="flick" style="animation-delay:-.05s"><path d="M 868 452 C 860 456 861 468 868 486 C 875 468 876 456 868 452 Z" fill="#3D8BFF"></path></g>
-<g class="flick" style="animation-delay:-.3s"><path d="M 892 452 C 884 456 885 468 892 486 C 899 468 900 456 892 452 Z" fill="#3D8BFF"></path></g>
+</g>
+<!-- burner + flue -->
+<rect x="880" y="380" width="40" height="180" rx="6" fill="#6B7685"></rect>
+<g fill="#3B4552"><rect x="916" y="392" width="4" height="156"></rect></g>
+<rect x="888" y="296" width="24" height="86" fill="#4A5563"></rect>
+<g id="flames" opacity="0" style="transition:opacity .4s"></g>
+<!-- analyser (test mode) -->
+<g id="analyser" opacity="0" style="transition:opacity .4s">
+<path d="M 900 316 H 936" stroke="#E3E6EA" stroke-width="3"></path>
+<rect x="934" y="282" width="62" height="70" rx="6" fill="#E3E6EA"></rect>
+<rect x="940" y="290" width="50" height="26" rx="3" fill="#1F2937"></rect>
+<text x="965" y="308" text-anchor="middle" font-size="11" font-weight="700" fill="#7EE0A8">– – –</text>
+<text x="965" y="336" text-anchor="middle" font-size="9" font-weight="700" fill="#1F2937">ANALYSER</text>
+</g>
+<text id="testTxt" x="610" y="390" font-size="12" font-weight="700" fill="#F2C230" opacity="0">TEST MODE</text>
+
+<!-- gauges -->
+<g id="gaugeW">
+<path d="M 300 512 V 534" stroke="#4A5563" stroke-width="5"></path>
+<circle cx="300" cy="560" r="26" fill="#E3E6EA"></circle><circle cx="300" cy="560" r="21" fill="#F7F8FA"></circle>
+<path d="M 300 539 V 544" stroke="#1F2937" stroke-width="2"></path>
+<text x="284" y="572" font-size="9" font-weight="700" fill="#2563A8">−</text><text x="311" y="572" font-size="9" font-weight="700" fill="#B3362F">+</text>
+<path id="needleW" d="M 300 560 L 300 542" stroke="#B3362F" stroke-width="2.6" stroke-linecap="round"></path>
+<circle cx="300" cy="560" r="3" fill="#1F2937"></circle>
+</g>
+<g id="gaugeT">
+<path d="M 470 512 V 534" stroke="#4A5563" stroke-width="5"></path>
+<circle cx="470" cy="560" r="26" fill="#E3E6EA"></circle><circle cx="470" cy="560" r="21" fill="#F7F8FA"></circle>
+<path d="M 470 539 V 544" stroke="#1F2937" stroke-width="2"></path>
+<text x="454" y="572" font-size="9" font-weight="700" fill="#2563A8">−</text><text x="481" y="572" font-size="9" font-weight="700" fill="#B3362F">+</text>
+<path id="needleT" d="M 470 560 L 470 542" stroke="#B3362F" stroke-width="2.6" stroke-linecap="round"></path>
+<circle cx="470" cy="560" r="3" fill="#1F2937"></circle>
 </g>
 
-<!-- ===== labels ===== -->
+<!-- warnings on adjustment points -->
+<g id="warn" opacity="0" style="transition:opacity .4s">
+<path d="M 300 2 L 322 40 H 278 Z" fill="#E0A100" stroke="#14110A" stroke-width="2"></path><text x="300" y="34" text-anchor="middle" font-size="18" font-weight="800" fill="#14110A">!</text>
+<path d="M 506 378 L 528 416 H 484 Z" fill="#E0A100" stroke="#14110A" stroke-width="2"></path><text x="506" y="410" text-anchor="middle" font-size="18" font-weight="800" fill="#14110A">!</text>
+</g>
+
+<!-- labels -->
 <g font-size="12.5" fill="#C9D2DC">
 <g stroke="#5E6B7A" stroke-width="1" fill="none">
 <path d="M 186 34 H 236"></path><path d="M 172 110 L 238 120"></path><path d="M 96 172 L 140 188"></path>
-<path d="M 96 328 L 238 268"></path><path d="M 96 372 L 232 312"></path><path d="M 330 136 L 304 104"></path>
+<path d="M 96 352 L 232 312"></path><path d="M 330 136 L 304 104"></path><path d="M 496 360 H 482"></path>
 </g>
-<text x="80" y="38">Adjusting screw</text>
-<text x="80" y="114">Tension spring</text>
-<text x="10" y="168">Working</text><text x="10" y="182">diaphragm</text>
-<text x="10" y="326">Compensating</text><text x="10" y="340">diaphragm</text>
-<text x="10" y="376">Valve</text>
+<text x="80" y="30">Offset screw</text><text x="80" y="44" font-size="10.5" fill="#9AA7B5">(adjustment)</text>
+<text x="80" y="114">Spring</text>
+<text x="10" y="168">Regulator</text><text x="10" y="182">diaphragm</text>
+<text x="10" y="350">Regulator valve</text><text x="10" y="364" font-size="10.5" fill="#9AA7B5">and seat</text>
 <text x="334" y="140">Vent</text>
-<text x="446" y="262">Impulse pipe</text>
-<text x="12" y="250" fill="#9AA7B5">Gas in</text>
-<text x="64" y="226" text-anchor="end">Solenoid</text>
-<text x="456" y="372">Gas to venturi</text>
-<text x="462" y="200" fill="#9AA7B5">Air in</text>
-<text x="560" y="162">Venturi</text>
-<text x="872" y="168">Fan</text>
-<text x="826" y="372" fill="#9AA7B5">Gas/air mixture</text>
-<text x="694" y="508">Premix burner</text>
+<text x="434" y="276">Sensing</text><text x="434" y="290">passage</text>
+<text x="12" y="312" fill="#9AA7B5">Gas inlet</text>
+<text x="64" y="226" text-anchor="end">Gas</text><text x="64" y="240" text-anchor="end">valve</text>
+<text x="500" y="364">Throttle</text>
+<text x="388" y="334" fill="#9AA7B5">Gas outlet</text>
+<text id="airInLbl" x="8" y="422" fill="#7CC4FF" font-weight="600">Combustion air in →</text>
+<text x="434" y="530">Venturi throat</text>
+<text x="316" y="596" font-size="11" fill="#9AA7B5">Wide: higher</text>
+<text x="486" y="596" font-size="11" fill="#9AA7B5">Throat: lower</text>
+<text id="fanLbl" x="0" y="402" text-anchor="middle">Fan</text>
+<text x="862" y="374" text-anchor="end">Burner</text>
+<text x="884" y="290">Flue</text>
+<text x="640" y="588" fill="#9AA7B5">Air/gas mixture to burner →</text>
 </g>
-<text id="suckTxt" x="250" y="214" text-anchor="middle" font-size="11" font-weight="700" fill="#CFE6FF" opacity="0">NEGATIVE PRESSURE</text>
 </svg>
 </div>
 
 <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px">
 <div class="card" style="padding:16px;display:flex;flex-direction:column;gap:12px">
-<div style="display:flex;flex-direction:column;gap:4px"><div class="k">How it works</div><div class="v">The fan draws air in through the venturi on the side of the fan housing. This creates a suction on the outlet of the 1:1 gas valve attached to the venturi. When the gas valve is energised, gas is drawn out of it, and the gas flow is proportional to the suction generated by the fan.</div></div>
-<div style="display:flex;flex-direction:column;gap:4px"><div class="k">Balance of forces</div><div class="v">The valve position is set by the adjustable setpoint (tension) spring, the counterspring, the pressure difference across the working diaphragm (referenced to atmosphere through the vent), the air impulse pressure, and the weight of the moving parts.</div></div>
+<div style="display:flex;flex-direction:column;gap:4px"><div class="k">Two common arrangements</div><div class="v"><b>Negative pressure:</b> the fan is after the valve and <i>pulls</i> air through it. <b>Positive pressure:</b> the fan is before the valve and <i>pushes</i> air through it. The principle is the same: a change in air flow creates a pressure change that controls the gas regulator. Use the tabs to compare.</div></div>
+<div style="display:flex;flex-direction:column;gap:4px"><div class="k">What it does — and doesn't do</div><div class="v">The valve responds to the pressure created by the air flow. It does not measure oxygen or combustion quality, so the mixture must always be checked with an approved combustion analyser.</div></div>
 </div>
 <div class="card" style="padding:16px;display:flex;flex-direction:column;gap:12px">
-<div style="display:flex;flex-direction:column;gap:4px"><div class="k">Offset adjustment</div><div class="v">Set with the adjusting screw, best described as CO₂ against fan speed. A <b>positive offset</b> gives rising CO₂ as the fan slows and can still pass gas at zero air flow (potentially high CO). A <b>negative offset</b> gives falling CO₂ as the fan slows and stops gas before zero air flow (inherently safe).</div></div>
-<div style="display:flex;flex-direction:column;gap:4px"><div class="k">Faults</div><div class="v">Incorrect adjustment of the offset · incorrect adjustment of the throttle · failed system component. Always follow the manufacturer's instructions.</div></div>
+<div style="display:flex;flex-direction:column;gap:4px"><div class="k">Offset &amp; throttle</div><div class="v">Some zero governors have an offset adjustment and a throttle adjustment. The correct method depends entirely on the appliance and valve manufacturer. Never adjust by guesswork or by looking at the flame. Some manufacturers specify very small steps (such as a maximum quarter-turn between tests) — follow this only where their instructions say so.</div></div>
+<div style="display:flex;flex-direction:column;gap:4px"><div class="k">Faults (from the course notes)</div><div class="v">Incorrect adjustment of the offset · incorrect adjustment of the throttle · failed system component.</div></div>
 </div>
 </div>
 </div>
 
-<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:18px">
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:16px">
+<div class="tabs" role="group" aria-label="Air system arrangement">
+<button class="tab on" id="tabNeg" aria-pressed="true">Negative pressure<small>Fan after valve — pulls</small></button>
+<button class="tab" id="tabPos" aria-pressed="false">Positive pressure<small>Fan before valve — pushes</small></button>
+</div>
 <div style="display:flex;flex-direction:column;gap:10px">
-<div style="font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#9AA7B5">Step <span id="num">1</span> of 7</div>
+<div style="font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#9AA7B5">Step <span id="num">1</span> of 9</div>
 <div style="height:4px;background:#243040;border-radius:2px;overflow:hidden"><div id="bar" style="height:4px;background:#F2C230;width:0%"></div></div>
 </div>
-<div style="display:flex;flex-direction:column;gap:10px;min-height:214px">
+<div style="display:flex;flex-direction:column;gap:10px;min-height:206px">
 <h2 id="title"></h2>
-<p id="body" style="margin:0;font-size:15.5px;line-height:1.55;color:#C9D2DC"></p>
+<p id="body" style="margin:0;font-size:15px;line-height:1.55;color:#C9D2DC"></p>
 </div>
 
-<div class="card" style="padding:16px;display:flex;flex-direction:column;gap:12px">
-<div class="meter"><div class="row"><span>Fan speed</span><b id="vFan">0%</b></div><div class="track"><div id="mFan" class="fill" style="background:#B7C0CA"></div></div></div>
-<div class="meter"><div class="row"><span>Suction at venturi (air flow)</span><b id="vAir">none</b></div><div class="track"><div id="mAir" class="fill" style="background:#7CC4FF"></div></div></div>
-<div class="meter"><div class="row"><span>Gas flow through governor</span><b id="vGas">none</b></div><div class="track"><div id="mGas" class="fill" style="background:#F2C230"></div></div></div>
+<div id="xMix" class="extra card" style="padding:12px;flex-direction:column;gap:6px">
+<div class="mixrow"><span>Too much gas</span><span>rich mixture</span></div>
+<div class="mixrow"><span>Too much air</span><span>lean mixture</span></div>
+<div class="mixrow ok"><span>Correct proportion</span><span>stable combustion</span></div>
+</div>
+<div id="xChain" class="extra card chain" style="padding:12px">
+<div>Fan speed changes</div><div>→ Air flow changes</div><div>→ Venturi pressure changes</div><div>→ Regulator position changes</div><div>→ Gas flow changes</div><div>→ Air-to-gas ratio is maintained</div><div>→ Efficient combustion</div>
+</div>
+
+<div class="card" style="padding:14px 16px;display:flex;flex-direction:column;gap:10px">
+<div class="meter"><div class="row"><span>Fan speed (set by control board)</span><b id="vFan">0%</b></div><div class="track"><div id="mFan" class="fill" style="background:#B7C0CA"></div></div></div>
+<div class="meter"><div class="row"><span>Air velocity at Venturi throat</span><b id="vAir">none</b></div><div class="track"><div id="mAir" class="fill" style="background:#7CC4FF"></div></div></div>
+<div class="meter"><div class="row"><span>Pressure signal to regulator</span><b id="vSig">none</b></div><div class="track"><div id="mSig" class="fill" style="background:#3D6FA8"></div></div></div>
+<div class="meter"><div class="row"><span>Gas flow</span><b id="vGas">none</b></div><div class="track"><div id="mGas" class="fill" style="background:#F2C230"></div></div></div>
 <span id="chip" class="chip"></span>
 </div>
 
@@ -216,75 +261,104 @@ svg text{font-family:Inter,sans-serif}
 </div>
 
 <div id="steps" style="display:flex;flex-direction:column;gap:2px"></div>
-<div style="font-size:12px;line-height:1.5;color:#8592A0">Simplified schematic, not to scale. Arrangements vary between boilers; always follow the manufacturer's instructions.</div>
-</div>
 </div>
 </div>
 
+<div class="warnbar" role="note"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFB27A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 2 21h20L12 3z"></path><path d="M12 10v5M12 18h.01"></path></svg><span>Always follow the appliance manufacturer's instructions. Gas valve adjustments and combustion testing must be performed only by appropriately qualified personnel using the correct instruments and procedures. Never alter a gas valve setting without authorisation from the manufacturer's instructions.</span></div>
+</div>
+
 <script>
-// keyframes: [ms, solenoid open 0/1, fan 0..1]; flame: burner lit during step
+// keyframes [ms, gas valve open 0/1, fan 0..1]
 const S=[
-{t:"Standby",d:5000,k:[[0,0,0]],flame:0,
- b:"No call for heat. The solenoid valve is shut and the fan is off. The tension spring holds the zero governor's valve up against its seat, so it is closed."},
-{t:"Solenoid opens — still no gas flow",d:6000,k:[[0,0,0],[700,1,0]],flame:0,
- b:"On a call for heat the solenoid lifts and gas reaches the zero governor. But with the fan off there is no suction, so the governor valve stays shut. No air flow = no gas flow."},
-{t:"Fan starts — diaphragm drops",d:7000,k:[[0,1,0],[500,1,0],[3000,1,0.45]],flame:0,
- b:"The fan starts and draws air through the venturi. The suction at the venturi throat is felt down the impulse pipe, under the working diaphragm. The diaphragm is pulled down against the tension spring and opens the valve, so gas is drawn towards the fan."},
-{t:"Gas and air mix — burner lights",d:6000,k:[[0,1,0.45]],flame:1,
- b:"Air drawn in through the venturi mixes with the gas. The mixture flows through the fan into the premix burner, where it is ignited."},
-{t:"Fan speeds up — more gas",d:7000,k:[[0,1,0.45],[3500,1,1]],flame:1,
- b:"For more heat the fan speeds up. More air flow means more suction, so the diaphragm drops further and the valve opens wider. The gas flow rises in proportion to the air, keeping the gas/air ratio correct."},
-{t:"Fan slows — less gas",d:7000,k:[[0,1,1],[3500,1,0.3]],flame:1,
- b:"As demand falls the fan slows down. The suction drops, the tension spring pulls the diaphragm back up and the valve closes down, reducing the gas in proportion to the air."},
-{t:"Shut down",d:7000,k:[[0,1,0.3],[600,0,0.3],[1800,0,0.3],[4200,0,0]],flame:0,
- b:"When the call for heat ends the solenoid closes and the burner goes out. The fan runs on briefly, then stops. With no suction, the tension spring closes the zero governor's valve."}
+{t:"What is a zero governor?",d:6500,k:[[0,0,0]],
+ b:"A zero governor — also called an air-to-gas ratio valve, air/gas valve or 1:1 gas valve — is used on high-efficiency condensing boilers to keep the correct relationship between the combustion air and the gas supplied to the burner."},
+{t:"Fan and Venturi — the pressure signal",d:8000,k:[[0,0,0],[600,0,0],[3500,0,0.45]],
+ b:"The control board sets the fan speed, and so the air flow. As air passes the narrow Venturi throat it speeds up, which creates a lower pressure there. This lower pressure is passed through the sensing passage to the gas regulator. The Venturi creates the pressure signal — it does not create the gas flow on its own."},
+{t:"Regulator opens — gas enters the air flow",d:8000,k:[[0,0,0.45],[700,1,0.45]],flame:1,
+ b:"With the gas valve energised, the pressure signal acts on the regulator diaphragm and the regulator moves away from its seat. Gas passes into the air stream at the Venturi, and the fan carries the air and gas mixture to the burner, where it burns."},
+{t:"Fan speeds up — high fire",d:8000,k:[[0,1,0.45],[4000,1,1]],flame:1,
+ b:"Fan speed increases, so more air moves through the Venturi and faster. The pressure signal gets stronger (more negative), the regulator opens further and more gas enters the air stream. The flame gets larger, with the gas following the air."},
+{t:"Fan slows — low fire",d:8000,k:[[0,1,1],[4000,1,0.3]],flame:1,
+ b:"Fan speed decreases, so less air passes through the Venturi and the pressure signal weakens. The regulator moves closer to its seat and the gas flow reduces, giving a smaller but correctly proportioned mixture."},
+{t:"Gas and air mixing",d:7000,k:[[0,1,0.3],[2000,1,0.6]],flame:1,mix:1,
+ b:"Blue air and yellow gas combine after the valve, and the fan mixes them thoroughly before the burner. The correct mixture is essential for safe, stable and efficient combustion. It must be checked using the manufacturer's procedure and an approved combustion analyser."},
+{t:"Adjustment points — warning",d:7000,k:[[0,1,0.6]],flame:1,warn:1,
+ b:"Some zero governors have an offset adjustment and a throttle adjustment. Do not adjust either unless the manufacturer's instructions specifically allow it. Never adjust by guesswork or by visual flame inspection alone; where adjustment is permitted, verify it with a calibrated combustion analyser."},
+{t:"Manufacturer's test mode",d:9000,k:[[0,1,0.6],[1500,1,0.25],[4000,1,0.25],[5500,1,1],[9000,1,1]],flame:1,test:1,
+ b:"Many boilers have a temporary test mode that runs the appliance at a set rate, often minimum or maximum. The engineer measures the flue gas with a combustion analyser and compares the readings with the manufacturer's figures for that model."},
+{t:"Summary",d:11000,k:[[0,1,0.3],[3500,1,0.65],[7000,1,1],[11000,1,1]],flame:1,chain:1,
+ b:"A zero governor links gas flow to combustion air flow. The fan controls the air; the Venturi creates a pressure signal; that signal moves the regulator, which controls the gas. As the fan speed changes the gas flow changes with it, keeping the correct air-to-gas relationship across the firing range."}
 ];
-const N=S.length;let k=0,t=0,playing=true,last=performance.now(),ang=0,gs=0,fanS=0;const $=id=>document.getElementById(id);
+const N=S.length;let k=0,t=0,playing=true,last=performance.now(),ang=0,gs=0,fanS=0,mode='neg';const $=id=>document.getElementById(id);
+const NS='http://www.w3.org/2000/svg';
 const steps=S.map((x,i)=>{const b=document.createElement('button');b.className='step';b.innerHTML='<span class="num">'+(i+1)+'</span><span></span>';b.lastChild.textContent=x.t;b.onclick=()=>go(i);$('steps').appendChild(b);return b;});
+// flames
+(function(){const g=$('flames');for(let i=0;i<8;i++){const y=402+i*20;const w=document.createElementNS(NS,'g');w.setAttribute('class','flick');w.style.animationDelay=(-i*0.13)+'s';const p=document.createElementNS(NS,'path');p.setAttribute('d','M 920 '+(y-7)+' C 930 '+(y-8)+' 948 '+(y-3)+' 962 '+y+' C 948 '+(y+3)+' 930 '+(y+8)+' 920 '+(y+7)+' Z');p.setAttribute('fill','#3D8BFF');w.appendChild(p);g.appendChild(w);}})();
+// particles
+const P=[];(function(){const g=$('particles');for(let i=0;i<46;i++){const c=document.createElementNS(NS,'circle');c.setAttribute('r','3.2');g.appendChild(c);P.push({x:Math.random()*880,o:Math.random()*2-1,m:Math.random(),el:c});}
+ for(let i=0;i<10;i++){const c=document.createElementNS(NS,'circle');c.setAttribute('r','3.2');c.setAttribute('fill','#FFB020');g.appendChild(c);P.push({gas:1,s:i/10,el:c});}})();
 function render(){const c=S[k];$('num').textContent=k+1;$('title').textContent=c.t;$('body').textContent=c.b;
- steps.forEach((b,i)=>b.className='step '+(i===k?'on':i<k?'done':''));$('pauseLbl').style.display=playing?'contents':'none';$('playLbl').style.display=playing?'none':'contents';}
+ steps.forEach((b,i)=>b.className='step '+(i===k?'on':i<k?'done':''));$('pauseLbl').style.display=playing?'contents':'none';$('playLbl').style.display=playing?'none':'contents';
+ $('xMix').className='extra card'+(c.mix?' show':'');$('xChain').className='extra card chain'+(c.chain?' show':'');
+ $('warn').setAttribute('opacity',c.warn?1:0);$('analyser').setAttribute('opacity',c.test?1:0);
+ $('tabNeg').className='tab'+(mode==='neg'?' on':'');$('tabPos').className='tab'+(mode==='pos'?' on':'');$('tabNeg').setAttribute('aria-pressed',mode==='neg');$('tabPos').setAttribute('aria-pressed',mode==='pos');
+ const fx=mode==='neg'?700:150;$('fan').setAttribute('transform','translate('+fx+' 0)');$('fanLbl').setAttribute('x',fx);$('fanLbl').setAttribute('y',mode==='neg'?402:546);
+ $('airInLbl').setAttribute('x',mode==='neg'?8:220);}
 function go(n){k=(n+N)%N;t=0;render();}
 $('back').onclick=()=>go(k-1);$('next').onclick=()=>go(k+1);$('restart').onclick=()=>{playing=true;go(0);};
 $('toggle').onclick=()=>{playing=!playing;render();};
+$('tabNeg').onclick=()=>{mode='neg';render();};$('tabPos').onclick=()=>{mode='pos';render();};
 const ease=x=>x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2;
 function sample(kf,tt){if(tt<=kf[0][0])return kf[0].slice(1);for(let i=1;i<kf.length;i++){if(tt<=kf[i][0]){const a=kf[i-1],b=kf[i],f=ease((tt-a[0])/(b[0]-a[0]));return[a[1]+(b[1]-a[1])*f,a[2]+(b[2]-a[2])*f];}}return kf[kf.length-1].slice(1);}
 function zig(x1,x2,y1,y2,n){let s='M '+((x1+x2)/2)+' '+y1;for(let i=1;i<n;i++){const y=y1+(y2-y1)*i/n;s+=' L '+(i%2?x1:x2)+' '+y.toFixed(1);}return s+' L '+((x1+x2)/2)+' '+y2.toFixed(1);}
+const half=x=>{const dx=Math.abs(x-470);return dx>=90?30:12+18*(dx/90);};
+const gasPath=[[250,318],[250,345],[470,345],[470,458]];
+function along(s){const L=[27,220,113],T=360;let d=s*T;for(let i=0;i<3;i++){if(d<=L[i]){const a=gasPath[i],b=gasPath[i+1],f=d/L[i];return[a[0]+(b[0]-a[0])*f,a[1]+(b[1]-a[1])*f];}d-=L[i];}return gasPath[3];}
 const lvl=v=>v<0.03?'none':v<0.4?'low':v<0.75?'medium':'high';
+function needle(id,cx,deg){const r=deg*Math.PI/180;$(id).setAttribute('d','M '+cx+' 560 L '+(cx+18*Math.sin(r)).toFixed(1)+' '+(560-18*Math.cos(r)).toFixed(1));}
 function frame(now){const dt=Math.min(100,now-last);last=now;const c=S[k];
  t+=dt;if(playing&&t>=c.d)go(k+1);
  const tt=Math.min(t,S[k].d);const [sol,fan]=sample(S[k].k,tt);
- // governor follows suction (slight lag)
  gs+=(fan-gs)*Math.min(1,dt/350);
- const v=gs; const gas=sol>0.5?v:0; const solOpen=sol>0.5;
+ const open=sol>0.5,v=gs,gas=open?v:0,gasOn=gas>0.03,airOn=fan>0.02;
  const d=v*18;
  $('mov').setAttribute('transform','translate(0 '+d.toFixed(2)+')');
  $('wDia').setAttribute('d','M 134 190 C 168 190 180 '+(190+d).toFixed(1)+' 204 '+(190+d).toFixed(1)+' H 296 C 320 '+(190+d).toFixed(1)+' 332 190 366 190');
  $('tSpring').setAttribute('d',zig(238,262,62,185+d,12));
- $('gate').setAttribute('transform','translate(0 '+(-sol*34).toFixed(2)+')');
- $('coil').setAttribute('fill',solOpen?'#FF8A3D':'#6B7685');
- ['gA','gA2','gB'].forEach(id=>$(id).setAttribute('opacity',solOpen?1:0));
- const gasOn=gas>0.03;
- $('gC').setAttribute('opacity',gasOn?1:0);$('gD').setAttribute('opacity',gasOn?1:0);
- $('fIn').setAttribute('opacity',gasOn?1:0);$('fGas').setAttribute('opacity',gasOn?1:0);
- $('lowSuck').setAttribute('opacity',(fan*0.85).toFixed(2));$('impulse').setAttribute('stroke',fan>0.03?'#3D6FA8':'#0A1017');
+ $('gate').setAttribute('transform','translate(0 '+(-sol*34).toFixed(2)+')');$('coil').setAttribute('fill',open?'#FF8A3D':'#6B7685');
+ ['gA','gB'].forEach(id=>$(id).setAttribute('opacity',open?1:0));
+ ['gC','gD','gThroat'].forEach(id=>$(id).setAttribute('opacity',gasOn?1:0));
+ $('lowSuck').setAttribute('opacity',(fan*0.85).toFixed(2));$('impulse').setAttribute('stroke',airOn?'#3D6FA8':'#0A1017');
  $('suckArrows').setAttribute('opacity',fan>0.05?1:0);$('suckTxt').setAttribute('opacity',fan>0.05?1:0);
- const airOn=fan>0.03;$('airFlow').setAttribute('opacity',airOn?Math.min(1,fan*1.5).toFixed(2):0);
- const mixOn=gasOn&&airOn;
- ['mixFill','fanMix','ductMix'].forEach(id=>$(id).setAttribute('opacity',mixOn?0.55:0));
- $('fMix').setAttribute('opacity',airOn?1:0);$('fDuct').setAttribute('opacity',airOn?1:0);
- $('fMix').setAttribute('stroke',mixOn?'#0F3D33':'#7CC4FF');$('fDuct').setAttribute('stroke',mixOn?'#0F3D33':'#7CC4FF');
  $('flames').setAttribute('opacity',c.flame&&gasOn?1:0);
- const fl=$('flames');fl.style.transform='scale(1,'+(0.6+gas*0.6).toFixed(2)+')';fl.style.transformOrigin='800px 452px';
- fanS+=(fan-fanS)*Math.min(1,dt/200);ang=(ang+fanS*dt*0.9)%360;$('impeller').setAttribute('transform','rotate('+ang.toFixed(1)+' 800 230)');
+ $('flames').style.transform='scale('+(0.55+gas*0.75).toFixed(2)+',1)';$('flames').style.transformOrigin='920px 470px';
+ $('testTxt').setAttribute('opacity',c.test?1:0);$('testTxt').textContent=c.test?(fan<0.4?'TEST MODE: MINIMUM RATE':(fan>0.9?'TEST MODE: MAXIMUM RATE':'TEST MODE')):'';
+ // fan
+ fanS+=(fan-fanS)*Math.min(1,dt/200);ang=(ang+fanS*dt*0.9)%360;const fx=mode==='neg'?700:150;$('impeller').setAttribute('transform','rotate('+ang.toFixed(1)+' 0 470)');
+ // gauges: wide section vs throat
+ const wide=mode==='neg'?-8*fan:40*fan, throat=wide-75*fan*fan-10*fan;
+ needle('needleW',300,Math.max(-80,Math.min(80,wide)));needle('needleT',470,Math.max(-80,Math.min(80,throat)));
+ // particles
+ for(const p of P){
+  if(p.gas){p.el.setAttribute('opacity',gasOn?1:0);if(gasOn){p.s=(p.s+gas*dt*0.00045)%1;const q=along(p.s);p.el.setAttribute('cx',q[0].toFixed(1));p.el.setAttribute('cy',q[1].toFixed(1));}continue;}
+  const h=half(p.x);
+  if(airOn){p.x+=fan*dt*0.13*(30/h);if(p.x>880){p.x=0;p.o=Math.random()*2-1;p.m=Math.random();}}
+  const y=470+p.o*h*0.78;p.el.setAttribute('cx',p.x.toFixed(1));p.el.setAttribute('cy',y.toFixed(1));
+  let col='#7CC4FF';
+  if(gasOn&&p.x>470){col=p.m<0.4?'#FFB020':'#7CC4FF';if(mode==='neg'&&p.x>756)col='#5FD3B8';}
+  p.el.setAttribute('fill',col);p.el.setAttribute('opacity',airOn?Math.min(1,0.35+fan):0.0);
+ }
  // meters
  $('mFan').style.width=(fan*100).toFixed(0)+'%';$('vFan').textContent=Math.round(fan*100)+'%';
  $('mAir').style.width=(fan*100).toFixed(0)+'%';$('vAir').textContent=lvl(fan);
+ $('mSig').style.width=(fan*100).toFixed(0)+'%';$('vSig').textContent=lvl(fan);
  $('mGas').style.width=(gas*100).toFixed(0)+'%';$('vGas').textContent=lvl(gas);
  let txt,bg,fg;
- if(!airOn&&!gasOn){txt=solOpen?'No air flow = no gas flow':'Off';bg=solOpen?'#1E3A5F':'#2A3441';fg=solOpen?'#CFE6FF':'#9AA7B5';}
- else if(airOn&&!solOpen){txt='Fan running, solenoid shut — air only';bg='#1E3A5F';fg='#CFE6FF';}
- else{txt='Gas follows air — ratio held';bg='#1F4D36';fg='#C8F5DC';}
+ if(!airOn){txt='No air flow = no gas flow';bg='#2A3441';fg='#C9D2DC';}
+ else if(!open){txt='Air only — gas valve not yet energised';bg='#1E3A5F';fg='#CFE6FF';}
+ else{txt='Gas follows air — ratio maintained';bg='#1F4D36';fg='#C8F5DC';}
  const chip=$('chip');chip.textContent=txt;chip.style.background=bg;chip.style.color=fg;
+ if(c.chain){const lit=Math.min(7,Math.floor(tt/1200)+1);[...$('xChain').children].forEach((e,i)=>e.className=i<lit?'lit':'');}
  $('bar').style.width=Math.min(100,tt/S[k].d*100)+'%';requestAnimationFrame(frame);}
 function fit(){$('app').style.zoom=Math.min(1,window.innerWidth/1280);}window.addEventListener('resize',fit);fit();render();requestAnimationFrame(frame);
 </script>
