@@ -1,1 +1,305 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unsafe Situations Trainer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* VOICE everyday learning: an apprentice drill, clear and practical
+   IDEA the engineer's warning-notice pad and the red DANGER DO NOT USE tag
+   PICTURE the live drill itself, with a tag-shaped scorecard tracking each section
+   COLOUR white ground, black ink, label red for ID, hazard amber for AR, slate for "other"
+   TYPE Archivo 800 (label lettering) + Source Sans 3
+   LAYOUT title and tag scorecard across the top, section tabs, then one card at a time in a calm column */
+:root{color-scheme:light dark;
+--bg:light-dark(#ffffff,#141313);--ink:light-dark(#161616,#f2efe9);--soft:light-dark(#5b5753,#b9b3aa);
+--line:light-dark(#d9d4cc,#3a3633);--panel:light-dark(#f6f3ee,#1f1d1b);
+--red:light-dark(#c8191f,#ff5a52);--redbg:light-dark(#fde8e6,#3a1615);
+--amb:light-dark(#9a5b00,#f3b23c);--ambbg:light-dark(#fff1d6,#3a2a0e);
+--sl:light-dark(#3d5566,#9fc1d6);--slbg:light-dark(#e6eef3,#1a262e);
+--ok:light-dark(#1d6b3a,#6fd39a);--okbg:light-dark(#e3f4ea,#13281c)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:17px/1.55 "Source Sans 3",system-ui,sans-serif;overflow-x:clip}
+h1,h2,h3,.tag b,.tabs button{font-family:Archivo,system-ui,sans-serif}
+.wrap{max-width:1000px;margin:0 auto;padding:0 max(4vw,16px)}
+header{border-bottom:6px solid var(--red);padding:28px 0 22px}
+.top{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px;align-items:end}
+h1{font-size:clamp(32px,5vw,46px);line-height:1.05;letter-spacing:-.02em;margin:0 0 8px;text-wrap:balance}
+.back{display:inline-block;margin:0 0 10px;font-weight:600;color:var(--red);text-decoration:none;font-size:15px}
+.back:hover{text-decoration:underline}
+.lede{margin:0;color:var(--soft);max-width:60ch}
+.tag{border:3px solid var(--red);border-radius:10px;padding:10px 14px 12px 34px;position:relative;background:var(--bg);min-width:230px}
+.tag::before{content:"";position:absolute;left:11px;top:50%;width:12px;height:12px;margin-top:-6px;border-radius:50%;border:3px solid var(--red)}
+.tag b{display:block;color:var(--red);font-size:15px;font-weight:800;letter-spacing:.01em}
+.tag .big{font:800 clamp(30px,4vw,40px)/1 Archivo,sans-serif}
+.tag small{display:block;color:var(--soft);font-size:14px}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding:16px 0 4px;scrollbar-width:thin}
+.tabs button{flex:none;font-size:15px;font-weight:700;border:2px solid var(--line);background:var(--panel);color:var(--ink);border-radius:999px;padding:10px 16px;min-height:44px;cursor:pointer}
+.tabs button[aria-selected=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.tabs button span{font-weight:500;opacity:.75;margin-left:6px}
+button:focus-visible,input:focus-visible,label:focus-within{outline:3px solid var(--amb);outline-offset:2px}
+main{padding:18px 0 48px}
+.intro{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:start;margin-bottom:18px}
+.intro h2{font-size:28px;line-height:1.1;margin:0 0 6px;letter-spacing:-.01em}
+.intro p{margin:0;color:var(--soft);max-width:68ch}
+.tools{display:flex;gap:8px;flex-wrap:wrap}
+.btn{font:600 15px "Source Sans 3",sans-serif;border:2px solid var(--line);background:var(--bg);color:var(--ink);border-radius:8px;padding:9px 14px;min-height:44px;cursor:pointer}
+.btn:hover{border-color:var(--ink)}
+.card{border:2px solid var(--line);border-radius:12px;padding:18px 20px;margin:0 0 14px;background:var(--bg)}
+.card.done{background:var(--panel)}
+.qn{font:700 14px Archivo,sans-serif;color:var(--soft);margin:0 0 4px}
+.q{font-size:18px;font-weight:600;margin:0 0 12px}
+.opts{display:grid;gap:8px}
+.opts.cls{grid-template-columns:repeat(auto-fit,minmax(11em,1fr))}
+.opt{display:flex;align-items:center;gap:10px;text-align:left;font:16px/1.35 "Source Sans 3",sans-serif;color:var(--ink);background:var(--bg);border:2px solid var(--line);border-radius:8px;padding:10px 12px;min-height:48px;cursor:pointer;width:100%}
+.opt:hover:not(:disabled){border-color:var(--ink)}
+.opt:disabled{cursor:default}
+.pill{flex:none;font:800 13px Archivo,sans-serif;border-radius:5px;padding:3px 7px;white-space:nowrap}
+.p-ID{background:var(--red);color:#fff}.p-AR{background:var(--amb);color:light-dark(#fff,#1a1200)}
+.p-ARN{background:var(--ambbg);color:var(--amb);border:2px dashed var(--amb)}.p-NU{background:var(--slbg);color:var(--sl)}
+.opt.right{border-color:var(--ok);background:var(--okbg)}
+.opt.wrong{border-color:var(--red);background:var(--redbg)}
+.fb{margin-top:12px;padding:12px 14px;border-radius:8px;border-left:5px solid var(--ok);background:var(--okbg)}
+.fb.no{border-left-color:var(--red);background:var(--redbg)}
+.fb b{font-family:Archivo,sans-serif}
+.fb .ref{display:block;color:var(--soft);font-size:14px;margin-top:4px}
+.key{display:grid;grid-template-columns:repeat(auto-fit,minmax(13em,1fr));gap:10px;margin:0 0 18px}
+.key div{border:2px solid var(--line);border-radius:10px;padding:10px 12px;font-size:15px;line-height:1.4}
+.key .pill{display:inline-block;margin-bottom:6px}
+.test{border:3px solid var(--ink);border-radius:12px;padding:14px 18px;margin:0 0 18px;background:var(--panel)}
+.test h3{margin:0 0 6px;font-size:19px}
+.test ol{margin:0;padding-left:22px}
+.order{display:grid;gap:8px;margin:10px 0}
+.slot{border:2px dashed var(--line);border-radius:8px;padding:10px 12px;min-height:48px;color:var(--soft);display:flex;gap:10px;align-items:center}
+.slot.f{border-style:solid;color:var(--ink);background:var(--panel)}
+.slot i{font:800 16px Archivo,sans-serif;font-style:normal;color:var(--red);flex:none;width:1.4em}
+.chk{display:flex;gap:10px;align-items:flex-start;border:2px solid var(--line);border-radius:8px;padding:10px 12px;cursor:pointer;min-height:48px}
+.chk input{width:20px;height:20px;margin-top:2px;flex:none;accent-color:var(--red)}
+.chk.right{border-color:var(--ok);background:var(--okbg)}.chk.wrong{border-color:var(--red);background:var(--redbg)}.chk.miss{border-color:var(--amb);border-style:dashed}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(18em,1fr));gap:8px}
+.sum{border-top:2px solid var(--line);margin-top:24px;padding-top:16px;color:var(--soft);font-size:15px}
+.sum strong{color:var(--ink)}
+@media(max-width:640px){.top,.intro{grid-template-columns:minmax(0,1fr)}.tag{min-width:0}.q{font-size:17px}}
+@media(prefers-reduced-motion:no-preference){.fb{animation:in .25s ease-out}@keyframes in{from{opacity:0;transform:translateY(-4px)}}}
+</style>
+</head>
+<body>
+<header><div class="wrap top">
+  <div>
+    <a class="back" href="../index.html">← All topics</a>
+    <h1>Unsafe situations: classify, make safe, report</h1>
+    <p class="lede">Practice drill on the Gas Industry Unsafe Situations Procedure (IGEM/G/11 Ed 2, July 2025 amendments). Answer each card, read the feedback, check the clause in your copy of the procedure.</p>
+  </div>
+  <div class="tag" aria-live="polite"><b>SCORECARD</b><span class="big" id="tot">0 / 0</span><small id="totsub">answered so far</small></div>
+</div></header>
+<div class="wrap"><nav class="tabs" id="tabs" role="tablist" aria-label="Exercise sections"></nav></div>
+<main class="wrap" id="main"></main>
+<div class="wrap"><p class="sum">Scenarios are written for training and paraphrase IGEM/G/11; clause numbers point to Table 1 and Sections 3 to 8. The final decision on site always rests with the competent engineer's own risk assessment, so use the procedure itself (the controlled copy) for real work.</p></div>
 
+<script>
+{
+const CL={ID:"ID",AR:"AR",ARN:"AR (no label)",NU:"Not ID/AR"};
+const CLD={ID:"Immediately Dangerous",AR:"At Risk, turn off and label",ARN:"At Risk, turning off won't remove the risk",NU:"Not an ID/AR situation"};
+
+const classify=[
+{s:"You carry out a tightness test on a domestic natural gas installation and it fails. You cannot find and repair the leak today.",a:"ID",ref:"Table 1, 1.2(1)",why:"A failed tightness test is the textbook ID: a gas escape is an immediate danger to life and property."},
+{s:"The installation passes the tightness test, but there is still a distinct smell of gas in the kitchen.",a:"ID",ref:"Table 1, 1.2(2)",why:"Passing the test does not cancel the smell. Still ID. For natural gas, call the Gas Emergency Contact Centre."},
+{s:"An open-flued back boiler fails its spillage test. The customer says it has \"always been like that\".",a:"ID",ref:"Section 6.1",why:"Failed spillage tests are listed in 6.1 as ID: products of combustion are entering the room."},
+{s:"Under the stairs you find a capped-off pipe whose cap has been removed. The open end is still connected to the gas supply.",a:"ID",ref:"Table 1, 3.1",why:"An open end on live pipework is ID. Seal it with an appropriate gas fitting."},
+{s:"A DIY job has connected a cooker using a length of garden hose pushed over the gas tap.",a:"ID",ref:"Table 1, 3.2",why:"Inappropriate material (hose pipe or plastic water pipe) carries a very high risk of a serious incident: ID."},
+{s:"A conservatory has been built over the terminal of a room-sealed combi, so the flue now discharges inside the conservatory.",a:"ID",ref:"Table 1, 6.1",why:"A flue terminating into an internal space is ID."},
+{s:"On a room-sealed condensing boiler, the flue gas analysis sample point cap is missing. You see no sign of leakage.",a:"ID",ref:"Table 1, 7.2(1)",why:"The flue gas sample cap is ID regardless of evidence of leakage. Compare with the air inlet cap (next card)."},
+{s:"Same type of boiler, but this time it's the air inlet sample point cap that is missing. No distress, condensate or POC leakage, no CO alarm.",a:"AR",ref:"Table 1, 7.2(2)",why:"Air inlet cap missing with no evidence of leakage is AR. Any evidence of distress, leakage or CO alarm would make it ID."},
+{s:"An open-flued boiler sits in a compartment. There is a purpose-provided vent at low level only, none at high level.",a:"AR",ref:"Table 1, 4.2(1)",why:"Compartment air supply at one level only is AR. Turn off, label, warning notice."},
+{s:"An existing open-flued fire is operating safely. You measure the purpose-provided vent at 92% of the required free area.",a:"NU",ref:"Table 1, 4.1 / 4.2 notes",why:"For existing installations, 90% or more of the requirement is acceptable if the appliance is otherwise operating safely. Not unsafe, but record it."},
+{s:"A flueless cooker is fitted in a bed-sitting room of about 16 m³. The room has a good permanent vent.",a:"AR",ref:"Table 1, 4.4",why:"Flueless cooker in a bed/sitting room under 20 m³ is AR irrespective of ventilation."},
+{s:"An old open-flued instantaneous water heater is fitted in a bathroom above the bath.",a:"ID",ref:"Table 1, 7.5",why:"A flueless or non-room-sealed appliance in a room containing a bath or shower is ID."},
+{s:"On a gas fire, the flame supervision device has been bypassed so the burner stays lit with the thermocouple disconnected.",a:"ID",ref:"Table 1, 7.4",why:"Safety devices that are inoperative or disabled are ID."},
+{s:"Combustion analyser readings on a flued boiler are outside the manufacturer's limits. No spillage or leakage is evident.",a:"AR",ref:"Table 1, 7.6(2)",why:"Unsatisfactory combustion on a flued appliance is AR. On a flueless appliance the same readings would be ID."},
+{s:"An open-flued appliance does not meet the manufacturer's clearances, and the surrounding material is scorched.",a:"ID",ref:"Table 1, 5.1(1)",why:"Clearances not met with signs of distress is ID. Without distress it would be AR."},
+{s:"A low-pressure (up to 75 mbar) PE service pipe rises above ground on the outside wall with no protection.",a:"ARN",ref:"Table 1, 3.10(2)",why:"Turning off at the ECV does nothing to the exposed service pipe, so no DANGER DO NOT USE label. Inform the Gas Transporter; notice says who to contact."},
+{s:"In a non-emergency, you notice the ECV has no handle fitted.",a:"ARN",ref:"Table 1, 3.5",why:"AR, but turning off won't remove the risk, so no label. Tell the responsible person access and a means of operation is required by law, and notify the Gas Emergency Contact Centre about the missing handle."},
+{s:"An LPG bulk storage tank is sited too close to the house, and the house wall is not a fire wall.",a:"ARN",ref:"Table 1, 12.13",why:"AR. Turning off will not move the tank, so no label. Advise the responsible person to contact the gas supplier."},
+{s:"An LPG bulk storage vessel has been installed inside a building (a brick-built store).",a:"ID",ref:"Table 1, 12.1",why:"A vessel located within a building is ID. Inform the responsible person and the gas supplier."},
+{s:"A meter room serving a block of flats holds a bank of meters and has no purpose-provided ventilation.",a:"ARN",ref:"Table 1, 4.10a",why:"AR. Turning off one ECV won't remove the risk, so no label. The warning notice must stress telling the building owner and gas supplier."},
+{s:"A customer is using an outdoor patio heater in the living room during winter.",a:"AR",ref:"Table 1, 7.9",why:"Outdoor-only appliance used indoors is AR. With permission, move it outside."},
+{s:"There is no main equipotential bonding on the gas pipe near the meter, and you can't confirm it exists elsewhere.",a:"NU",ref:"Table 1, 3.19 / clause 3.3.2",why:"This is an electrical safety issue, not ID or AR. Leave a bonding notice advising checking by an electrically competent person (Reg 18(2))."},
+{s:"Gas pipework runs up inside a cavity wall, not in a purpose-designed duct.",a:"AR",ref:"Table 1, 3.13",why:"Pipework in a cavity (other than crossing it by the shortest route) is AR."},
+{s:"While working on the boiler, you see heavy sooting and staining around a neighbouring gas fire and its chimney. Nobody has had it looked at.",a:"ID",ref:"Table 1, 1.5",why:"Visual signs of spillage, no work on that appliance, no evidence it's been corrected: ID. Your visual risk assessment duty applies."},
+{s:"A natural gas meter has been fitted with no pressure regulator at the primary meter.",a:"ID",ref:"Table 1, 2.1",why:"Missing or unsuitable primary meter regulator is ID. Advise the responsible person to contact the gas supplier (from their bill)."},
+{s:"Working pressure at the outlet of the primary meter is so low that the hob flames are lifting and unstable.",a:"ID",ref:"Table 1, 2.2",why:"Incorrect meter outlet pressure affecting safe operation (combustion or flame stability) is ID. Notify the Gas Emergency Contact Centre."},
+{s:"The relief vent on a medium-pressure fed regulator discharges gas continuously whenever the customer's appliances are running.",a:"ID",ref:"Table 1, 2.4(1)",why:"Continuous discharge while gas is in use is ID. Notify the Gas Emergency Contact Centre."},
+{s:"The meter and regulator in an outside box are badly corroded. No gas escape is detected.",a:"AR",ref:"Table 1, 2.5",why:"Significant damage from corrosion, mechanical damage or electrical contact is AR. For a primary meter, advise the responsible person to contact the gas supplier."},
+{s:"Inside the meter box, the installation pipe goes through the wall into the house with no sleeve.",a:"AR",ref:"Table 1, 2.8(1)",why:"A pathway for gas to enter the property is AR. Seal it where practical, otherwise advise the responsible person, and make sure the gas supplier is told."},
+{s:"There is a strong smell of gas in the hall, and the ECV has no handle so it can't be turned off.",a:"ID",ref:"Table 1, 3.3",why:"In an emergency, no ECV handle or restricted access is ID. Turn off all appliances and notify the Gas Emergency Contact Centre (LPG: the gas supplier). Compare with the non-emergency card, which is AR."},
+{s:"After a new cooker went in, the pipework was proved to be undersized: the boiler now shows incomplete combustion when the cooker is on.",a:"ID",ref:"Table 1, 3.4",why:"Undersized pipework proved to affect the safe operation of an appliance is ID."},
+{s:"During a tightness test you find the ECV is letting by. There is no smell of gas.",a:"AR",ref:"Table 1, 3.7",why:"ECV let-by without a smell of gas is AR. Notify the Gas Emergency Contact Centre (LPG: the gas supplier)."},
+{s:"The LPG hose on a caravan cooker is chafed and has a small split in its outer cover.",a:"AR",ref:"Table 1, 3.12",why:"An insecure or worn, chafed, cut or split LPG hose is AR. Replace it, and secure it with suitable clips."},
+{s:"An open-flued boiler has been boxed in so tightly that its down-draught diverter is completely enclosed.",a:"AR",ref:"Table 1, 5.2",why:"A down-draught diverter that is completely enclosed or missing is AR."},
+{s:"An open-flued gas fire has a manual damper in the chimney that isn't fixed in the open position.",a:"AR",ref:"Table 1, 5.6",why:"A manual damper not secured open on a domestic appliance is AR."},
+{s:"A room-sealed flue terminates into a covered ginnel. Your TB 007 assessment shows combustion products are getting into the house.",a:"ID",ref:"Table 1, 6.3(1)",why:"Products entering the building makes it ID. If there were only a risk that they might enter, it would be AR."},
+{s:"The boxing around a concealed room-sealed flue in a flat's ceiling is stained and heat-damaged. There's no sign of any repair.",a:"ID",ref:"Table 1, 6.2",why:"Signs of distress to material enclosing a concealed flue, with no evidence of remedial work, is classed as ID."},
+{s:"A combi boiler has a concealed flue running through the ceiling void, with no inspection hatches. There are no signs of distress.",a:"AR",ref:"Table 1, 6.5",why:"No means of examining a concealed flue is AR. Risk assess it to make sure there's nothing immediately dangerous (TB 008)."},
+{s:"An open-flued water heater has been fitted with no flue at all.",a:"ID",ref:"Table 1, 7.1",why:"An appliance that should be flued but isn't is ID."},
+{s:"A natural gas cooker has been moved into a static caravan and connected to the LPG supply without conversion.",a:"ID",ref:"Table 1, 7.3",why:"An appliance not suitable for the gas supplied is ID."},
+{s:"A flueless gas fire shows yellow, sooty flames and soot deposits inside the appliance.",a:"ID",ref:"Table 1, 7.7(1)",why:"Visual signs of incomplete combustion on a flueless appliance are ID. On a flued appliance it would be AR, unless spillage is evident."},
+{s:"A free-standing cooker on a bayonet hose has no stability bracket or chain. It sits firmly and can't tip.",a:"NU",ref:"Table 1, 7.12 note",why:"A stable free-standing cooker on a flexible connection without a stability device is not classified as AR. Recommend a bracket, but it isn't an unsafe situation."},
+{s:"A wall-hung open-flued boiler is connected with a flexible gas hose.",a:"AR",ref:"Table 1, 7.11",why:"A flexible gas connection to a flued domestic appliance is AR. (Gas tumble dryers installed to BS 7624 are the exception.)"},
+{s:"A sealed heating system has its pressure relief valve capped off.",a:"AR",ref:"Table 1, 7.13",why:"An appliance on a sealed system with no effective pressure relief is AR."},
+{s:"An LPG boiler with a permanent pilot is fitted in a cellar that is fully below ground on all sides.",a:"AR",ref:"Table 1, 7.14",why:"LPG is heavier than air. LPG appliances with a pilot or auto ignition below ground level are AR, unless the room is open to ground level on at least one side."},
+{s:"A fire/back boiler's flue liner annulus isn't sealed and can't practicably be sealed. It's otherwise working well, with no spillage.",a:"NU",ref:"Table 1, 10.1 note",why:"AR does not apply where only the liner or chimney annulus is unsealed and can't practicably be sealed, provided there's no spillage or flame reversal. Other unsealed openings (cables, pipes) would be AR."},
+{s:"A warm air unit's return-air plenum in the compartment is unsealed, and it is pulling flue products back into the circulation.",a:"ID",ref:"Table 1, 11.1",why:"An unsealed plenum affecting the safe operation of the appliance is ID. If it didn't affect safe operation, it would be AR."},
+{s:"An LPG cylinder with a vapour off-take is connected straight to a heater with no regulator.",a:"ID",ref:"Table 1, 13.1",why:"A vapour off-take cylinder with no regulator is ID."},
+{s:"A customer keeps two spare LPG cylinders in the basement.",a:"AR",ref:"Table 1, 13.2",why:"LPG cylinders stored in a basement are AR. Advise moving them, and inform the cylinder supplier if they refuse."},
+{s:"A static holiday caravan has a fully enclosed skirt around its base with no ventilation openings.",a:"AR",ref:"Table 1, 4.6",why:"The underfloor void needs ventilation to disperse any gas leakage. An unventilated skirt is AR."},
+{s:"The low-pressure cut-off on a commercial gas booster has been bypassed.",a:"ID",ref:"Table 1, 14.1",why:"Low-pressure protection not fitted, bypassed or inoperable on pressure-raising equipment is ID."},
+{s:"An LPG bulk tank has no pressure relief valve.",a:"ID",ref:"Table 1, 12.2",why:"A vessel without a pressure relief valve is ID. Inform the responsible person and the gas supplier."}
+];
+
+const actions=[
+{q:"An appliance is ID. The responsible person refuses to let you disconnect it. Natural gas supply. What do you do?",o:["Leave it, because it's their decision","Try to turn it off, ring the Gas Emergency Contact Centre, and record the job reference number and time","Disconnect it anyway and leave","Fit a DANGER DO NOT USE label only"],a:1,ref:"Clause 6.1 b)",why:"Endeavour to turn off, contact the Gas Emergency Contact Centre (0800 111 999), and get a reference number and time. Stay nearby where practicable; the ESP should attend within the hour."},
+{q:"An AR boiler needs turning off. Which of these is acceptable as the FIRST choice?",o:["Turn the room thermostat right down","Set the programmer to OFF","Close the appliance gas isolation valve","Remove the electrical fuse"],a:2,ref:"Clause 6.2.1 b)",why:"Order is: gas isolation valve, then fuse, then appliance control plus a label on the gas control. Thermostats and clocks are never acceptable."},
+{q:"The ID boiler is hidden in a kitchen cupboard. Where do the DANGER DO NOT USE labels go?",o:["On the boiler only","On the cupboard door only","On the boiler, plus an additional label in a prominent position such as the cupboard door","On the meter"],a:2,ref:"Clause 6.1 d) / 6.2.1 d)",why:"Concealed appliances get a second label somewhere prominent so the next user sees it."},
+{q:"What is the recommended minimum size of a DANGER DO NOT USE label?",o:["A4","A5","A7 (105 mm × 74 mm)","Credit card size"],a:2,ref:"Figure 2",why:"A7, 105 × 74 mm, is the recommended minimum."},
+{q:"For which AR situations do you NOT attach a DANGER DO NOT USE label?",o:["Any AR situation in a rented property","Where turning off will not remove the risk, e.g. a built-over PE service or badly sited LPG tank","When the customer asks you not to","When the fault is under 90% ventilation"],a:1,ref:"Clause 6.2.2",why:"Those exceptions are printed in italics in Table 1. Explain why, no label, and the warning notice stresses who they should contact."},
+{q:"The customer will not sign the warning notice. What do you do?",o:["Treat the notice as invalid","Record that they refused to sign","Sign it on their behalf","Do not issue a notice"],a:1,ref:"Clause 6.1 f) / 6.2.1 g)",why:"Record the refusal. Still issue their copy and keep yours."},
+{q:"You find an AR situation in a rented flat. The tenant is home. Who else must be told, and how?",o:["Nobody else","The landlord or managing agent, in writing","Gas Safe Register by phone","The local council"],a:1,ref:"Clause 6.1 f) / 6.2.1 h)",why:"If the user is not the owner, give the details in writing to the owner, e.g. landlord or managing agent. Landlords are also responsible persons."},
+{q:"Nobody is home and you find an ID appliance in a domestic property. Recommended action?",o:["Leave a note and come back another day","Disconnect and seal with an appropriate fitting, label it, and leave a copy of the warning notice on site","Turn the appliance control off only","Ring the police"],a:1,ref:"Clause 6.1 c) and e)",why:"Disconnection and sealing is recommended, and a notice copy left on site alerts any future user. (Non-domestic premises: see clause 3.6.)"},
+{q:"What's the difference between 'disconnect' (ID) and 'turn off' (AR)?",o:["No difference","Disconnect means physically breaking the supply and sealing it with a plug, cap or spade; turn off means preventing operation","Turn off is stronger than disconnect","Disconnect means removing the fuse"],a:1,ref:"Appendix 1, glossary",why:"ID needs physical disconnection and sealing. AR needs the appliance turned off using the set order."},
+{q:"You fit a new boiler but cannot fully commission it today. What must happen?",o:["Leave it running and come back","Leave it connected but switched off","Disconnect and seal it, and label it not to be used until commissioned","Ask the customer to commission it"],a:2,ref:"Clause 5.2",why:"An appliance that cannot be fully commissioned must not be left connected to the gas supply."},
+{q:"Under GS(I&U)R, what is the legal position if the customer uses the appliance after you've told them it's dangerous?",o:["It's their own risk, no offence","They commit an offence","Only the landlord commits an offence","Only you commit an offence"],a:1,ref:"Clause 3.3.1 / Reg 34",why:"It is an offence for anyone to use an appliance once advised it constitutes a danger."},
+{q:"After only a visual risk assessment of a cooker you weren't working on, what must you avoid writing?",o:["'Visual risk assessment carried out'","'Safe to use'","The appliance location","The date"],a:1,ref:"Appendix 5",why:"'Safe to use' implies a full Reg 26(9) examination. A visual check covers location, flueing, ventilation, distress, stability (and flame picture where seen)."},
+{q:"A customer phones you about a smell of gas. You're not on site. Their LPG is cylinder-fed. What's the first instruction?",o:["Switch the lights on to find the leak","Turn off all cylinder valves","Wait for you to arrive","Open the cellar to check"],a:1,ref:"Appendix 4",why:"Turn off the gas (all cylinder valves), no naked flames, no electrical switches, ventilate (low level for LPG, it's heavier than air), then call the supplier's emergency number."},
+{q:"How long is it advisable to keep records of unsafe situations?",o:["6 months","2 years","At least 6 years","Until the next service"],a:2,ref:"Clause 5.2 note",why:"At least 6 years, in case of future civil litigation."},
+{q:"You attend a CO alarm report. The occupant has a headache and feels sick. What comes first?",o:["Finish your flue checks, then advise","Advise them to get immediate medical attention and make the gas installation safe","Tell them to open a window and carry on","Ask them to ring their GP next week"],a:1,ref:"Table 1, 1.4",why:"If anyone seems unwell with possible CO symptoms, advise immediate medical attention and make the installation safe."},
+{q:"A CO alarm went off, but your ambient readings are under 10 ppm and nobody is ill. What then?",o:["Nothing more to do","Further investigation is still needed to confirm the appliance is safe","Replace the alarm battery and leave","Classify everything as ID"],a:1,ref:"Table 1, 1.4",why:"Low readings and no ill health don't clear the appliance. Remember CO can also come from oil, solid fuel, engines or next door."},
+{q:"Which of these is the Gas Emergency Contact Centre NOT likely to ask for when you request a disconnection?",o:["Confirmation it's Immediately Dangerous","Your business registration number and your own ID number","The customer's date of birth","The address and the appliance's location in the property"],a:2,ref:"Clause 6.1 f) note",why:"They'll want the ID confirmation, your name and registration numbers, the responsible person's name, the address, details of the situation, appliance type and its location. Record their reference number."},
+{q:"You're servicing a boiler. How far does your duty go for the gas fire in the lounge that you're not working on?",o:["Full Reg 26(9) checks on every appliance","Report what you can reasonably notice by visual inspection, within your competence","Nothing, because it isn't your job","Strip and service it free of charge"],a:1,ref:"Clause 3.3.1 / Appendix 5",why:"No extra tests are expected on appliances you're not working on. You must act on unsafe situations that are apparent from a visual risk assessment."},
+{q:"Where should main equipotential bonding preferably be connected to an internal meter installation?",o:["At the boiler","Within 600 mm of the meter outlet, before any branch","Anywhere on the pipework","At the ECV inlet"],a:1,ref:"Clause 3.3.2",why:"Within 600 mm of the meter outlet, before any branch (or where an external meter's pipe enters the building). If you can't confirm it, leave a bonding notice."},
+{q:"You're first on site after a gas explosion. What's the priority?",o:["Tidy up and start repairs","Don't disturb the scene, make safe if it's safe to do so, and contact emergency services and the ESP/LPG supplier","Take the damaged appliance away for testing","Leave without telling anyone"],a:1,ref:"Clause 7.1",why:"Preserve evidence for the investigation, make safe if you safely can, call those parties immediately, and record everything you do."},
+{q:"A known gas incident happened at a property last week. You're asked to replace the boiler. What can you do?",o:["Go ahead as normal","Only make the installation safe, until you've liaised with HSE and the gas supplier that the investigation is complete","Replace it but keep the old one","Ask the customer's permission and carry on"],a:1,ref:"Clause 7.2",why:"No work beyond making safe until HSE and the gas supplier confirm the investigation is complete."},
+{q:"In a factory, which is outside GS(I&U)R, you find an AR fault on a process burner. Who decides the safe course of action?",o:["You alone","The responsible person on site, through a documented risk assessment","Gas Safe Register","The HSE inspector"],a:1,ref:"Clause 3.6",why:"Outside GS(I&U)R, consult the responsible person. They risk-assess, as shutting down some processes suddenly can itself be dangerous. Keep accurate records of your checks."},
+{q:"Who has a legal right to enter a property without the occupier's consent to deal with a suspected gas escape?",o:["Any Gas Safe engineer","The Gas Transporter, under the Gas Safety (Rights of Entry) Regulations","The landlord's plumber","Nobody"],a:1,ref:"Clause 3.5",why:"Only Gas Transporters, and only where there is reasonable cause to believe there's danger to life or property and immediate entry is needed."},
+{q:"An emergency service engineer attends a fumes report and can't see any obvious fault. What happens to the appliances?",o:["They're left on","DANGER DO NOT USE labels on all appliances, and all turned off with the user's permission","Only the boiler is turned off","They're all disconnected and capped"],a:1,ref:"Clause 6.2.3",why:"The notice says they've been visually inspected but can't be confirmed safe, and should be checked by a Gas Safe registered business before use."},
+{q:"In IGEM/G/11, what does the word 'must' mean?",o:["Best practice","A legal requirement in Great Britain","Optional","A manufacturer's recommendation"],a:1,ref:"Clause 1.5",why:"'Must' is the law. 'Shall' means comply in full without deviation. 'Should' means comply unless, after consideration, deviation is acceptable."},
+{q:"A customer rings: there's a gas smell and the natural gas meter is in the cellar, which is where the smell is strongest. What do you tell them?",o:["Go down and turn off at the meter","Don't enter the cellar; evacuate and call the gas emergency number","Switch on the cellar light to look","Open the cellar door and wait"],a:1,ref:"Appendix 4",why:"If the meter is in a cellar or basement that smells of gas, don't go in; evacuate. No flames, no switches, ventilate, and call 0800 111 999."},
+{q:"An apprentice says an AR situation needs no paperwork if the customer agrees not to use the appliance. Right or wrong?",o:["Right","Wrong: a warning notice is always completed, signed, with one copy left and one kept","Right, if it's a family member","Right, if it's under £100 to fix"],a:1,ref:"Clauses 6.2.1 e) and 6.2.2 c)",why:"Every ID and AR situation gets a warning notice meeting the Appendix 6 minimum content."},
+{q:"You find an ID situation and the customer agrees to the repair. You fix it and it passes all tests. Do you still need to issue an ID warning notice?",o:["Yes, always","No, the procedure's first aim is to rectify and make safe at the time of the visit; the warning notice actions apply where that isn't possible","Only for LPG","Only if the landlord asks"],a:1,ref:"Clauses 6.1 and 6.2.1",why:"With agreement, make every endeavour to put it right on the visit. The disconnect, label and notice steps apply where you can't. Record what you found and did, and check whether RIDDOR still applies."}
+];
+
+const riddor=[
+{q:"A boiler installed last month has an unsealed flue joint in a ceiling void. Products of combustion are leaking into the flat above. Reportable?",o:["Yes, RIDDOR 11(2): poor installation, likely to cause death/unconsciousness/hospital","No, report to the landlord only","No, it's just ID","Only if someone is ill"],a:0,ref:"Clauses 8.3 and Table 1, 6.2",why:"Both tests met: manner of installation AND dangerous enough to likely cause death, unconsciousness or hospitalisation. Online report to HSE within 14 days of discovery."},
+{q:"You found the dangerous gas fitting above and fixed it on the same visit. Do you still report it?",o:["No, it's fixed","Yes, the duty to report remains","Only if the customer asks","Only if it took longer than an hour"],a:1,ref:"Clause 8.3, note 1",why:"Repairing it at the time does not remove the requirement to report."},
+{q:"A landlord's open-flued boiler is spilling because it hasn't been serviced for years. Original installation was correct. RIDDOR 11(2)?",o:["Yes, landlords must keep it safe","No, lack of maintenance isn't 11(2); you can tell HSE as a concern","Yes, to Gas Safe Register","Only if a tenant complains"],a:1,ref:"Clause 8.4",why:"Lack of maintenance doesn't meet 11(2), even in rented property. It's still ID. You can send details to HSE via its 'tell us about a health and safety issue' page."},
+{q:"An unvented hot water cylinder has no pressure relief valve. Is this RIDDOR reportable as a dangerous gas fitting?",o:["Yes","No, dangerous non-gas defects are generally not reportable","Only on LPG","Only in commercial premises"],a:1,ref:"Clause 8.4",why:"Non-gas safety defects (electrical connections, unvented cylinders without relief) are generally not reportable under RIDDOR."},
+{q:"A family is taken to hospital by ambulance with CO poisoning from a gas appliance. Whose duty is the RIDDOR 11(1) report?",o:["The attending engineer","The landlord","The gas conveyor (NG) or the LPG filler/importer/supplier","Gas Safe Register"],a:2,ref:"Clause 8.2",why:"11(1) rests solely with the conveyor of natural gas, or the LPG filler/importer/supplier (not retail suppliers)."},
+{q:"After CO exposure, a resident drove themselves to A&E. Reportable under 11(1)?",o:["Yes","No, taking yourself to hospital is not reportable under 11(1)","Only if admitted","Only for LPG"],a:1,ref:"Clause 8.2",why:"People who take themselves (or are taken to another medical facility) are excluded from 11(1)."},
+{q:"An installer fitted a room-sealed boiler but left the air inlet sample cap off. No leakage, distress or CO alarm. Reporting route?",o:["RIDDOR 11(2) within 14 days","Not RIDDOR; it's AR, and poor workmanship can be reported to Gas Safe Register online","RIDDOR 11(1) within 2 hours","No reporting possible"],a:1,ref:"Table 1, 7.2 / clause 8.6",why:"Table 1 states this situation is not RIDDOR reportable. Workmanship that doesn't meet RIDDOR can be reported to Gas Safe Register (or HSE) online."},
+{q:"What are the time limits under RIDDOR?",o:["11(1): notify HSE without delay (within 2 hours of attending), online report within 14 days; 11(2): online within 14 days of discovery","Both within 24 hours","Both within 30 days","11(2) within 2 hours"],a:0,ref:"Clause 8.5",why:"Remember: 11(1) incidents are urgent; 11(2) dangerous fittings are reported online within 14 days."},
+{q:"You suspect a natural gas meter has been tampered with to steal gas. Who can you report to anonymously?",o:["Stay Energy Safe (0800 023 2777)","RIDDOR","The LPG supplier","Building control"],a:0,ref:"Clause 8.7",why:"Use your company procedure or Stay Energy Safe. For LPG theft or tank interference, contact the LPG supplier."},
+{q:"Which pair of tests must BOTH be met for RIDDOR 11(2)?",o:["The appliance is old AND in a rented property","Poor workmanship/design (design, construction, installation, modification or incorrect servicing) AND dangerous to the extent it has caused or is likely to cause death, unconsciousness or hospital","It's ID AND the customer refuses disconnection","The CO reading is over 10 ppm AND there's a smell"],a:1,ref:"Section 9 header / clause 8.3",why:"Most RIDDOR cases will be ID, but not every ID is RIDDOR. Apply both tests every time."},
+{q:"During a kitchen refit, you find the previous installer left a gas pipe with an open end, still live, behind the units. RIDDOR 11(2)?",o:["Yes, manner of installation that could result in an accidental leakage of gas","No, open ends are AR","Only if someone smelled gas","No, report to the kitchen fitter"],a:0,ref:"Table 1, 3.1 / clause 8.3",why:"It's ID (3.1), and it's down to the manner of installation that could cause an accidental gas leak, so both 11(2) tests are met."},
+{q:"Which of these is the definition of a gas incident in IGEM/G/11?",o:["Any smell of gas","Fire, explosion or CO exposure causing death, unconsciousness, hospitalisation, or significant damage making the property uninhabitable","Any AR situation","A failed tightness test"],a:1,ref:"Section 7",why:"Gas incidents trigger the first-on-site and preserve-the-scene actions in Section 7."},
+{q:"A room-sealed flue is leaking into a flat in a block where 40 flats have the same system. What extra detail goes in your RIDDOR report summary?",o:["The block's postcode only","The approximate number of similar properties in the development","The managing agent's phone number","Nothing extra"],a:1,ref:"Table 1, 6.2 note",why:"Including the approximate number of similar properties helps HSE judge the wider risk."},
+{q:"You find damaged electrical wiring to a boiler that is clearly dangerous. Is it RIDDOR reportable as a dangerous gas fitting?",o:["Yes","No, dangerous non-gas defects such as damaged electrical connections are generally not reportable","Only in rented property","Only if the boiler is new"],a:1,ref:"Clause 8.4",why:"Deal with it as an electrical safety issue. RIDDOR 11(2) covers leakage of gas, incomplete combustion or poor removal of products of combustion."},
+{q:"Which geographical area does the RIDDOR guidance in Section 8 apply to?",o:["The whole UK and Ireland","Great Britain (England, Scotland and Wales)","England only","Europe"],a:1,ref:"Clause 8.1",why:"Northern Ireland and other areas may have similar but separate reporting rules."},
+{q:"What evidence does IGEM/G/11 say may help any RIDDOR investigation?",o:["Customer reviews","Photographs","The appliance manual only","Nothing; HSE gathers its own"],a:1,ref:"Clause 8.1 note",why:"Photographic evidence may assist, so take clear photos before and after making safe."},
+{q:"Where do you send a RIDDOR 11(2) report?",o:["Gas Safe Register by email","HSE's online RIDDOR reporting system","The local council","The gas supplier"],a:1,ref:"Clause 8.5",why:"Online to HSE via the RIDDOR website, within 14 days of discovery."},
+{q:"You reported an ID situation under RIDDOR. Does it need to appear on the warning notice you leave?",o:["No, RIDDOR is confidential","Yes, details of any RIDDOR situations identified and reported are a minimum notice item","Only if the customer asks","Only for LPG"],a:1,ref:"Appendix 6, item 8",why:"The customer should know a report has been made, and why."},
+{q:"You suspect someone has interfered with an LPG bulk tank to take gas. Who do you contact?",o:["Stay Energy Safe","The LPG supplier","RIDDOR","The police only"],a:1,ref:"Clause 8.7",why:"For LPG theft or unauthorised interference with a vessel, contact the LPG supplier. For natural gas theft, use Stay Energy Safe or your company procedure."}
+];
+
+const steps=["Turn off the appliance gas isolation valve","If that's not possible, remove the electrical fuse","If that's not possible, turn off the appliance control and fix the warning label to the appliance gas control"];
+const notice=[
+["Gas user's name and address",1],["Landlord/responsible person name and address (where appropriate)",1],["Date the notice is issued",1],["Which appliance/installation, where it is, and what's unsafe",1],["Category applied: ID or AR",1],["All actions taken, including third parties to be notified",1],["What needs doing to put it right",1],["Any RIDDOR situations identified and reported",1],["Engineer's name and identifier",1],["Company name, registration number and contact details",1],["Gas emergency service contact details",1],["Gas Safe Register contact details",1],["Definitions of the unsafe categories",1],["Space for the gas user's signature",1],
+["The price of a replacement boiler",0],["The engineer's home address",0],["The customer's date of birth",0],["A photo of the engineer",0]];
+
+const SECT=[
+{id:"classify",t:"Classify it",n:classify.length},
+{id:"actions",t:"Make it safe",n:actions.length},
+{id:"riddor",t:"RIDDOR & reporting",n:riddor.length},
+{id:"labels",t:"Labels & notices",n:2}];
+
+let st={classify:{},actions:{},riddor:{},labels:{order:[],notice:null,noticeSel:{}},tab:"classify",key:false};
+try{const s=JSON.parse(localStorage.getItem("giusp-drill")||"null");if(s&&s.classify)st=Object.assign(st,s)}catch(e){}
+const save=()=>{try{localStorage.setItem("giusp-drill",JSON.stringify(st))}catch(e){}};
+const esc=t=>String(t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+const scoreOf=id=>{
+ if(id==="classify")return [classify.filter((c,i)=>st.classify[i]===c.a).length,Object.keys(st.classify).length];
+ if(id==="actions"||id==="riddor"){const L=id==="actions"?actions:riddor;return [L.filter((c,i)=>st[id][i]===c.a).length,Object.keys(st[id]).length]}
+ const o=st.labels.order,od=o.length===3?1:0,oc=od&&o.every((v,i)=>v===i)?1:0;
+ const nd=st.labels.notice?1:0,nc=nd&&notice.every((n,i)=>!!st.labels.noticeSel[i]===!!n[1])?1:0;
+ return [oc+nc,od+nd];
+};
+
+const tabs=document.getElementById("tabs"),main=document.getElementById("main");
+function renderTabs(){
+ tabs.innerHTML=SECT.map(s=>{const [c]=scoreOf(s.id);return `<button role="tab" id="tab-${s.id}" aria-selected="${st.tab===s.id}" data-tab="${s.id}">${s.t}<span>${c}/${s.n}</span></button>`}).join("");
+ let c=0,a=0;SECT.forEach(s=>{const r=scoreOf(s.id);c+=r[0];a+=r[1]});
+ const total=SECT.reduce((x,s)=>x+s.n,0);
+ document.getElementById("tot").textContent=`${c} / ${a}`;
+ document.getElementById("totsub").textContent=`correct of ${a} answered · ${total} cards in all`;
+}
+const head=(h,p)=>`<div class="intro"><div><h2>${h}</h2><p>${p}</p></div><div class="tools"><button class="btn" data-act="key">${st.key?"Hide":"Show"} answer key</button><button class="btn" data-act="reset">Reset section</button></div></div>`;
+const fb=(ok,why,ref,lead)=>`<div class="fb${ok?"":" no"}"><b>${ok?"Correct.":"Not quite."}</b> ${lead||""}${esc(why)}<span class="ref">See ${esc(ref)}</span></div>`;
+
+function rClassify(){
+ let h=head("Classify the situation","Read each site situation and decide how to classify it. Watch for the At Risk cases where turning off won't remove the risk, and the traps that aren't ID or AR at all.");
+ h+=`<div class="key">${Object.keys(CL).map(k=>`<div><span class="pill p-${k}">${CL[k]}</span><br>${CLD[k]}</div>`).join("")}</div>`;
+ h+=classify.map((c,i)=>{const ans=st.classify[i],shown=ans!==undefined||st.key;
+  return `<section class="card${ans!==undefined?" done":""}"><p class="qn">Situation ${i+1}</p><p class="q">${esc(c.s)}</p><div class="opts cls">${Object.keys(CL).map(k=>{let cls="";if(shown){if(k===c.a)cls="right";else if(k===ans)cls="wrong"}
+   return `<button class="opt ${cls}" data-sec="classify" data-i="${i}" data-v="${k}" ${shown?"disabled":""}><span class="pill p-${k}">${CL[k]}</span>${CLD[k]}</button>`}).join("")}</div>
+   ${shown?fb(ans===undefined||ans===c.a,c.why,c.ref,`<b>${CLD[c.a]}.</b> `):""}</section>`}).join("");
+ return h;
+}
+function rMcq(id,L,h2,p){
+ let h=head(h2,p);
+ if(id==="riddor")h+=`<div class="test"><h3>The two-part RIDDOR 11(2) test</h3><ol><li>Caused by the design, construction, manner of installation, modification or incorrect servicing of the fitting (poor workmanship or design), <b>and</b></li><li>dangerous to the extent it has caused, or is likely to cause, death, loss of consciousness or someone being taken to hospital.</li></ol></div>`;
+ h+=L.map((c,i)=>{const ans=st[id][i],shown=ans!==undefined||st.key;
+  return `<section class="card${ans!==undefined?" done":""}"><p class="qn">Question ${i+1}</p><p class="q">${esc(c.q)}</p><div class="opts">${c.o.map((o,j)=>{let cls="";if(shown){if(j===c.a)cls="right";else if(j===ans)cls="wrong"}
+   return `<button class="opt ${cls}" data-sec="${id}" data-i="${i}" data-v="${j}" ${shown?"disabled":""}>${esc(o)}</button>`}).join("")}</div>
+   ${shown?fb(ans===undefined||ans===c.a,c.why,c.ref):""}</section>`}).join("");
+ return h;
+}
+function rLabels(){
+ const L=st.labels,o=L.order,done=o.length===3||st.key,ord=st.key&&o.length<3?[0,1,2]:o;
+ let h=head("Labels, turning off and warning notices","Two tasks: put the At Risk turn-off steps in the right order, then build a compliant warning notice.");
+ h+=`<section class="card${o.length===3?" done":""}"><p class="qn">Task 1</p><p class="q">Tap the steps in the order you must try them when turning off an At Risk appliance.</p>
+ <div class="order">${[0,1,2].map(k=>{const v=ord[k];return v===undefined?`<div class="slot"><i>${k+1}</i>Tap a step below</div>`:`<div class="slot f"><i>${k+1}</i>${esc(steps[v])}</div>`}).join("")}</div>
+ ${done?"":`<div class="opts">${[2,0,1].filter(v=>!o.includes(v)).map(v=>`<button class="opt" data-ord="${v}">${esc(steps[v])}</button>`).join("")}</div>`}
+ ${o.length===3||st.key?fb(st.key&&o.length<3||o.every((v,i)=>v===i),"Valve first, then fuse, then appliance control with a label on the gas control. Turning down a room thermostat or switching the clock off is never acceptable.","clause 6.2.1 b)"):""}</section>`;
+ const sub=!!L.notice||st.key;
+ h+=`<section class="card${L.notice?" done":""}"><p class="qn">Task 2</p><p class="q">Tick everything that must appear on a warning notice (minimum requirements). Some are distractors.</p>
+ <div class="grid2">${notice.map((n,i)=>{const sel=!!L.noticeSel[i];let cls="";if(sub){if(n[1]&&sel)cls="right";else if(!n[1]&&sel)cls="wrong";else if(n[1])cls="miss"}
+  return `<label class="chk ${cls}"><input type="checkbox" id="nt${i}" data-nt="${i}" ${sel?"checked":""} ${sub?"disabled":""}><span>${esc(n[0])}</span></label>`}).join("")}</div>
+ ${sub?"":`<p><button class="btn" data-act="mark">Check my notice</button></p>`}
+ ${sub?fb(st.key&&!L.notice||notice.every((n,i)=>!!L.noticeSel[i]===!!n[1]),"There are 14 minimum items. Dashed amber boxes are ones you missed; red are ones that shouldn't be there. The notice must emphasise DANGER DO NOT USE, be signed by the gas user as a record of receipt and understanding, with one copy left and one kept.","Appendix 6 and clause 6.1 e)"):""}</section>`;
+ return h;
+}
+function render(){
+ renderTabs();
+ main.innerHTML=st.tab==="classify"?rClassify():st.tab==="actions"?rMcq("actions",actions,"Make it safe","What the engineer does once the situation is classified: who to call, what to label, what goes in writing."):st.tab==="riddor"?rMcq("riddor",riddor,"RIDDOR and other reporting","Decide whether it's reportable, whose duty it is, and the right route if it isn't RIDDOR."):rLabels();
+ main.setAttribute("aria-labelledby","tab-"+st.tab);
+}
+tabs.addEventListener("click",e=>{const b=e.target.closest("[data-tab]");if(!b)return;st.tab=b.dataset.tab;save();render();window.scrollTo({top:0})});
+main.addEventListener("click",e=>{
+ const b=e.target.closest("button");if(!b)return;
+ if(b.dataset.sec){const s=b.dataset.sec,i=b.dataset.i;st[s][i]=s==="classify"?b.dataset.v:+b.dataset.v}
+ else if(b.dataset.ord!==undefined){st.labels.order.push(+b.dataset.ord)}
+ else if(b.dataset.act==="key"){st.key=!st.key}
+ else if(b.dataset.act==="mark"){st.labels.notice=true}
+ else if(b.dataset.act==="reset"){if(st.tab==="labels")st.labels={order:[],notice:null,noticeSel:{}};else st[st.tab]={}}
+ else return;
+ save();const y=window.scrollY;render();window.scrollTo(0,y);
+});
+main.addEventListener("change",e=>{const c=e.target.closest("[data-nt]");if(!c)return;st.labels.noticeSel[c.dataset.nt]=c.checked;save()});
+render();
+}
+</script>
+</body>
+</html>
